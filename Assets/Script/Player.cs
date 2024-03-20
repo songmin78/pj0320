@@ -70,9 +70,6 @@ public class Player : MonoBehaviour
             horizontals = 0;
         }
         transform.position += new Vector3(horizontals * playerspeed, verticals * playerspeed, 0) * Time.deltaTime;
-
-        
-
         Changecheck();
     }
     private void Anim()
@@ -90,8 +87,6 @@ public class Player : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.K))//일반 공격
         {
-
-
             GameObject go = null;
             if(Weapontype == 0)//원거리(활)일경우
             {
@@ -103,6 +98,8 @@ public class Player : MonoBehaviour
             else if(Weapontype == 1)//근접일 경우
             {
                 go = Instantiate(sword);
+                go.transform.eulerAngles = new Vector3(0, 0, Checkchange);
+                go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
             }
             else if(Weapontype == 2)//마법공격일 경우
             {

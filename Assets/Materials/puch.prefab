@@ -97,5 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f390a4adbf406f94f92fa1d772f06c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1
+  Xposition: 0
+  Yposition: 0
+  puchtime: 1
+  Typeweapon: {fileID: 7853881323785279450}
   Counter: 0
   AttackdamageMax: 1
+  arrow: 0
+  punch: 1
+  magic: 0

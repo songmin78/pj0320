@@ -5,7 +5,13 @@ using UnityEngine;
 public class Weaponcheck : MonoBehaviour
 {
     [Header("기타 관리")]
-    [SerializeField] float speed = 1.0f;
+    [SerializeField] float speed = 1.0f;//화살 속도
+    [SerializeField] float Xposition;//시작 x좌표
+    [SerializeField] float Yposition;//시작 y좌표
+    [SerializeField] float puchtime = 1.0f;// 근접공격 사라지는 시간
+
+    [Header("무기 종류")]
+    [SerializeField] GameObject Typeweapon;
 
     [Header("무기관리")]
     [SerializeField] bool Counter = false;//카운터 여부
@@ -17,11 +23,13 @@ public class Weaponcheck : MonoBehaviour
 
     void Start()
     {
+        startattack();
     }
 
     void Update()
     {
         shotarrow();
+        weapondestory();
     }
 
     public void Attackdamage(int _weaponType)
@@ -62,6 +70,45 @@ public class Weaponcheck : MonoBehaviour
         if(arrow == true)
         {
             transform.position += transform.up * Time.deltaTime * speed;
+        }
+    }
+
+    public void startattack()
+    {
+        Xposition = transform.position.x;
+        Yposition = transform.position.y;
+
+        new Vector3(Xposition, Yposition, 0);
+    }
+
+    private void weapondestory()
+    {
+        if (arrow == true)
+        {
+            float Xchange = transform.position.x;
+            float Ychange = transform.position.y;
+
+            transform.position = new Vector3(Xchange, Ychange, 0);
+
+            if (Xchange >= Xposition + 5 || Xchange <= Xposition - 5)
+            {
+                Destroy(Typeweapon);
+            }
+            else if (Ychange >= Yposition + 5 || Ychange <= Yposition - 5)
+            {
+                Destroy(Typeweapon);
+            }
+        }
+        else if(punch == true)
+        {
+            if(puchtime >= 0)
+            {
+                puchtime  = puchtime -Time.deltaTime; 
+            }
+            else
+            {
+                Destroy(Typeweapon);
+            }
         }
     }
 

@@ -98,6 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 9
+  Xposition: 0
+  Yposition: 0
+  Typeweapon: {fileID: 6818603531882597622}
   Counter: 0
   AttackdamageMax: 1
   arrow: 1
