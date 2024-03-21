@@ -171,12 +171,17 @@ public class Player : MonoBehaviour
         if (horizontals == 1)
         {
             Checkchange = 270;
-            if (Weapontype == 1)
+            if (Weapontype == 1)//辟立 公扁老 版快
             {
                 Checkchange = 90;
+                Horposition = 0.15f;
+                Verposition = -0.1f;
             }
-            Horposition = 0.5f;
-            Verposition = 0;
+            else
+            {
+                Horposition = 0.5f;
+                Verposition = 0;
+            }
         }
         else if(horizontals == -1)
         {

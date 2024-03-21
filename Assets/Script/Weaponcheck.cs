@@ -5,11 +5,10 @@ using UnityEngine;
 public class Weaponcheck : MonoBehaviour
 {
     [Header("기타 관리")]
-    [SerializeField] float speed = 1.0f;//화살 속도
+    [SerializeField] float speed = 1.0f;//무기 공격 속도
     [SerializeField] float Xposition;//시작 x좌표
     [SerializeField] float Yposition;//시작 y좌표
     [SerializeField] float Zposition;//시작 z좌표
-    [SerializeField] float puchtime = 1.0f;// 근접공격 사라지는 시간
 
     [Header("무기 종류")]
     [SerializeField] GameObject Typeweapon;
@@ -74,7 +73,11 @@ public class Weaponcheck : MonoBehaviour
         }
         else if(punch == true)
         {
-            
+            //1.오브젝트가 생성하면 그 자리의 값을 저장 ->끝
+            //2.rotation의 z값을 +180 혹은 -180 을 더한다
+            //3.2번에서 더한 값을 Time.deltatime * punchtime 초로 회전을 실행 시킨다 
+
+            transform.eulerAngles += new Vector3(0, 0, 180 * Time.deltaTime * speed);
         }
     }
 
@@ -92,6 +95,9 @@ public class Weaponcheck : MonoBehaviour
         float Xchange = transform.position.x;
         float Ychange = transform.position.y;
         float Zchange = transform.position.z;
+
+        float Zrotation = transform.eulerAngles.z;
+
         if (arrow == true)
         {
             transform.position = new Vector3(Xchange, Ychange, 0);
@@ -108,12 +114,14 @@ public class Weaponcheck : MonoBehaviour
         else if(punch == true)
         {
             
-            transform.position = new Vector3(Xchange, Ychange, Zchange);
+            transform.eulerAngles = new Vector3(0, 0, Zrotation);
 
-            if (Zchange >= Zposition +180 || Zchange <= Zposition - 180)
+            if (Zrotation >= Zposition +170 || Zrotation <= Zposition - 170)
             {
                 Destroy(Typeweapon);
             }
+
+            Debug.Log(Zrotation);
         }
     }
 
