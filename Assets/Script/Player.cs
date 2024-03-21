@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     [SerializeField] public int Weapontype;//무기 리스트
 
     [Header("플레이어의 능력치 설정")]
-    [SerializeField,Range(1,5)] float GameHP;//게임내 플레이어 체력
+    [SerializeField,Range(1,5)] int GameHP;//게임내 플레이어 체력
 
     Animator animator;
 
@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
             else if(Weapontype == 1)//근접일 경우
             {
                 go = Instantiate(sword);
-                go.transform.eulerAngles = new Vector3(0, 0, Checkchange);
+                go.transform.eulerAngles = new Vector3(0, 0, Checkchange -90 );
                 go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
             }
             else if(Weapontype == 2)//마법공격일 경우
@@ -171,6 +171,10 @@ public class Player : MonoBehaviour
         if (horizontals == 1)
         {
             Checkchange = 270;
+            if (Weapontype == 1)
+            {
+                Checkchange = 90;
+            }
             Horposition = 0.5f;
             Verposition = 0;
         }

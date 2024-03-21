@@ -8,6 +8,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] float speed = 1.0f;//화살 속도
     [SerializeField] float Xposition;//시작 x좌표
     [SerializeField] float Yposition;//시작 y좌표
+    [SerializeField] float Zposition;//시작 z좌표
     [SerializeField] float puchtime = 1.0f;// 근접공격 사라지는 시간
 
     [Header("무기 종류")]
@@ -71,23 +72,28 @@ public class Weaponcheck : MonoBehaviour
         {
             transform.position += transform.up * Time.deltaTime * speed;
         }
+        else if(punch == true)
+        {
+            
+        }
     }
 
     public void startattack()
     {
         Xposition = transform.position.x;
         Yposition = transform.position.y;
+        Zposition = transform.position.z;
 
-        new Vector3(Xposition, Yposition, 0);
+        new Vector3(Xposition, Yposition, Zposition);
     }
 
     private void weapondestory()
     {
+        float Xchange = transform.position.x;
+        float Ychange = transform.position.y;
+        float Zchange = transform.position.z;
         if (arrow == true)
         {
-            float Xchange = transform.position.x;
-            float Ychange = transform.position.y;
-
             transform.position = new Vector3(Xchange, Ychange, 0);
 
             if (Xchange >= Xposition + 5 || Xchange <= Xposition - 5)
@@ -101,15 +107,19 @@ public class Weaponcheck : MonoBehaviour
         }
         else if(punch == true)
         {
-            if(puchtime >= 0)
-            {
-                puchtime  = puchtime -Time.deltaTime; 
-            }
-            else
+            
+            transform.position = new Vector3(Xchange, Ychange, Zchange);
+
+            if (Zchange >= Zposition +180 || Zchange <= Zposition - 180)
             {
                 Destroy(Typeweapon);
             }
         }
+    }
+
+    private void swordattack()
+    {
+
     }
 
 }
