@@ -120,8 +120,6 @@ public class Weaponcheck : MonoBehaviour
             {
                 Destroy(Typeweapon);
             }
-
-            Debug.Log(Zrotation);
         }
     }
 

@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float Horposition = 0f;//무기 공격위치
     [SerializeField] private float Verposition = 0f;//무기 공격위치
 
+    [Header("카운터 기준")]
+    [SerializeField] bool arrowcheck = false;
+    [SerializeField] float Hitgauge = 0f;
+    [SerializeField] private bool countergagecheck = false;
+
 
     [Header("플레이어 정보")]
     [SerializeField] float playerspeed = 5f;//플레이어가 이동하는 속도
@@ -52,6 +57,7 @@ public class Player : MonoBehaviour
         move();
         Anim();
         WeaponChange();
+        countergage();
         bowattack();
     }
 
@@ -88,18 +94,50 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.K))//일반 공격
         {
             GameObject go = null;
-            if(Weapontype == 0)//원거리(활)일경우
+
+            if (Weapontype == 0)//원거리(활)일경우
             {
-                go = Instantiate(arrow);
-                go.transform.eulerAngles = new Vector3(0, 0, Checkchange);
-                go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
+                if(arrowcheck == false)
+                {
+                    go = Instantiate(arrow);//화살을 소환
+                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange);//방향에 맞춰 발사
+                    go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기보다 앞에서 발사
+                }
+                else if( arrowcheck == true)
+                {
+                    go = Instantiate(ctArrow);//화살을 소환
+                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange);//방향에 맞춰 발사
+                    go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기보다 앞에서 발사
+
+                    Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
+                    weaponcheck_2.Counterdamage(Weapontype);
+                    return;
+                    
+                }
 
             }
             else if(Weapontype == 1)//근접일 경우
             {
-                go = Instantiate(sword);
-                go.transform.eulerAngles = new Vector3(0, 0, Checkchange -90 );
-                go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
+                if (Hitgauge >= 1)
+                {
+                    Hitgauge = 0;
+                    go = Instantiate(sword);
+                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange - 90);
+                    go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
+                    Debug.Log("풀차징");
+
+                    Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
+                    weaponcheck_2.Counterdamage(Weapontype);
+                    return;
+                }
+                else
+                {
+                    Hitgauge = 0;
+                    go = Instantiate(sword);
+                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange - 90);
+                    go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
+                    Debug.Log("기본공격");
+                }
             }
             else if(Weapontype == 2)//마법공격일 경우
             {
@@ -114,7 +152,15 @@ public class Player : MonoBehaviour
             GameObject count = null;
             if (Weapontype == 0)//원거리(활)일경우
             {
-                count = Instantiate(arrow);
+                if (arrowcheck == false)
+                {
+                    arrowcheck = true;
+                }
+                else if(arrowcheck == true)
+                {
+                    arrowcheck = false;
+                }
+                return;
             }
             else if (Weapontype == 1)//근접일 경우
             {
@@ -154,21 +200,21 @@ public class Player : MonoBehaviour
 
     public void Changecheck()
     {
-        if(verticals == 1)
+        if(verticals == 1)//위쪽으로 올라갈때
         {
             Checkchange = 0;
             Verposition = 0.5f;
             Horposition = 0;
 
         }
-        else if(verticals == -1)
+        else if(verticals == -1)//아래쪽으로 내려갈때
         {
             Checkchange = 180;
             Verposition = -0.5f;
             Horposition = 0;
         }
 
-        if (horizontals == 1)
+        if (horizontals == 1)//오른쪽으로 이동할때
         {
             Checkchange = 270;
             if (Weapontype == 1)//근접 무기일 경우
@@ -183,12 +229,39 @@ public class Player : MonoBehaviour
                 Verposition = 0;
             }
         }
-        else if(horizontals == -1)
+        else if(horizontals == -1)//왼쪽으로 이동할때
         {
             Checkchange = 90;
-            Horposition = -0.5f;
-            Verposition = 0;
+            if (Weapontype == 1)//근접 무기일 경우
+            {
+                Checkchange = 90;
+                Horposition = -0.15f;
+                Verposition = -0.1f;
+            }
+            else
+            {
+                Horposition = -0.5f;
+                Verposition = 0;
+            }
         }
     }
 
+    private void countergage()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            countergagecheck = true;
+        }
+
+        Hitgauge += Time.deltaTime;
+        if (Hitgauge >= 1)
+        {
+            Hitgauge = 1;
+        }
+        else if (Input.GetKeyUp(KeyCode.K))
+        {
+            countergagecheck = false;
+        }
+
+    }
 }

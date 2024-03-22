@@ -388,7 +388,7 @@ MonoBehaviour:
   arrow: {fileID: 6818603531882597622, guid: 8454951fbd8c0d046b469f6935d65740, type: 3}
   sword: {fileID: 8129100227542089888, guid: 55465896f8ba8454a9db6e6e32e7d943, type: 3}
   magic: {fileID: 340469154745217394, guid: 4632cc112ba32ae4f85c9997e57210c0, type: 3}
-  ctArrow: {fileID: 0}
+  ctArrow: {fileID: 7853881323785279450, guid: c8b0faab45396d246b6fe4c9852a7cf3, type: 3}
   ctSword: {fileID: 0}
   ctMagic: {fileID: 0}
   horizontals: 0
@@ -396,6 +396,9 @@ MonoBehaviour:
   Checkchange: 0
   Horposition: 0
   Verposition: 0
+  arrowcheck: 0
+  Hitgauge: 0
+  countergagecheck: 0
   playerspeed: 5
   Weapontype: 0
   GameHP: 0

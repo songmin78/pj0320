@@ -100,10 +100,10 @@ MonoBehaviour:
   speed: 1
   Xposition: 0
   Yposition: 0
-  puchtime: 0.5
+  Zposition: 0
   Typeweapon: {fileID: 7853881323785279450}
-  Counter: 0
+  Counter: 1
   AttackdamageMax: 1
-  arrow: 0
-  punch: 1
+  arrow: 1
+  punch: 0
   magic: 0
