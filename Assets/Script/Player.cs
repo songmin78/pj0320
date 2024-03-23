@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
         WeaponChange();
         countergage();
         bowattack();
+        fullhit();
     }
 
     public void move()
@@ -116,28 +117,9 @@ public class Player : MonoBehaviour
                 }
 
             }
-            else if(Weapontype == 1)//근접일 경우
+            else if(Weapontype == 1)
             {
-                if (Hitgauge >= 1)
-                {
-                    Hitgauge = 0;
-                    go = Instantiate(sword);
-                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange - 90);
-                    go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
-                    Debug.Log("풀차징");
-
-                    Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
-                    weaponcheck_2.Counterdamage(Weapontype);
-                    return;
-                }
-                else
-                {
-                    Hitgauge = 0;
-                    go = Instantiate(sword);
-                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange - 90);
-                    go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
-                    Debug.Log("기본공격");
-                }
+                return;
             }
             else if(Weapontype == 2)//마법공격일 경우
             {
@@ -198,7 +180,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Changecheck()
+    public void Changecheck()//공격방향을 알려주는 코드
     {
         if(verticals == 1)//위쪽으로 올라갈때
         {
@@ -252,16 +234,56 @@ public class Player : MonoBehaviour
         {
             countergagecheck = true;
         }
-
-        Hitgauge += Time.deltaTime;
-        if (Hitgauge >= 1)
+        if(countergagecheck == true)
         {
-            Hitgauge = 1;
+            Hitgauge += Time.deltaTime;
+            if (Hitgauge >= 1)
+            {
+                Hitgauge = 1;
+            }
         }
-        else if (Input.GetKeyUp(KeyCode.K))
+        if (Input.GetKeyUp(KeyCode.K))
         {
             countergagecheck = false;
         }
 
+    }
+
+    private void fullhit()
+    {
+        if(Input.GetKeyUp(KeyCode.K))
+        {
+            GameObject go = null;
+            if (Weapontype == 1)//근접일 경우
+            {
+                if (Hitgauge >= 1)
+                {
+                    Hitgauge = 0;
+                    go = Instantiate(ctSword);
+                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange - 90);
+                    go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
+                    Debug.Log("풀차징");
+
+                    Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
+                    weaponcheck_2.Counterdamage(Weapontype);
+                    return;
+                }
+                else if (Weapontype != 0)
+                {
+                    Hitgauge = 0;
+                    go = Instantiate(sword);
+                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange - 90);
+                    go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
+                    Debug.Log("기본공격");
+
+                    Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
+                    weaponcheck.Attackdamage(Weapontype); 
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 }

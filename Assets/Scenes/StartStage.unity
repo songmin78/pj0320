@@ -389,7 +389,7 @@ MonoBehaviour:
   sword: {fileID: 8129100227542089888, guid: 55465896f8ba8454a9db6e6e32e7d943, type: 3}
   magic: {fileID: 340469154745217394, guid: 4632cc112ba32ae4f85c9997e57210c0, type: 3}
   ctArrow: {fileID: 7853881323785279450, guid: c8b0faab45396d246b6fe4c9852a7cf3, type: 3}
-  ctSword: {fileID: 0}
+  ctSword: {fileID: 1668749040600282093, guid: f3d734d4896382044ac0c37601b50d21, type: 3}
   ctMagic: {fileID: 0}
   horizontals: 0
   verticals: 0
