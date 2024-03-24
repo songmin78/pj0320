@@ -27,8 +27,8 @@ public class Player : MonoBehaviour
 
     [Header("카운터 기준")]
     [SerializeField] bool arrowcheck = false;
-    [SerializeField] float Hitgauge = 0f;
-    [SerializeField] private bool countergagecheck = false;
+    [SerializeField] float Hitgauge = 0f;//근접 카운터 게이지 1이되면 카운터
+    [SerializeField] private bool countergagecheck = false;//게이지가 올라가는지 안가는지 확인
 
 
     [Header("플레이어 정보")]
@@ -163,6 +163,7 @@ public class Player : MonoBehaviour
         {
             if(Weapontype == 0)//원거리 물리 무기 => 0
             {
+                Hitgauge = 0;
                 Weapontype = 1;
             }
             else if(Weapontype == 1)//근거리 무기 => 1
@@ -213,15 +214,15 @@ public class Player : MonoBehaviour
         }
         else if(horizontals == -1)//왼쪽으로 이동할때
         {
-            Checkchange = 90;
             if (Weapontype == 1)//근접 무기일 경우
             {
-                Checkchange = 90;
+                Checkchange = -90;
                 Horposition = -0.15f;
                 Verposition = -0.1f;
             }
             else
             {
+                Checkchange = 90;
                 Horposition = -0.5f;
                 Verposition = 0;
             }
@@ -260,7 +261,7 @@ public class Player : MonoBehaviour
                 {
                     Hitgauge = 0;
                     go = Instantiate(ctSword);
-                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange - 90);
+                    go.transform.eulerAngles = new Vector3(0, 0, Checkchange);
                     go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
                     Debug.Log("풀차징");
 
