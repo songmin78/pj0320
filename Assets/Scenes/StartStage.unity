@@ -394,8 +394,10 @@ MonoBehaviour:
   horizontals: 0
   verticals: 0
   Checkchange: 0
+  Yeulerchange: 0
   Horposition: 0
   Verposition: 0
+  eulercheck: 0
   arrowcheck: 0
   Hitgauge: 0
   countergagecheck: 0

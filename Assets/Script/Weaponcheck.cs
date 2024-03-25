@@ -9,6 +9,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] float Xposition;//시작 x좌표
     [SerializeField] float Yposition;//시작 y좌표
     [SerializeField] float Zposition;//시작 z좌표
+    [SerializeField] float eulercheck;//바라보고있는 방향
 
     [Header("무기 종류")]
     [SerializeField] GameObject Typeweapon;
@@ -32,7 +33,7 @@ public class Weaponcheck : MonoBehaviour
         weapondestory();
     }
 
-    public void Attackdamage(int _weaponType)
+    public void Attackdamage(int _weaponType,int _eulercheck)
     {
         if(_weaponType == 0)//원거리 무기
         {
@@ -41,7 +42,8 @@ public class Weaponcheck : MonoBehaviour
         }
         else if(_weaponType == 1)//근접 무기
         {
-            Debug.Log("근거리");
+            eulercheck = _eulercheck; 
+            Debug.Log(eulercheck);
         }
         else if(_weaponType == 2)//마법무기
         {
@@ -49,7 +51,7 @@ public class Weaponcheck : MonoBehaviour
         }
     }
 
-    public void Counterdamage(int _weaponType)
+    public void Counterdamage(int _weaponType, int _eulercheck)
     {
         if (_weaponType == 0)//원거리 무기
         {
@@ -57,6 +59,7 @@ public class Weaponcheck : MonoBehaviour
         }
         else if (_weaponType == 1)//근접 무기
         {
+            eulercheck = _eulercheck;
             Debug.Log("근거리 카운터");
         }
         else if (_weaponType == 2)//마법무기
@@ -76,8 +79,7 @@ public class Weaponcheck : MonoBehaviour
             //1.오브젝트가 생성하면 그 자리의 값을 저장 ->끝
             //2.rotation의 z값을 +180 혹은 -180 을 더한다
             //3.2번에서 더한 값을 Time.deltatime * punchtime 초로 회전을 실행 시킨다 
-
-            transform.eulerAngles += new Vector3(0, 0, 180 * Time.deltaTime * speed);
+            eulerchange();
         }
     }
 
@@ -123,9 +125,28 @@ public class Weaponcheck : MonoBehaviour
         }
     }
 
-    private void swordattack()
+    /// <summary>
+    /// eluercheck-> 1=> 위쪽,2 => 왼쪽, 3=> 오른쪽, 4=> 아래쪽 
+    /// </summary>
+    private void eulerchange()//공격하는 방향에 맞춰 회전하는 코드
     {
-
+        if(eulercheck == 1)
+        {
+            transform.eulerAngles += new Vector3(0, 0, -90 * Time.deltaTime * speed);
+        }
+        else if(eulercheck == 2)
+        {
+            transform.eulerAngles += new Vector3(0, 0, -180 * Time.deltaTime * speed);
+        }
+        else if(eulercheck == 3)
+        {
+            transform.eulerAngles += new Vector3(0, 0, -180 * Time.deltaTime * speed);
+        }
+        else if(eulercheck == 4)
+        {
+            transform.eulerAngles += new Vector3(0, 0, -270 * Time.deltaTime * speed);
+        }
     }
+
 
 }
