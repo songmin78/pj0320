@@ -401,6 +401,9 @@ MonoBehaviour:
   arrowcheck: 0
   Hitgauge: 0
   countergagecheck: 0
+  countertimercheck: 0
+  counterHittimer: 3
+  slowspeed: 3
   playerspeed: 5
   Weapontype: 0
   GameHP: 0
