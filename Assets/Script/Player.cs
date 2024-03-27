@@ -26,18 +26,20 @@ public class Player : MonoBehaviour
     [SerializeField] private float Horposition = 0f;//무기 공격위치
     [SerializeField] private float Verposition = 0f;//무기 공격위치
     public int eulercheck =0;
+    [SerializeField] bool slowcheck = false;
 
     [Header("카운터 기준")]
     [SerializeField] bool arrowcheck = false;
     [SerializeField] float Hitgauge = 0f;//근접 카운터 게이지 1이되면 카운터
     [SerializeField] private bool countergagecheck = false;//게이지가 올라가는지 안가는지 확인
-  [SerializeField] bool countertimercheck = false;//근접 L스킬을 쓸때 무한 카운터 공격
-  [SerializeField] float counterHittimer = 3;//근접 L스킬을 쓰는 지속시간
-  private float maxcountertimer;
-  [SerializeField] float slowspeed = 3;//근접L스킬이 끝나고 생기는 슬로우 지속 시간
-  private float Maxslowspeed;
+    [SerializeField] bool countertimercheck = false;//근접 L스킬을 쓸때 무한 카운터 공격
+    [SerializeField] float counterHittimer = 3;//근접 L스킬을 쓰는 지속시간
+    private float maxcountertimer;
+    [SerializeField] float slowspeed = 3;//근접L스킬이 끝나고 생기는 슬로우 지속 시간
+    private float Maxslowspeed;
+    
 
-  [Header("플레이어 정보")]
+    [Header("플레이어 정보")]
     [SerializeField] float playerspeed = 5f;//플레이어가 이동하는 속도
     [SerializeField] public int Weapontype;//무기 리스트
 
@@ -51,8 +53,8 @@ public class Player : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         MaxHP = GameHP;
-    maxcountertimer = counterHittimer;//근접L지속시간
-    Maxslowspeed = slowspeed;//자기 슬로우 지속시간
+        maxcountertimer = counterHittimer;//근접L지속시간
+        Maxslowspeed = slowspeed;//자기 슬로우 지속시간
     }
 
     void Start()
@@ -68,7 +70,7 @@ public class Player : MonoBehaviour
         countergage();
         bowattack();
         fullhit();
-    counterHit();
+        counterHit();
     }
 
     public void move()
@@ -155,10 +157,10 @@ public class Player : MonoBehaviour
             }
             else if (Weapontype == 1)//근접일 경우
             {
-        Hitgauge = 1;
-        countertimercheck = true;
-        
-        return;
+                Hitgauge = 1;
+                countertimercheck = true;
+
+                return;
                 //count = Instantiate(sword);
             }
             else if (Weapontype == 2)//마법공격일 경우
@@ -222,7 +224,7 @@ public class Player : MonoBehaviour
             {
                 Yeulerchange = 0;
                 Checkchange = 180;
-                Verposition = 0.5f;
+                Verposition = -0.5f;
                 Horposition = 0;
                 eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
             }//활
@@ -276,41 +278,41 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void countergage()
+    private void countergage()//일반 공격할때 게이지
     {
-        if(countertimercheck != true)
+        if (countertimercheck != true)
         {
-          if (Input.GetKeyDown(KeyCode.K))
-          {
-            countergagecheck = true;
-          }
-          if (countergagecheck == true)
-          {
-            Hitgauge += Time.deltaTime;
-            if (Hitgauge >= 1)
+            if (Input.GetKeyDown(KeyCode.K))
             {
-              Hitgauge = 1;
+                countergagecheck = true;
             }
-          }
-          if (Input.GetKeyUp(KeyCode.K))
-          {
-            countergagecheck = false;
-          }
+            if (countergagecheck == true)
+            {
+                Hitgauge += Time.deltaTime;
+                if (Hitgauge >= 1)
+                {
+                    Hitgauge = 1;
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.K))
+            {
+                countergagecheck = false;
+            }
         }
     }
 
     private void fullhit()
     {
-        if(Input.GetKeyUp(KeyCode.K))//근접무기일경우에 발동하는 코드
+        if (Input.GetKeyUp(KeyCode.K))//근접무기일경우에 발동하는 코드
         {
             GameObject go = null;
             if (Weapontype == 1)//근접일 경우
             {
                 if (Hitgauge >= 1)
                 {
-                    if(countertimercheck != true)
+                    if (countertimercheck != true)
                     {
-                      Hitgauge = 0;//카운터 게이지를 초기화
+                        Hitgauge = 0;//카운터 게이지를 초기화
                     }
                     go = Instantiate(ctSword);//카운터 무기를 소환
                     go.transform.eulerAngles = new Vector3(0, Yeulerchange, Checkchange);//바라보고있는 방향으로 공격
@@ -318,10 +320,10 @@ public class Player : MonoBehaviour
                     Debug.Log("풀차징");
 
                     Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
-                    weaponcheck_2.Counterdamage(Weapontype,eulercheck);
+                    weaponcheck_2.Counterdamage(Weapontype, eulercheck);
                     return;
                 }
-                else if (Weapontype != 0)
+                else if (Hitgauge != 0)
                 {
                     Hitgauge = 0;
                     go = Instantiate(sword);
@@ -330,7 +332,7 @@ public class Player : MonoBehaviour
                     Debug.Log("기본공격");
 
                     Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
-                    weaponcheck.Attackdamage(Weapontype, eulercheck); 
+                    weaponcheck.Attackdamage(Weapontype, eulercheck);
                 }
             }
             else
@@ -340,25 +342,30 @@ public class Player : MonoBehaviour
         }
     }
 
-  private void counterHit()
-  {
-    if(Hitgauge == 1 && countertimercheck == true)
+    private void counterHit()
     {
-      maxcountertimer = maxcountertimer * Time.deltaTime;
-      if (maxcountertimer <= 0)
-      {
-        Hitgauge = 0;
-        playerspeed = playerspeed - 2;
-        Maxslowspeed = Maxslowspeed * Time.deltaTime;
-        if (Maxslowspeed <= 0)
+        if (Hitgauge == 1 && countertimercheck == true)
         {
-          playerspeed = playerspeed + 2;
-          maxcountertimer = counterHittimer;
-          Maxslowspeed = slowspeed;
-          countertimercheck = false;
+            maxcountertimer -= 1 * Time.deltaTime;
+            if (maxcountertimer <= 0)
+            {
+                Hitgauge = 0;
+                playerspeed = playerspeed - 3;
+                maxcountertimer = counterHittimer;
+                slowcheck = true;
+                countertimercheck = false;
+            }
         }
-      }
+        else if(slowcheck == true)
+        {
+            Maxslowspeed -= 1 * Time.deltaTime;
+            if (Maxslowspeed <= 0)
+            {
+                playerspeed = playerspeed + 3;
+                Maxslowspeed = slowspeed;
+                slowcheck = false;
+            }
+        }
     }
-  }
 
 }
