@@ -46,6 +46,13 @@ public class Player : MonoBehaviour
     [Header("플레이어의 능력치 설정")]
     [SerializeField,Range(1,5)] int GameHP;//게임내 플레이어 체력
 
+    [Header("무기 공격 관련 정보")]
+    [SerializeField] bool magiccheck = false;//마법게이지가 닳는위한 확인
+    public bool MagicCheck => magiccheck;
+
+    [SerializeField] float magicgage = 5f;//공격 게이지 0이되면 사용 불가
+    private float Maxmagicgage;
+
     Animator animator;
 
 
@@ -55,22 +62,29 @@ public class Player : MonoBehaviour
         MaxHP = GameHP;
         maxcountertimer = counterHittimer;//근접L지속시간
         Maxslowspeed = slowspeed;//자기 슬로우 지속시간
+        Maxmagicgage = magicgage;//마법 게이지 최대 지속 시간
     }
 
     void Start()
     {
         Weapontype = 0;
+
+        GameManager.Instance.Player = this;
     }
 
     void Update()
     {
-        move();
-        Anim();
-        WeaponChange();
-        countergage();
-        bowattack();
-        fullhit();
-        counterHit();
+        move();//이동
+        Anim();//이동애니메이션
+        WeaponChange();//무기 체인지
+
+        bowattack();//원거리 공격
+
+        countergage();//근접공격 게이지
+        fullhit();//근접 공격
+        counterHit();//근접2스킬
+
+        magichit();//마법 공격
     }
 
     public void move()
@@ -134,7 +148,7 @@ public class Player : MonoBehaviour
             }
             else if(Weapontype == 2)//마법공격일 경우
             {
-                go = Instantiate(magic);
+                return;
             }
             Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
             weaponcheck.Attackdamage(Weapontype, eulercheck);
@@ -216,6 +230,14 @@ public class Player : MonoBehaviour
                 Verposition = 0.1f;
                 eulercheck = 1;//1은 위쪽방향
             }
+            else if(Weapontype == 2)
+            {
+                Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
+                Checkchange = 90;//회전 값
+                Verposition = 1f;//위 아래 체크
+                Horposition = 0;//좌우 체크
+                eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+            }
 
         }
         else if(verticals == -1)//아래쪽을 가르킬때
@@ -235,7 +257,15 @@ public class Player : MonoBehaviour
                 Verposition = 0.15f;
                 Verposition = 0.1f;
                 eulercheck = 4;//4는 아랫방향
-      }
+            }
+            else if(Weapontype == 2)
+            {
+                Yeulerchange = 0;
+                Checkchange = 270;
+                Verposition = -1f;
+                Horposition = 0;
+                eulercheck = 0;
+            }
         }
 
         if (horizontals == 1)//오른쪽을 가르킬때
@@ -256,6 +286,14 @@ public class Player : MonoBehaviour
                 Verposition = -0.1f;
                 eulercheck = 3;//3은 오른쪽 방향
             }
+            else if(Weapontype == 2)
+            {
+                Yeulerchange = 0;
+                Checkchange = 0;
+                Horposition = 0.9f;
+                Verposition = 0;
+                eulercheck = 0;
+            }
         }
         else if(horizontals == -1)//왼쪽을 가르킬때
         {
@@ -274,7 +312,15 @@ public class Player : MonoBehaviour
                 Horposition = -0.15f;
                 Verposition = -0.1f;
                 eulercheck = 2;//2는 왼쪽 방향
-      }
+            }
+            else if(Weapontype == 2)
+            {
+                Yeulerchange = 0;
+                Checkchange = 180;
+                Horposition = -0.9f;
+                Verposition = 0;
+                eulercheck = 0;
+            }
         }
     }
 
@@ -338,6 +384,46 @@ public class Player : MonoBehaviour
             else
             {
                 return;
+            }
+        }
+    }
+
+    private void magichit()//마법공격이 통하는 코드
+    {
+        if(Weapontype == 2)
+        {
+            if (Input.GetKeyDown(KeyCode.K))//눌렀을때 마법공격을 계속함
+            {
+                GameObject go = null;
+                magiccheck = true;
+
+                go = Instantiate(magic);
+                go.transform.eulerAngles = new Vector3(0, 0, Checkchange);//방향에 맞춰 발사
+                go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기보다 앞에서 발사
+
+                Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
+                weaponcheck.Attackdamage(Weapontype, eulercheck);
+            }
+            if (Input.GetKeyUp(KeyCode.K))//키를 땠을때 마법공격을 그만함
+            {
+                magiccheck = false;
+            }
+
+            if (magiccheck == true)
+            {
+                magicgage -= 1 * Time.deltaTime;
+                if (magicgage <= 0)
+                {
+                    magiccheck = false;
+                }
+            }
+            else if (magiccheck == false)
+            {
+                magicgage += 1 * Time.deltaTime;
+                if (magicgage >= Maxmagicgage)
+                {
+                    magicgage = Maxmagicgage;
+                }
             }
         }
     }

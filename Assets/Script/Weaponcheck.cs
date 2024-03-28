@@ -9,7 +9,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] float Xposition;//시작 x좌표
     [SerializeField] float Yposition;//시작 y좌표
     [SerializeField] float Zposition;//시작 z좌표
-  [SerializeField] float ZeulerAngles;//시작 rotation z 좌표
+    [SerializeField] float ZeulerAngles;//시작 rotation z 좌표
     [SerializeField] float eulercheck;//바라보고있는 방향
 
     [Header("무기 종류")]
@@ -21,8 +21,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] bool arrow = false;//화살인것을 확인
     [SerializeField] bool punch = false;//근접무기것을 확인
     [SerializeField] bool magic = false;//마법인것을 확인
-     
-
+    
     void Start()
     {
         startattack();
@@ -65,6 +64,7 @@ public class Weaponcheck : MonoBehaviour
         }
         else if (_weaponType == 2)//마법무기
         {
+            
             Debug.Log("마법 카운터");
         }
     }
@@ -90,45 +90,52 @@ public class Weaponcheck : MonoBehaviour
         Yposition = transform.position.y;
         Zposition = transform.position.z;
 
-    ZeulerAngles = transform.rotation.z;
+        ZeulerAngles = transform.rotation.z;
 
         new Vector3(Xposition, Yposition, Zposition);
-    new Vector3(0, 0, ZeulerAngles);
-    Debug.Log(ZeulerAngles);
+        new Vector3(0, 0, ZeulerAngles);
+        Debug.Log(ZeulerAngles);
     }
 
-  private void weapondestory()
-  {
-    float Xchange = transform.position.x;
-    float Ychange = transform.position.y;
-    float Zchange = transform.position.z;
-
-    float Zrotation = transform.eulerAngles.z;
-
-    if (arrow == true)
+    private void weapondestory()
     {
-      transform.position = new Vector3(Xchange, Ychange, 0);
+        float Xchange = transform.position.x;
+        float Ychange = transform.position.y;
+        float Zchange = transform.position.z;
 
-      if (Xchange >= Xposition + 5 || Xchange <= Xposition - 5)
-      {
-        Destroy(Typeweapon);
-      }
-      else if (Ychange >= Yposition + 5 || Ychange <= Yposition - 5)
-      {
-        Destroy(Typeweapon);
-      }
-    }
-    else if (punch == true)
-    {
-      transform.eulerAngles = new Vector3(0, 0, Zrotation);
-      //Debug.Log(Zrotation);
+        float Zrotation = transform.eulerAngles.z;
 
-      if (Zrotation >= ZeulerAngles +170)
-      {
-        Destroy(Typeweapon);
-      }
+        if (arrow == true)
+        {
+            transform.position = new Vector3(Xchange, Ychange, 0);
+
+            if (Xchange >= Xposition + 5 || Xchange <= Xposition - 5)
+            {
+                Destroy(Typeweapon);
+            }
+            else if (Ychange >= Yposition + 5 || Ychange <= Yposition - 5)
+            {
+                Destroy(Typeweapon);
+            }
+        }
+        else if (punch == true)
+        {
+            transform.eulerAngles = new Vector3(0, 0, Zrotation);
+            //Debug.Log(Zrotation);
+
+            if (Zrotation >= ZeulerAngles + 170)
+            {
+                Destroy(Typeweapon);
+            }
+        }
+        else if(magic == true)
+        {
+            if(GameManager.Instance.Player.MagicCheck == false)
+            {
+                Destroy(Typeweapon);
+            }
+        }
     }
-  }
   
     /// <summary>
     /// eluercheck-> 1=> 위쪽,2 => 왼쪽, 3=> 오른쪽, 4=> 아래쪽 
