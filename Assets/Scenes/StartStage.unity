@@ -390,7 +390,7 @@ MonoBehaviour:
   magic: {fileID: 8522138926694928871, guid: 099831c921ff04f40be263e17bb36237, type: 3}
   ctArrow: {fileID: 7853881323785279450, guid: c8b0faab45396d246b6fe4c9852a7cf3, type: 3}
   ctSword: {fileID: 1668749040600282093, guid: f3d734d4896382044ac0c37601b50d21, type: 3}
-  ctMagic: {fileID: 0}
+  ctMagic: {fileID: 6977805359816515017, guid: ba7b1a415c57bdc428d8ecaea01a89a0, type: 3}
   horizontals: 0
   verticals: 0
   Checkchange: 0
@@ -407,7 +407,7 @@ MonoBehaviour:
   slowspeed: 3
   playerspeed: 5
   Weapontype: 0
-  GameHP: 0
+  GameHP: 1
   magiccheck: 0
   magicgage: 5
 --- !u!95 &99215255

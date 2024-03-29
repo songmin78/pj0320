@@ -21,6 +21,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] bool arrow = false;//화살인것을 확인
     [SerializeField] bool punch = false;//근접무기것을 확인
     [SerializeField] bool magic = false;//마법인것을 확인
+    [SerializeField] bool Ctmagic = false;//마법 카운터(일반공격과 다른 메커니즘으로 오류가 생겨서 따로 만즘)
     
     void Start()
     {
@@ -64,7 +65,6 @@ public class Weaponcheck : MonoBehaviour
         }
         else if (_weaponType == 2)//마법무기
         {
-            
             Debug.Log("마법 카운터");
         }
     }
@@ -82,6 +82,10 @@ public class Weaponcheck : MonoBehaviour
             //3.2번에서 더한 값을 Time.deltatime * punchtime 초로 회전을 실행 시킨다 
             eulerchange();
         }
+        else if(Ctmagic == true)
+        {
+            transform.position += transform.up * Time.deltaTime * speed;
+        }
     }
 
     public void startattack()
@@ -94,7 +98,6 @@ public class Weaponcheck : MonoBehaviour
 
         new Vector3(Xposition, Yposition, Zposition);
         new Vector3(0, 0, ZeulerAngles);
-        Debug.Log(ZeulerAngles);
     }
 
     private void weapondestory()
@@ -131,6 +134,19 @@ public class Weaponcheck : MonoBehaviour
         else if(magic == true)
         {
             if(GameManager.Instance.Player.MagicCheck == false)
+            {
+                Destroy(Typeweapon);
+            }
+        }
+        else if(Ctmagic == true)
+        {
+            transform.position = new Vector3(Xchange, Ychange, 0);
+
+            if (Xchange >= Xposition + 5 || Xchange <= Xposition - 5)
+            {
+                Destroy(Typeweapon);
+            }
+            else if (Ychange >= Yposition + 5 || Ychange <= Yposition - 5)
             {
                 Destroy(Typeweapon);
             }

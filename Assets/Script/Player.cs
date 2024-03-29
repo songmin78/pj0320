@@ -46,12 +46,15 @@ public class Player : MonoBehaviour
     [Header("플레이어의 능력치 설정")]
     [SerializeField,Range(1,5)] int GameHP;//게임내 플레이어 체력
 
-    [Header("무기 공격 관련 정보")]
+    [Header("무기 공격 관련 정보(마법)")]
     [SerializeField] bool magiccheck = false;//마법게이지가 닳는위한 확인
     public bool MagicCheck => magiccheck;
 
     [SerializeField] float magicgage = 5f;//공격 게이지 0이되면 사용 불가
     private float Maxmagicgage;
+    private float CtHorposition = 0f;
+    private float CtVerposition = 0f;
+    private float CtCheckchange = 0f;
 
     Animator animator;
 
@@ -85,6 +88,7 @@ public class Player : MonoBehaviour
         counterHit();//근접2스킬
 
         magichit();//마법 공격
+
     }
 
     public void move()
@@ -103,8 +107,9 @@ public class Player : MonoBehaviour
         }
         transform.position += new Vector3(horizontals * playerspeed, verticals * playerspeed, 0) * Time.deltaTime;
         Changecheck();
-    }
-    private void Anim()
+        magiccounter();//마법 카운터 코드
+    }//이동코드
+    private void Anim()//이동 애니메이션 코드
     {
         animator.SetFloat("Horizontal", (int)horizontals);
         animator.SetFloat("Vertical", (int)verticals);
@@ -115,7 +120,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void bowattack()
+    public void bowattack()//1차 일단 일반 공격 코드
     {
         if(Input.GetKeyDown(KeyCode.K))//일반 공격
         {
@@ -152,7 +157,7 @@ public class Player : MonoBehaviour
             }
             Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
             weaponcheck.Attackdamage(Weapontype, eulercheck);
-        }
+        }//일반 공격
 
         if(Input.GetKeyDown(KeyCode.L))//카운터 공격
         {
@@ -179,7 +184,9 @@ public class Player : MonoBehaviour
             }
             else if (Weapontype == 2)//마법공격일 경우
             {
-                //count  = Instantiate(magic);
+                count = Instantiate(ctMagic);//마법을 들여옴
+                count.transform.eulerAngles = new Vector3(0, 0, CtCheckchange);//방향에 맞춰 공격
+                count.transform.position = transform.position + new Vector3(CtHorposition, CtVerposition, 0);//자기보다 앞에서 발사
             }
             Weaponcheck weaponcheck = count.GetComponent<Weaponcheck>();
             weaponcheck.Counterdamage(Weapontype, eulercheck);
@@ -208,7 +215,7 @@ public class Player : MonoBehaviour
                 Weapontype = 0;
             }
         }
-    }
+    }//무기 교환 코드
 
     public void Changecheck()//공격방향을 알려주는 코드
     {
@@ -220,7 +227,7 @@ public class Player : MonoBehaviour
                 Checkchange = 0;//회전 값
                 Verposition = 0.5f;//위 아래 체크
                 Horposition = 0;//좌우 체크
-                eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+                eulercheck = 1;//바라보는 방향 체크 -> 0은 없음
             }//활
             else if(Weapontype == 1)//칼일 경우
             {
@@ -248,7 +255,7 @@ public class Player : MonoBehaviour
                 Checkchange = 180;
                 Verposition = -0.5f;
                 Horposition = 0;
-                eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+                eulercheck = 4;//바라보는 방향 체크 -> 0은 없음
             }//활
             else if(Weapontype == 1)
             {
@@ -276,7 +283,7 @@ public class Player : MonoBehaviour
                 Checkchange = 270;
                 Horposition = 0.5f;
                 Verposition = 0;
-                eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+                eulercheck = 3;//바라보는 방향 체크 -> 0은 없음
             }//활
             else if (Weapontype == 1)//근접 무기일 경우
             {
@@ -303,7 +310,7 @@ public class Player : MonoBehaviour
                 Checkchange = 90;
                 Horposition = -0.5f;
                 Verposition = 0;
-                eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+                eulercheck = 2;//바라보는 방향 체크 -> 0은 없음
             }//활
             else if (Weapontype == 1)//근접 무기일 경우
             {
@@ -347,7 +354,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void fullhit()
+    private void fullhit()//근접무기일경우 발동하는 코드
     {
         if (Input.GetKeyUp(KeyCode.K))//근접무기일경우에 발동하는 코드
         {
@@ -428,7 +435,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void counterHit()
+    private void counterHit()//근접 2스킬 시간 코드
     {
         if (Hitgauge == 1 && countertimercheck == true)
         {
@@ -454,4 +461,33 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void magiccounter()
+    {
+        if (verticals == 1)//위쪽을 가르킬때
+        {
+            CtCheckchange = 0;//회전 값
+            CtVerposition = 0.5f;//위 아래 체크
+            CtHorposition = 0;//좌우 체크
+
+        }
+        else if (verticals == -1)//아래쪽을 가르킬때
+        {
+            CtCheckchange = 180;
+            CtVerposition = -0.5f;
+            CtHorposition = 0;
+        }
+
+        if (horizontals == 1)//오른쪽을 가르킬때
+        {
+            CtCheckchange = 270;
+            CtVerposition = 0f;
+            CtHorposition = 0.5f;
+        }
+        else if (horizontals == -1)//왼쪽을 가르킬때
+        {
+            CtCheckchange = 90;
+            CtVerposition = 0f;
+            CtHorposition = -0.5f;
+        }
+    }
 }

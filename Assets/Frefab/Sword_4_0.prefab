@@ -97,13 +97,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f390a4adbf406f94f92fa1d772f06c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.01
+  speed: 1
   Xposition: 0
   Yposition: 0
   Zposition: 0
+  ZeulerAngles: 0
+  eulercheck: 0
   Typeweapon: {fileID: 8129100227542089888}
   Counter: 0
   AttackdamageMax: 1
   arrow: 0
   punch: 1
   magic: 0
+  Ctmagic: 0
