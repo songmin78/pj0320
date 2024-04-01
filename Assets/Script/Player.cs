@@ -489,5 +489,5 @@ public class Player : MonoBehaviour
             CtVerposition = 0f;
             CtHorposition = -0.5f;
         }
-    }
+    }//마법 2스킬 방향 코드
 }
