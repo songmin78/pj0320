@@ -282,7 +282,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99215251}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.07, y: -8.73, z: 0}
+  m_LocalPosition: {x: 1, y: -8.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -302,12 +302,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61f0938b0f99be94388ad0e84caf6bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrow: {fileID: 0}
-  sword: {fileID: 0}
-  magic: {fileID: 0}
-  ctArrow: {fileID: 0}
-  ctSword: {fileID: 0}
-  ctMagic: {fileID: 0}
+  arrow: {fileID: 6818603531882597622, guid: 8454951fbd8c0d046b469f6935d65740, type: 3}
+  sword: {fileID: 8129100227542089888, guid: 55465896f8ba8454a9db6e6e32e7d943, type: 3}
+  magic: {fileID: 8522138926694928871, guid: 099831c921ff04f40be263e17bb36237, type: 3}
+  ctArrow: {fileID: 7853881323785279450, guid: c8b0faab45396d246b6fe4c9852a7cf3, type: 3}
+  ctSword: {fileID: 1668749040600282093, guid: f3d734d4896382044ac0c37601b50d21, type: 3}
+  ctMagic: {fileID: 6977805359816515017, guid: ba7b1a415c57bdc428d8ecaea01a89a0, type: 3}
   horizontals: 0
   verticals: 0
   Checkchange: 0
@@ -327,6 +327,8 @@ MonoBehaviour:
   GameHP: 0
   magiccheck: 0
   magicgage: 5
+  Xplayer: 0
+  Yplayer: 0
 --- !u!95 &99215255
 Animator:
   serializedVersion: 5
@@ -569,7 +571,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7cefe9e9e8c984bbd9ff43235be8f54f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -589,7 +591,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410354150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.12, y: -7.76, z: 0}
+  m_LocalPosition: {x: -1.88, y: -10.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -611,6 +613,11 @@ MonoBehaviour:
   ChasePlayer: 0
   horizontals: 0
   verticals: 0
+  speed: 5
+  MonsterpositionX: 0
+  MonsterpositionY: 0
+  xplayer: 0
+  yplayer: 0
 --- !u!61 &410354155
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -90661,6 +90668,50 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1087835889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1087835891}
+  - component: {fileID: 1087835890}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1087835890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087835889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28f4366490ca7f4fafb438cab29ebd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1087835891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087835889}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.13469565, y: -9.61826, z: -0.028891161}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1640621854
 GameObject:
   m_ObjectHideFlags: 0

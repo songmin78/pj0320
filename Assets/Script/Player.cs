@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour
 {
@@ -58,6 +59,9 @@ public class Player : MonoBehaviour
 
     Animator animator;
 
+    [Header("좌표확인 관련")] 
+    [SerializeField] public float Xplayer;//x좌표 확인
+    [SerializeField] public float Yplayer;//y좌표 확인
 
     private void Awake()
     {
@@ -79,6 +83,7 @@ public class Player : MonoBehaviour
     {
         move();//이동
         Anim();//이동애니메이션
+        playerposition();//플레이어위치를 실시간으로 확인
         WeaponChange();//무기 체인지
 
         bowattack();//원거리 공격
@@ -490,4 +495,10 @@ public class Player : MonoBehaviour
             CtHorposition = -0.5f;
         }
     }//마법 2스킬 방향 코드
+
+    public void playerposition()
+    {
+        Xplayer = transform.position.x;
+        Yplayer = transform.position.y;
+    }//플레이어좌표를 확인하는 코드(몬스터가 추적할때 쓰임)
 }
