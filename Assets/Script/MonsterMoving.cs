@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
@@ -9,6 +10,10 @@ public class MonsterMoving : MonoBehaviour
 
     [Header("쫓아가기위한 정보")]
     [SerializeField] private bool ChasePlayer = false;
+    [SerializeField] private bool ChaseX = false;
+    [SerializeField] private bool ChaseY = false;
+    [SerializeField] private float posX;//플레이어위치 - 몬스터위치 값.X
+    [SerializeField] private float posY;//플레이어위치 - 몬스터위치 값.Y
 
     [SerializeField] float horizontals;
     [SerializeField] float verticals;
@@ -16,9 +21,6 @@ public class MonsterMoving : MonoBehaviour
     [Header("몬스터 스팩")]
     [SerializeField] float speed = 5f;//몬스터이동속도
 
-    [Header(" 몬스터 위치")]
-    [SerializeField] float MonsterpositionX;
-    [SerializeField] float MonsterpositionY;
     [Header(" 플레이어 위치")]
     [SerializeField] float xplayer;
     [SerializeField] float yplayer;
@@ -61,50 +63,42 @@ public class MonsterMoving : MonoBehaviour
             //문제1: 플레이어의 위치를 받는법을 모른다
             //문제2:몬스터가 자동으로 이동하기위한 방법 및 애니메이션 적용방법<- Player스크립트에서 어느정도 착안 가능
 
-            Vector3 pos = GameManager.Instance.Player.transform.position;
-            Monsterposition();
+            Vector3 pos = GameManager.Instance.Player.transform.position;//GameManager에서 플레이어의 위치를 전달 받은 코드
 
-            if (xplayer < MonsterpositionX)
+            if (pos.x < transform.position.x && ChaseX == true)//몬스터가 플레이어의 오른쪽에 있을경우 그리고 ChaseX가 true일 경우(대각선 방지)
             {
-                horizontals = -1;
-                MonsterpositionX -= 1;
+                ChaseY = false;
+                transform.position += new Vector3(-transform.position.x + 1 * speed, 0, 0) * Time.deltaTime;//몬스터의 자기 위치에서 Vector3의 x 값을 -1만큼 이동시키는 코드
             }
-            else if(xplayer > MonsterpositionX)
+            else if(pos.x > transform.position.x && ChaseX == true)
             {
-                horizontals = +1;
-                MonsterpositionX += 1;
+                ChaseY = false;
+                transform.position += new Vector3(transform.position.x + 1 * speed, 0, 0) * Time.deltaTime;
             }
 
-            if(yplayer < MonsterpositionY)
+            if(pos.y < transform.position.y && ChaseY == true)
             {
-                verticals = -1;
-                MonsterpositionY -= 1;
+                ChaseX = false;
+                transform.position += new Vector3(0, transform.position.y - 1 * speed, 0) * Time.deltaTime;
             }
-            else if(yplayer > MonsterpositionY)
+            else if(pos.y > transform.position.y && ChaseY == true)
             {
-                verticals = +1;
-                MonsterpositionX += 1;
+                ChaseX = false;
+                transform.position += new Vector3(0, transform.position.x + 1 * speed, 0) * Time.deltaTime;
             }
 
         }
     }
 
-    public void Monsterposition()
-    {
-        MonsterpositionX = transform.position.x;
-        MonsterpositionY = transform.position.y;
-
-        new Vector3(MonsterpositionX, MonsterpositionY, 0);
-    }
 
     private void Anim()//이동 애니메이션 코드
     {
-        animator.SetFloat("Horizontal", (float)horizontals);
-        animator.SetFloat("Vertical", (float)verticals);
+        //animator.SetFloat("Horizontal", (float)horizontals);
+        //animator.SetFloat("Vertical", (float)verticals);
 
-        if (horizontals < 0)
-        {
-            transform.localScale = new Vector3(horizontals, 1, 1);
-        }
+        //if (horizontals < 0)
+        //{
+        //    transform.localScale = new Vector3(horizontals, 1, 1);
+        //}
     }
 }
