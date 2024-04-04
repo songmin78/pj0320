@@ -40,7 +40,6 @@ public class MonsterMoving : MonoBehaviour
         {
             ChasePlayer = true;
         }
-        Debug.Log("Ãß°Ý");
     }
 
     void Start()

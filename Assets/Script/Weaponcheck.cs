@@ -41,7 +41,6 @@ public class Weaponcheck : MonoBehaviour
     {
         if(_weaponType == 0)//원거리 무기
         {
-            AttackdamageMax = 5;
             Debug.Log("원거리");
         }
         else if(_weaponType == 1)//근접 무기

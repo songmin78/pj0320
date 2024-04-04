@@ -90,8 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2ef2d5d49b624418d0b1f873a536df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parents: {fileID: 2312694002271663552}
   attackdamage: 0
-  GameHp: 1
+  GameHp: 3
   beatendamage: 0
   Oncheckdamage: 0
   weapondamage: 0
@@ -225,7 +226,7 @@ MonoBehaviour:
   diffPos: {x: 0, y: 0, z: 0}
   horizontals: 0
   verticals: 0
-  speed: 0.1
+  speed: 1
   xplayer: 0
   yplayer: 0
 --- !u!61 &258519545495597216

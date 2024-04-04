@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitboxMonster : MonoBehaviour
 {
-    GameObject parents;
+    [SerializeField]GameObject parents;
 
     [Header("몬스터 스펙")]
     [SerializeField] float attackdamage;//몬스터의 데미지
@@ -30,7 +30,6 @@ public class HitboxMonster : MonoBehaviour
     private void Awake()
     {
         MaxHp = GameHp;
-        parents = GetComponent<GameObject>();
     }
 
     void Update()
@@ -52,7 +51,11 @@ public class HitboxMonster : MonoBehaviour
     {
         if(MaxHp <= 0)
         {
-            Destroy(gameObject.transform.parent);
+            Destroy(parents);
+        }
+        else
+        {
+            beatendamage = false;
         }
     }
 }
