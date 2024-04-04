@@ -8,11 +8,19 @@ public class GameManager : MonoBehaviour
     
 
     private Player player;
+    private Weaponcheck weaponcheck;
     public Player Player
     {
         get { return player; }
         set { player = value; }
     }
+
+    public Weaponcheck Weaponcheck
+    {
+        get { return weaponcheck; }
+        set { weaponcheck = value; }
+    }
+
 
 
     private void Awake()

@@ -15,6 +15,8 @@ public class MonsterMoving : MonoBehaviour
     [SerializeField] private float posX;//플레이어위치 + 몬스터위치 값.X
     [SerializeField] private float posY;//플레이어위치 + 몬스터위치 값.Y
 
+    [SerializeField] Vector3 diffPos;
+
     [SerializeField] float horizontals;
     [SerializeField] float verticals;
 
@@ -61,8 +63,8 @@ public class MonsterMoving : MonoBehaviour
             //2.플레이의 위치 - 자신의 위치를 하여 이동
             //3.대각선 방지 -> 우선순위... -> horizon이나 vertical중 숫자가 0에 더 가까운 쪽으로 이동
             //문제1: 플레이어의 위치를 받는법을 모른다-해결
-            //문제2:몬스터가 자동으로 이동하기위한 방법 및 애니메이션 적용방법<- Player스크립트에서 어느정도 착안 가능-해결
-            //문제3: 지그제그로 대각선으로 이동함
+            //문제2:몬스터가 자동으로 이동하기위한 방법 및 (애니메이션 적용방법- 해결안됨) <- Player스크립트에서 어느정도 착안 가능-해결
+            //문제3: 지그제그로 대각선으로 이동함 -> 해결
             //문제4: 몬스터의 이속이 점점 빨라짐
 
             Vector3 pos = GameManager.Instance.Player.transform.position;//GameManager에서 플레이어의 위치를 전달 받은 코드
@@ -72,40 +74,68 @@ public class MonsterMoving : MonoBehaviour
             posX = pos.x - transform.position.x;
             posY = pos.y - transform.position.y;
 
+            diffPos = pos - transform.position;
+
+            bool ChaseHorizontal = false;
+            // x,y좌표가 절대값으로 계산
+            if (Mathf.Abs(posX) > 0.02)//x좌표가 더 클경우,Mathf.Abs() <-절대값으로 변환하는 코드
+            {
+                ChaseHorizontal = true;
+            }
+            else if (Mathf.Abs(posX) <= 0.02)//x좌표가 0이 될 경우 즉 좌우로 맞춰 이동 후 세로로 이동
+            {
+                ChaseHorizontal = false;
+            }
+
+            //bool ChaseHorizontal = Mathf.Abs(diffPos.x) < Mathf.Abs(diffPos.y);
+
+            Vector3 dir = Vector3.zero;
+            if (ChaseHorizontal == true)//좌 우로
+            {
+                dir.x = diffPos.x > 0 ? 1 : -1;
+            }
+            else
+            {
+                dir.y = diffPos.y > 0 ? 1 : -1; 
+            }
+
+            transform.position += speed * Time.deltaTime * dir;
+
+            #region 이전코드
             //x,y좌표가 절대값으로 계산
-            if(Mathf.Abs(posX) > Mathf.Abs(posY))//x좌표가 더 클경우,Mathf.Abs() <-절대값으로 변환하는 코드
-            {
-                ChaseX = true;
-                ChaseY = false;
-            }
-            else if(Mathf.Abs(posX) < Mathf.Abs(posY))//y좌표가 더 클경우
-            {
-                ChaseX = false;
-                ChaseY = true;
-            }
+            //if (Mathf.Abs(posX) > 0.02)//x좌표가 더 클경우,Mathf.Abs() <-절대값으로 변환하는 코드
+            //{
+            //    ChaseX = true;
+            //    ChaseY = false;
+            //}
+            //else if(Mathf.Abs(posX) <= 0.02)//x좌표가 0이 될 경우 즉 좌우로 맞춰 이동 후 세로로 이동
+            //{
+            //    ChaseX = false;
+            //    ChaseY = true;
+            //}
 
-            if (pos.x < transform.position.x && ChaseX == true)//몬스터가 플레이어의 오른쪽에 있을경우 그리고 ChaseX가 true일 경우(대각선 방지)
-            {
-                ChaseY = false;
-                transform.position += new Vector3(-transform.position.x + 1 * speed, 0, 0) * Time.deltaTime;//몬스터의 자기 위치에서 Vector3의 x 값을 -1만큼 이동시키는 코드
-            }
-            else if(pos.x > transform.position.x && ChaseX == true)
-            {
-                ChaseY = false;
-                transform.position += new Vector3(transform.position.x + 1 * speed, 0, 0) * Time.deltaTime;
-            }
+            //if (pos.x < transform.position.x && ChaseX == true)//몬스터가 플레이어의 오른쪽에 있을경우 그리고 ChaseX가 true일 경우(대각선 방지)
+            //{
+            //    ChaseY = false;
+            //    transform.position += new Vector3(-transform.position.x + 1 * speed, 0, 0) * Time.deltaTime;//몬스터의 자기 위치에서 Vector3의 x 값을 -1만큼 이동시키는 코드
+            //}
+            //else if(pos.x > transform.position.x && ChaseX == true)
+            //{
+            //    ChaseY = false;
+            //    transform.position += new Vector3(transform.position.x + 1 * speed, 0, 0) * Time.deltaTime;
+            //}
 
-            if(pos.y < transform.position.y && ChaseY == true)
-            {
-                ChaseX = false;
-                transform.position += new Vector3(0, transform.position.y - 1 * speed, 0) * Time.deltaTime;
-            }
-            else if(pos.y > transform.position.y && ChaseY == true)
-            {
-                ChaseX = false;
-                transform.position += new Vector3(0, transform.position.x + 1 * speed, 0) * Time.deltaTime;
-            }
-            Debug.Log(speed);
+            //if(pos.y < transform.position.y && ChaseY == true)
+            //{
+            //    ChaseX = false;
+            //    transform.position += new Vector3(0, transform.position.y - 1 * speed, 0) * Time.deltaTime;
+            //}
+            //else if(pos.y > transform.position.y && ChaseY == true)
+            //{
+            //    ChaseX = false;
+            //    transform.position += new Vector3(0, transform.position.x + 1 * speed, 0) * Time.deltaTime;
+            //}
+            #endregion
         }
     }
 
@@ -120,4 +150,5 @@ public class MonsterMoving : MonoBehaviour
         //    transform.localScale = new Vector3(horizontals, 1, 1);
         //}
     }
+
 }
