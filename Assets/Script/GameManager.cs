@@ -21,6 +21,12 @@ public class GameManager : MonoBehaviour
         set { weaponcheck = value; }
     }
 
+    public HitboxMonster hitboxMonster
+    {
+        get { return hitboxMonster; }
+        set { hitboxMonster = value; }
+    }
+
 
 
     private void Awake()

@@ -8,6 +8,7 @@ public class HitboxMonster : MonoBehaviour
 
     [Header("몬스터 스펙")]
     [SerializeField] float attackdamage;//몬스터의 데미지
+    [SerializeField] bool monsterattack;//몬스터가 때렸는지 안때렸는지 확인
     [SerializeField] float GameHp = 1;//몬스터의 HP
     private float MaxHp;
     
