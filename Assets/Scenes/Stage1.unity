@@ -316,15 +316,19 @@ MonoBehaviour:
   Verposition: 0
   eulercheck: 0
   slowcheck: 0
+  Monsterattackcheck: 0
+  Monsterdamage: 0
+  invincibilitytime: 1
   arrowcheck: 0
   Hitgauge: 0
   countergagecheck: 0
   countertimercheck: 0
   counterHittimer: 3
   slowspeed: 3
+  play: {fileID: 99215251}
   playerspeed: 5
   Weapontype: 0
-  GameHP: 0
+  GameHP: 5
   magiccheck: 0
   magicgage: 5
   Xplayer: 0

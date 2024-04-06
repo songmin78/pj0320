@@ -91,11 +91,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parents: {fileID: 2312694002271663552}
-  attackdamage: 0
+  attackdamage: 1
   GameHp: 3
-  beatendamage: 0
-  Oncheckdamage: 0
-  weapondamage: 0
 --- !u!1 &2312694002271663552
 GameObject:
   m_ObjectHideFlags: 0

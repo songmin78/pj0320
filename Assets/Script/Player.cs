@@ -6,7 +6,6 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour
 {
-    Transform Attackbox;
 
     [Header("일반공격")]
     [SerializeField] GameObject arrow;
@@ -28,6 +27,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float Verposition = 0f;//무기 공격위치
     public int eulercheck =0;
     [SerializeField] bool slowcheck = false;
+    public bool Monsterattackcheck;//몬스터가 때렸는지 안때렸는지 확인
+    public float Monsterdamage;//몬스터가 플레이어를 공격할때 데미지
+    public float invincibilitytime = 1;//몬스터한테 공격받고 생기는 무적시간
+    private float Maxinvincibilitytime;
+
 
     [Header("카운터 기준")]
     [SerializeField] bool arrowcheck = false;
@@ -38,14 +42,15 @@ public class Player : MonoBehaviour
     private float maxcountertimer;
     [SerializeField] float slowspeed = 3;//근접L스킬이 끝나고 생기는 슬로우 지속 시간
     private float Maxslowspeed;
-    
+
 
     [Header("플레이어 정보")]
+    [SerializeField] GameObject play;//플레이어블 캐릭터
     [SerializeField] float playerspeed = 5f;//플레이어가 이동하는 속도
     [SerializeField] public int Weapontype;//무기 리스트
 
     [Header("플레이어의 능력치 설정")]
-    [SerializeField,Range(1,5)] int GameHP;//게임내 플레이어 체력
+    [SerializeField] int GameHP;//게임내 플레이어 체력
 
     [Header("무기 공격 관련 정보(마법)")]
     [SerializeField] bool magiccheck = false;//마법게이지가 닳는위한 확인
@@ -63,6 +68,27 @@ public class Player : MonoBehaviour
     [SerializeField] public float Xplayer;//x좌표 확인
     [SerializeField] public float Yplayer;//y좌표 확인
 
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    HitboxMonster hitboxmonster = collision.gameObject.GetComponent<HitboxMonster>();
+
+    //    if(hitboxmonster)
+    //    {
+    //        Monsterattackcheck = true;
+    //    }
+    //}
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        HitboxMonster hitboxmonster = collision.gameObject.GetComponent<HitboxMonster>();
+
+        if (hitboxmonster)
+        {
+            Monsterattackcheck = true;
+        }
+    }
+
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -70,6 +96,7 @@ public class Player : MonoBehaviour
         maxcountertimer = counterHittimer;//근접L지속시간
         Maxslowspeed = slowspeed;//자기 슬로우 지속시간
         Maxmagicgage = magicgage;//마법 게이지 최대 지속 시간
+        Maxinvincibilitytime = invincibilitytime;//무적 지속 시간
     }
 
     void Start()
@@ -93,6 +120,8 @@ public class Player : MonoBehaviour
         counterHit();//근접2스킬
 
         magichit();//마법 공격
+
+        playerhpcheck();//플레이어 HP 관리
 
     }
 
@@ -501,4 +530,34 @@ public class Player : MonoBehaviour
         Xplayer = transform.position.x;
         Yplayer = transform.position.y;
     }//플레이어좌표를 확인하는 코드(몬스터가 추적할때 쓰임)
+
+    private void playerhpcheck()//몬스터가 플레이어를 공격할때 플레이어가 맞는 코드
+    {
+        if(Monsterattackcheck == true)//플레이어에 몬스터가 접촉할때
+        {
+            Monsterdamage = GameManager.Instance.HitboxMonster.attackdamage;//몬스터 데미지를 받는다
+            if(Maxinvincibilitytime == 1)
+            {
+                MaxHP -= Monsterdamage;
+            }
+
+            if (MaxHP <= 0)
+            {
+                Destroy(play);
+            }
+            else if(MaxHP > 0)
+            {
+                //만약 플레이어 HP가 남으면 1초간 무적
+
+                Maxinvincibilitytime -= 1 * Time.deltaTime;
+
+                if (Maxinvincibilitytime <= 0)
+                {
+                    Maxinvincibilitytime = invincibilitytime;
+                    Monsterattackcheck = false;
+                }
+            }
+        }
+
+    }
 }

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     private Player player;
     private Weaponcheck weaponcheck;
+    private HitboxMonster hitboxMonster;
     public Player Player
     {
         get { return player; }
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
         set { weaponcheck = value; }
     }
 
-    public HitboxMonster hitboxMonster
+    public HitboxMonster HitboxMonster
     {
         get { return hitboxMonster; }
         set { hitboxMonster = value; }

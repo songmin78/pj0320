@@ -7,16 +7,15 @@ public class HitboxMonster : MonoBehaviour
     [SerializeField]GameObject parents;
 
     [Header("몬스터 스펙")]
-    [SerializeField] float attackdamage;//몬스터의 데미지
-    [SerializeField] bool monsterattack;//몬스터가 때렸는지 안때렸는지 확인
+    [SerializeField] public float attackdamage;//몬스터의 데미지
     [SerializeField] float GameHp = 1;//몬스터의 HP
     private float MaxHp;
     
 
     [Header("공격 여부")]
-    [SerializeField] bool beatendamage = false;
-    [SerializeField] bool Oncheckdamage = false;
-    [SerializeField] float weapondamage = 0;
+    bool beatendamage = false;
+    bool Oncheckdamage = false;
+    float weapondamage = 0;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,6 +30,10 @@ public class HitboxMonster : MonoBehaviour
     private void Awake()
     {
         MaxHp = GameHp;
+    }
+    private void Start()
+    {
+        GameManager.Instance.HitboxMonster = this;
     }
 
     void Update()
