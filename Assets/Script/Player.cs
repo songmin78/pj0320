@@ -535,29 +535,38 @@ public class Player : MonoBehaviour
     {
         if(Monsterattackcheck == true)//플레이어에 몬스터가 접촉할때
         {
-            Monsterdamage = GameManager.Instance.HitboxMonster.attackdamage;//몬스터 데미지를 받는다
-            if(Maxinvincibilitytime == 1)
+            if (GameManager.Instance.Buttonmanager.Cheatcheck == true)
             {
-                MaxHP -= Monsterdamage;
+                MaxHP -= 0;
             }
-
-            if (MaxHP <= 0)
+            else
             {
-                Destroy(play);
-            }
-            else if(MaxHP > 0)
-            {
-                //만약 플레이어 HP가 남으면 1초간 무적
-
-                Maxinvincibilitytime -= 1 * Time.deltaTime;
-
-                if (Maxinvincibilitytime <= 0)
+                Monsterdamage = GameManager.Instance.HitboxMonster.attackdamage;//몬스터 데미지를 받는다
+                if (Maxinvincibilitytime == 1)
                 {
-                    Maxinvincibilitytime = invincibilitytime;
-                    Monsterattackcheck = false;
+                    MaxHP -= Monsterdamage;
+                }
+
+                if (MaxHP <= 0)
+                {
+                    Destroy(play);
+                }
+                else if (MaxHP > 0)
+                {
+                    //만약 플레이어 HP가 남으면 1초간 무적
+
+                    Maxinvincibilitytime -= 1 * Time.deltaTime;
+
+                    if (Maxinvincibilitytime <= 0)
+                    {
+                        Maxinvincibilitytime = invincibilitytime;
+                        Monsterattackcheck = false;
+                    }
                 }
             }
         }
-
     }
+
+
+
 }
