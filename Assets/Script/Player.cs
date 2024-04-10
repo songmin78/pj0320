@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     public float Monsterdamage;//몬스터가 플레이어를 공격할때 데미지
     public float invincibilitytime = 1;//몬스터한테 공격받고 생기는 무적시간
     private float Maxinvincibilitytime;
+    [SerializeField] bool attackstandard;//공격을 할때 똑같은 무기가 안나오는걸 확해주는 것
 
 
     [Header("카운터 기준")]
@@ -177,20 +178,18 @@ public class Player : MonoBehaviour
                     Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
                     weaponcheck_2.Counterdamage(Weapontype, eulercheck);
                     return;
-                    
                 }
-
+                else if (Weapontype == 1)
+                {
+                    return;
+                }
+                else if (Weapontype == 2)//마법공격일 경우
+                {
+                    return;
+                }
+                Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
+                weaponcheck.Attackdamage(Weapontype, eulercheck);
             }
-            else if(Weapontype == 1)
-            {
-                return;
-            }
-            else if(Weapontype == 2)//마법공격일 경우
-            {
-                return;
-            }
-            Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
-            weaponcheck.Attackdamage(Weapontype, eulercheck);
         }//일반 공격
 
         if(Input.GetKeyDown(KeyCode.L))//카운터 공격
@@ -395,6 +394,7 @@ public class Player : MonoBehaviour
             GameObject go = null;
             if (Weapontype == 1)//근접일 경우
             {
+                attackstandard = true;
                 if (Hitgauge >= 1)
                 {
                     if (countertimercheck != true)
@@ -435,6 +435,7 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.K))//눌렀을때 마법공격을 계속함
             {
+                animator.SetBool("check", true);
                 GameObject go = null;
                 magiccheck = true;
 
@@ -447,6 +448,7 @@ public class Player : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.K))//키를 땠을때 마법공격을 그만함
             {
+                animator.SetBool("check", false);
                 magiccheck = false;
             }
 
@@ -467,6 +469,9 @@ public class Player : MonoBehaviour
                 }
             }
         }
+
+        //플레이어를 쫓아가면서 공격을 하게 해야됨->플레이어에 손을 만들어 넣고 그 손에 오브젝트를 넣으면 쫓아가도록 할수있나? -> 된다면 방향을 어떻게 처리... <- 근접무기에도 포함
+        //애니메이션을 반복하는 구간을 만들어야함
     }
 
     private void counterHit()//근접 2스킬 시간 코드
