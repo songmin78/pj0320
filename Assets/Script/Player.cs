@@ -435,7 +435,8 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.K))//눌렀을때 마법공격을 계속함
             {
-                animator.SetBool("check", true);
+                attackstandard = true;
+                animator.SetBool("check", attackstandard);
                 GameObject go = null;
                 magiccheck = true;
 
@@ -448,7 +449,8 @@ public class Player : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.K))//키를 땠을때 마법공격을 그만함
             {
-                animator.SetBool("check", false);
+                attackstandard = false;
+                animator.SetBool("check", attackstandard);
                 magiccheck = false;
             }
 
