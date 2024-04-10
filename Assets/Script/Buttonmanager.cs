@@ -58,6 +58,8 @@ public class Buttonmanager : MonoBehaviour
         ExitLobbyButton.onClick.AddListener(() =>//게임 종료 버튼
         {
             SceneManager.LoadSceneAsync(0);//Scene(0) 즉 로비화면으로 이동
+            UnityEditor.EditorApplication.isPlaying = false;
+            Application.Quit();//게임 종료
         });
     }
 

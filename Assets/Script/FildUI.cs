@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FildUI : MonoBehaviour
 {
@@ -45,9 +46,9 @@ public class FildUI : MonoBehaviour
 
     private void nextStage()
     {
-        if(passcheck == true || Input.GetKeyDown(KeyCode.F))
+        if(passcheck == true && Input.GetKeyDown(KeyCode.F))
         {
-
+            SceneManager.LoadSceneAsync(3);
         }
     }
 }
