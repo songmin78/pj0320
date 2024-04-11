@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weaponcheck : MonoBehaviour
 {
+    Animator animator;
     [Header("기타 관리")]
     [SerializeField] float speed = 1.0f;//무기 공격 속도
     [SerializeField] float Xposition;//시작 x좌표
@@ -23,7 +24,23 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] bool punch = false;//근접무기것을 확인
     [SerializeField] bool magic = false;//마법인것을 확인
     [SerializeField] bool Ctmagic = false;//마법 카운터(일반공격과 다른 메커니즘으로 오류가 생겨서 따로 만즘)
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(Ctmagic == true)
+        {
+            if (collision.gameObject.tag == "Monster")
+            {
+                Destroy(Typeweapon);
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     void Start()
     {
         startattack();
@@ -135,8 +152,10 @@ public class Weaponcheck : MonoBehaviour
         }
         else if(magic == true)
         {
-            if(GameManager.Instance.Player.MagicCheck == false)
+            animator.SetBool("check", true);
+            if (GameManager.Instance.Player.MagicCheck == false)
             {
+                animator.SetBool("check", false);
                 Destroy(Typeweapon);
             }
         }

@@ -32,7 +32,12 @@ public class Player : MonoBehaviour
     public float Monsterdamage;//몬스터가 플레이어를 공격할때 데미지
     public float invincibilitytime = 1;//몬스터한테 공격받고 생기는 무적시간
     private float Maxinvincibilitytime;
-    [SerializeField] bool attackstandard;//공격을 할때 똑같은 무기가 안나오는걸 확해주는 것
+    [SerializeField] public bool attackstandard;//공격을 할때 똑같은 무기가 안나오는걸 확해주는 것
+    [SerializeField] bool ctattackstandard;//카운터무기 체크
+    [SerializeField] float attacktimer;//무기 재 사용시간 설정
+    [SerializeField] float ctattacktimer;//카운터무기 재 사용시간 설정
+    private float Maxattacktimer;
+    private float CtMaxattacktimer;
 
 
     [Header("카운터 기준")]
@@ -69,6 +74,8 @@ public class Player : MonoBehaviour
     [Header("좌표확인 관련")] 
     [SerializeField] public float Xplayer;//x좌표 확인
     [SerializeField] public float Yplayer;//y좌표 확인
+
+    [SerializeField] Transform trsHands;
 
     //private void OnTriggerEnter2D(Collider2D collision)
     //{
@@ -123,7 +130,10 @@ public class Player : MonoBehaviour
 
         magichit();//마법 공격
 
+        weaponattacktimer();//각 무기 쿨타임 관리
+
         playerhpcheck();//플레이어 HP 관리
+
 
     }
 
@@ -164,18 +174,25 @@ public class Player : MonoBehaviour
 
             if (Weapontype == 0)//원거리(활)일경우
             {
-                if(arrowcheck == false)
+                if(arrowcheck == false && attackstandard == false)
                 {
                     go = Instantiate(arrow);//화살을 소환
                     go.transform.eulerAngles = new Vector3(0, 0, Checkchange);//방향에 맞춰 발사
                     go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기보다 앞에서 발사
+                    attackstandard = true;
+                    
                 }
-                else if( arrowcheck == true)
+                else if( arrowcheck == true && ctattackstandard == false)
                 {
                     go = Instantiate(ctArrow);//화살을 소환
                     go.transform.eulerAngles = new Vector3(0, 0, Checkchange);//방향에 맞춰 발사
                     go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기보다 앞에서 발사
+                    ctattackstandard = true;
 
+                    if(ctattackstandard == true)
+                    {
+                        return;
+                    }
                     Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
                     weaponcheck_2.Counterdamage(Weapontype, eulercheck);
                     return;
@@ -185,6 +202,10 @@ public class Player : MonoBehaviour
                     return;
                 }
                 else if (Weapontype == 2)//마법공격일 경우
+                {
+                    return;
+                }
+                if(attackstandard == true)
                 {
                     return;
                 }
@@ -274,7 +295,7 @@ public class Player : MonoBehaviour
             else if(Weapontype == 2)
             {
                 Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
-                Checkchange = 90;//회전 값
+                Checkchange = 270;//회전 값
                 Verposition = 1f;//위 아래 체크
                 Horposition = 0;//좌우 체크
                 eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
@@ -302,7 +323,7 @@ public class Player : MonoBehaviour
             else if(Weapontype == 2)
             {
                 Yeulerchange = 0;
-                Checkchange = 270;
+                Checkchange = 90;
                 Verposition = -1f;
                 Horposition = 0;
                 eulercheck = 0;
@@ -357,7 +378,7 @@ public class Player : MonoBehaviour
             else if(Weapontype == 2)
             {
                 Yeulerchange = 0;
-                Checkchange = 180;
+                Checkchange = 0;
                 Horposition = -0.9f;
                 Verposition = 0;
                 eulercheck = 0;
@@ -402,17 +423,17 @@ public class Player : MonoBehaviour
                     {
                         Hitgauge = 0;//카운터 게이지를 초기화
                     }
-                    go = Instantiate(ctSword);//카운터 무기를 소환
+                    go = Instantiate(ctSword, trsHands);//카운터 무기를 소환
                     go.transform.eulerAngles = new Vector3(0, Yeulerchange, Checkchange);//바라보고있는 방향으로 공격
                     go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기위치보다 앞에서 소환
                     Debug.Log("풀차징");
-
                     Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
                     weaponcheck_2.Counterdamage(Weapontype, eulercheck);
                     return;
                 }
                 else if (Hitgauge != 0)
                 {
+                    attackstandard = true;
                     Hitgauge = 0;
                     go = Instantiate(sword);
                     go.transform.eulerAngles = new Vector3(0, Yeulerchange, Checkchange);
@@ -439,7 +460,8 @@ public class Player : MonoBehaviour
                 GameObject go = null;
                 magiccheck = true;
 
-                go = Instantiate(magic);
+
+                go = Instantiate(magic, trsHands);
                 go.transform.eulerAngles = new Vector3(0, 0, Checkchange);//방향에 맞춰 발사
                 go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기보다 앞에서 발사
 
@@ -448,7 +470,6 @@ public class Player : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.K))//키를 땠을때 마법공격을 그만함
             {
-                animator.SetBool("check", attackstandard);
                 magiccheck = false;
             }
 
@@ -471,7 +492,7 @@ public class Player : MonoBehaviour
         }
 
         //플레이어를 쫓아가면서 공격을 하게 해야됨->플레이어에 손을 만들어 넣고 그 손에 오브젝트를 넣으면 쫓아가도록 할수있나? -> 된다면 방향을 어떻게 처리... <- 근접무기에도 포함
-        //애니메이션을 반복하는 구간을 만들어야함
+        //애니메이션을 반복하는 구간을 만들어야함 /끝
     }
 
     private void counterHit()//근접 2스킬 시간 코드
@@ -573,6 +594,58 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void weaponattacktimer()//각각 무기마다 쿨타임을 부여
+    {
+        //공격을 할때 attackstandard를 true로 만든 다음 true가 될시 weaponcheck에 등록된 것에 따라 attacktimer에 부여 이후  attacktimer에서 바로 뺀다
+        if (attackstandard == true)
+        {
+            Maxattacktimer = 0;
+            if (Weapontype == 0)
+            {
+                attacktimer = 0.3f;
+                if(Maxattacktimer <= 0)
+                {
+                    Maxattacktimer = attacktimer;
+                }
+                Maxattacktimer -= 1 * Time.deltaTime;
+            }
+            else if(Weapontype == 1)
+            {
+                attacktimer = 0.7f;
+                attacktimer -= 1 * Time.deltaTime;
+            }
+            if(Maxattacktimer <= 0)
+            {
+                attackstandard = false;
+            }
 
+            Debug.Log(Maxattacktimer);
+        }
+
+        if(ctattackstandard == true)
+        {
+            if(Weapontype == 0)
+            {
+                ctattacktimer = 1f;
+                CtMaxattacktimer = ctattacktimer;
+                CtMaxattacktimer -= 1 * Time.deltaTime;
+            }
+            else if(Weapontype == 1)
+            {
+                ctattacktimer = 0.7f;
+                ctattacktimer -= Time.deltaTime;
+            }
+            else if(Weapontype == 2)
+            {
+                ctattacktimer = 1.2f;
+                ctattacktimer -= Time.deltaTime;
+            }
+
+            if(CtMaxattacktimer <= 0)
+            {
+                ctattackstandard = false;
+            }
+        }
+    }
 
 }

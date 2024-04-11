@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7143725183416311024}
   - component: {fileID: 6913918847609317719}
   - component: {fileID: 2580326223183242369}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,9 +107,9 @@ GameObject:
   - component: {fileID: 9123466482149575391}
   - component: {fileID: 258519545495597216}
   - component: {fileID: 594568276894411471}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Monster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
