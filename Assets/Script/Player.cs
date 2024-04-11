@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour
     [Header("기타")]
     [SerializeField] float horizontals;
     [SerializeField] float verticals;
-    private float MaxHP;
+    public float MaxHP;
     [SerializeField] float Checkchange = 0;//무기 회전 방향
     [SerializeField] float Yeulerchange = 0;//무기 방향을 조정하기 0 <-> -180
     [SerializeField] private float Horposition = 0f;//무기 공격위치
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour
     [SerializeField] public int Weapontype;//무기 리스트
 
     [Header("플레이어의 능력치 설정")]
-    [SerializeField] int GameHP;//게임내 플레이어 체력
+    [SerializeField,Range(1,3)] int GameHP;//게임내 플레이어 체력
 
     [Header("무기 공격 관련 정보(마법)")]
     [SerializeField] bool magiccheck = false;//마법게이지가 닳는위한 확인
@@ -435,8 +436,6 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.K))//눌렀을때 마법공격을 계속함
             {
-                attackstandard = true;
-                animator.SetBool("check", attackstandard);
                 GameObject go = null;
                 magiccheck = true;
 
@@ -449,7 +448,6 @@ public class Player : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.K))//키를 땠을때 마법공격을 그만함
             {
-                attackstandard = false;
                 animator.SetBool("check", attackstandard);
                 magiccheck = false;
             }
@@ -545,6 +543,7 @@ public class Player : MonoBehaviour
             if (GameManager.Instance.Buttonmanager.Cheatcheck == true)
             {
                 MaxHP -= 0;
+                Monsterattackcheck = false;
             }
             else
             {
