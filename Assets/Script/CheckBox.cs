@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class CheckBox : MonoBehaviour
 {
+    public float waycheck = 0;
+
+
+    private void Start()
+    {
+        GameManager.Instance.CheckBox = this;
+    }
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.W))
@@ -12,6 +20,8 @@ public class CheckBox : MonoBehaviour
             transform.GetChild(2).gameObject.SetActive(false);
 
             transform.GetChild(0).gameObject.SetActive(true);
+
+            waycheck = 0;//위를 바라볼때
         }
         else if(Input.GetKeyDown(KeyCode.A))
         {
@@ -19,6 +29,8 @@ public class CheckBox : MonoBehaviour
             transform.GetChild(2).gameObject.SetActive(false);
 
             transform.GetChild(1).gameObject.SetActive(true);
+
+            waycheck = 3;//왼쪽
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
@@ -26,6 +38,8 @@ public class CheckBox : MonoBehaviour
             transform.GetChild(2).gameObject.SetActive(false);
 
             transform.GetChild(1).gameObject.SetActive(true);
+
+            waycheck = 1;//오른쪽
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
@@ -33,6 +47,8 @@ public class CheckBox : MonoBehaviour
             transform.GetChild(1).gameObject.SetActive(false);
 
             transform.GetChild(2).gameObject.SetActive(true);
+
+            waycheck = 2;//아래쪽
         }
     }
 }

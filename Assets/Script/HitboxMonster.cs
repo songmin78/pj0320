@@ -18,6 +18,9 @@ public class HitboxMonster : MonoBehaviour
     bool Oncheckdamage = false;
     float weapondamage = 0;
 
+    [Header("기타")]
+    [SerializeField] bool magicchek = false;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Weaponcheck weapon = collision.gameObject.GetComponent<Weaponcheck>();//무기 gameobject가 몬스터 collision에 닿을때 
@@ -25,8 +28,28 @@ public class HitboxMonster : MonoBehaviour
         if(weapon)
         {
             beatendamage = true;
+            if(GameManager.Instance.Weaponcheck.magic == true)
+            {
+                magicchek = true;
+            }
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Weaponcheck weapon = collision.gameObject.GetComponent<Weaponcheck>();//무기 gameobject가 몬스터 collision에 닿을때 
+
+        if (weapon)
+        {
+            if (GameManager.Instance.Weaponcheck.magic == false)
+            {
+                magicchek = false ;
+            }
+        }
+    }
+
+    //만약에 magic이 true일때 만나면 어떤값을 true 이후에 update에서 어떤값이 true일때 데미지를 입고 0.?초간 무적 이후에 또 피해를 입는다.
+
 
     private void Awake()
     {

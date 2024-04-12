@@ -22,7 +22,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] public float AttackdamageMax = 1f;//무기 데미지
     [SerializeField] bool arrow = false;//화살인것을 확인
     [SerializeField] bool punch = false;//근접무기것을 확인
-    [SerializeField] bool magic = false;//마법인것을 확인
+    [SerializeField] public bool magic = false;//마법인것을 확인
     [SerializeField] bool Ctmagic = false;//마법 카운터(일반공격과 다른 메커니즘으로 오류가 생겨서 따로 만즘)
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -177,7 +177,7 @@ public class Weaponcheck : MonoBehaviour
     /// <summary>
     /// eluercheck-> 1=> 위쪽,2 => 왼쪽, 3=> 오른쪽, 4=> 아래쪽 
     /// </summary>
-    private void eulerchange()//공격하는 방향에 맞춰 회전하는 코드
+    private void eulerchange()//공격하는 방향에 맞춰 회전하는 코드//근접 무기에만 해당
     {
         if(eulercheck == 1)
         {

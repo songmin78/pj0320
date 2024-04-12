@@ -48,6 +48,8 @@ public class FildUI : MonoBehaviour
     {
         if(passcheck == true && Input.GetKeyDown(KeyCode.F))
         {
+            DontDestroyOnLoad(GameManager.Instance.Player);
+            DontDestroyOnLoad(Camera.main);
             SceneManager.LoadSceneAsync(3);
         }
     }

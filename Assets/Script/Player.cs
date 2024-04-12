@@ -36,8 +36,9 @@ public class Player : MonoBehaviour
     [SerializeField] bool ctattackstandard;//카운터무기 체크
     [SerializeField] float attacktimer;//무기 재 사용시간 설정
     [SerializeField] float ctattacktimer;//카운터무기 재 사용시간 설정
-    private float Maxattacktimer;
-    private float CtMaxattacktimer;
+    bool timerattack;
+    bool cttimerattack;
+    private float wayattack;//바라보고있는 방향 체크
 
 
     [Header("카운터 기준")]
@@ -120,6 +121,7 @@ public class Player : MonoBehaviour
         move();//이동
         Anim();//이동애니메이션
         playerposition();//플레이어위치를 실시간으로 확인
+        turnway();//무기 공격 방향 체크
         WeaponChange();//무기 체인지
 
         bowattack();//원거리 공격
@@ -152,7 +154,7 @@ public class Player : MonoBehaviour
             horizontals = 0;
         }
         transform.position += new Vector3(horizontals * playerspeed, verticals * playerspeed, 0) * Time.deltaTime;
-        Changecheck();
+        //Changecheck();
         magiccounter();//마법 카운터 코드
     }//이동코드
     private void Anim()//이동 애니메이션 코드
@@ -209,6 +211,10 @@ public class Player : MonoBehaviour
                 {
                     return;
                 }
+                if(ctattackstandard == true)
+                {
+                    return;
+                }
                 Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
                 weaponcheck.Attackdamage(Weapontype, eulercheck);
             }
@@ -229,19 +235,25 @@ public class Player : MonoBehaviour
                 }
                 return;
             }
-            else if (Weapontype == 1)//근접일 경우
+            else if (Weapontype == 1 && ctattackstandard == false)//근접일 경우
             {
                 Hitgauge = 1;
                 countertimercheck = true;
+                ctattackstandard = true;
 
                 return;
                 //count = Instantiate(sword);
             }
-            else if (Weapontype == 2)//마법공격일 경우
+            else if (Weapontype == 2 && ctattackstandard == false)//마법공격일 경우
             {
+                ctattackstandard = true;
                 count = Instantiate(ctMagic);//마법을 들여옴
                 count.transform.eulerAngles = new Vector3(0, 0, CtCheckchange);//방향에 맞춰 공격
                 count.transform.position = transform.position + new Vector3(CtHorposition, CtVerposition, 0);//자기보다 앞에서 발사
+            }
+            if(ctattackstandard == true)
+            {
+                return;
             }
             Weaponcheck weaponcheck = count.GetComponent<Weaponcheck>();
             weaponcheck.Counterdamage(Weapontype, eulercheck);
@@ -272,119 +284,119 @@ public class Player : MonoBehaviour
         }
     }//무기 교환 코드
 
-    public void Changecheck()//공격방향을 알려주는 코드
-    {
-        if(verticals == 1)//위쪽을 가르킬때
-        {
-            if(Weapontype == 0)//활일 경우
-            {
-                Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
-                Checkchange = 0;//회전 값
-                Verposition = 0.5f;//위 아래 체크
-                Horposition = 0;//좌우 체크
-                eulercheck = 1;//바라보는 방향 체크 -> 0은 없음
-            }//활
-            else if(Weapontype == 1)//칼일 경우
-            {
-                Yeulerchange = 0;
-                Checkchange = 90;
-                Verposition = 0.15f;
-                Verposition = 0.1f;
-                eulercheck = 1;//1은 위쪽방향
-            }
-            else if(Weapontype == 2)
-            {
-                Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
-                Checkchange = 270;//회전 값
-                Verposition = 1f;//위 아래 체크
-                Horposition = 0;//좌우 체크
-                eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
-            }
+    //public void Changecheck()//공격방향을 알려주는 코드
+    //{
+    //    if(verticals == 1)//위쪽을 가르킬때
+    //    {
+    //        if(Weapontype == 0)//활일 경우
+    //        {
+    //            Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
+    //            Checkchange = 0;//회전 값
+    //            Verposition = 0.5f;//위 아래 체크
+    //            Horposition = 0;//좌우 체크
+    //            eulercheck = 1;//바라보는 방향 체크 -> 0은 없음
+    //        }//활
+    //        else if(Weapontype == 1)//칼일 경우
+    //        {
+    //            Yeulerchange = 0;
+    //            Checkchange = 90;
+    //            Verposition = 0.15f;
+    //            Verposition = 0.1f;
+    //            eulercheck = 1;//1은 위쪽방향
+    //        }
+    //        else if(Weapontype == 2)
+    //        {
+    //            Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
+    //            Checkchange = 270;//회전 값
+    //            Verposition = 1f;//위 아래 체크
+    //            Horposition = 0;//좌우 체크
+    //            eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+    //        }
 
-        }
-        else if(verticals == -1)//아래쪽을 가르킬때
-        {
-            if(Weapontype == 0)
-            {
-                Yeulerchange = 0;
-                Checkchange = 180;
-                Verposition = -0.5f;
-                Horposition = 0;
-                eulercheck = 4;//바라보는 방향 체크 -> 0은 없음
-            }//활
-            else if(Weapontype == 1)
-            {
-                Yeulerchange = -180;
-                Checkchange = -90;
-                Verposition = 0.15f;
-                Verposition = 0.1f;
-                eulercheck = 4;//4는 아랫방향
-            }
-            else if(Weapontype == 2)
-            {
-                Yeulerchange = 0;
-                Checkchange = 90;
-                Verposition = -1f;
-                Horposition = 0;
-                eulercheck = 0;
-            }
-        }
+    //    }
+    //    else if(verticals == -1)//아래쪽을 가르킬때
+    //    {
+    //        if(Weapontype == 0)
+    //        {
+    //            Yeulerchange = 0;
+    //            Checkchange = 180;
+    //            Verposition = -0.5f;
+    //            Horposition = 0;
+    //            eulercheck = 4;//바라보는 방향 체크 -> 0은 없음
+    //        }//활
+    //        else if(Weapontype == 1)
+    //        {
+    //            Yeulerchange = -180;
+    //            Checkchange = -90;
+    //            Verposition = 0.15f;
+    //            Verposition = 0.1f;
+    //            eulercheck = 4;//4는 아랫방향
+    //        }
+    //        else if(Weapontype == 2)
+    //        {
+    //            Yeulerchange = 0;
+    //            Checkchange = 90;
+    //            Verposition = -1f;
+    //            Horposition = 0;
+    //            eulercheck = 0;
+    //        }
+    //    }
 
-        if (horizontals == 1)//오른쪽을 가르킬때
-        {
-            if(Weapontype == 0)
-            {
-                Yeulerchange = 0;
-                Checkchange = 270;
-                Horposition = 0.5f;
-                Verposition = 0;
-                eulercheck = 3;//바라보는 방향 체크 -> 0은 없음
-            }//활
-            else if (Weapontype == 1)//근접 무기일 경우
-            {
-                Yeulerchange = 0;
-                Checkchange = 0;
-                Horposition = 0.15f;
-                Verposition = -0.1f;
-                eulercheck = 3;//3은 오른쪽 방향
-            }
-            else if(Weapontype == 2)
-            {
-                Yeulerchange = 0;
-                Checkchange = 0;
-                Horposition = 0.9f;
-                Verposition = 0;
-                eulercheck = 0;
-            }
-        }
-        else if(horizontals == -1)//왼쪽을 가르킬때
-        {
-            if(Weapontype == 0)
-            {
-                Yeulerchange = 0;
-                Checkchange = 90;
-                Horposition = -0.5f;
-                Verposition = 0;
-                eulercheck = 2;//바라보는 방향 체크 -> 0은 없음
-            }//활
-            else if (Weapontype == 1)//근접 무기일 경우
-            {
-                Yeulerchange = -180;
-                Checkchange = -90;
-                Horposition = -0.15f;
-                Verposition = -0.1f;
-                eulercheck = 2;//2는 왼쪽 방향
-            }
-            else if(Weapontype == 2)
-            {
-                Yeulerchange = 0;
-                Checkchange = 0;
-                Horposition = -0.9f;
-                Verposition = 0;
-                eulercheck = 0;
-            }
-        }
-    }
+    //    if (horizontals == 1)//오른쪽을 가르킬때
+    //    {
+    //        if(Weapontype == 0)
+    //        {
+    //            Yeulerchange = 0;
+    //            Checkchange = 270;
+    //            Horposition = 0.5f;
+    //            Verposition = 0;
+    //            eulercheck = 3;//바라보는 방향 체크 -> 0은 없음
+    //        }//활
+    //        else if (Weapontype == 1)//근접 무기일 경우
+    //        {
+    //            Yeulerchange = 0;
+    //            Checkchange = 0;
+    //            Horposition = 0.15f;
+    //            Verposition = -0.1f;
+    //            eulercheck = 3;//3은 오른쪽 방향
+    //        }
+    //        else if(Weapontype == 2)
+    //        {
+    //            Yeulerchange = 0;
+    //            Checkchange = 0;
+    //            Horposition = 0.9f;
+    //            Verposition = 0;
+    //            eulercheck = 0;
+    //        }
+    //    }
+    //    else if(horizontals == -1)//왼쪽을 가르킬때
+    //    {
+    //        if(Weapontype == 0)
+    //        {
+    //            Yeulerchange = 0;
+    //            Checkchange = 90;
+    //            Horposition = -0.5f;
+    //            Verposition = 0;
+    //            eulercheck = 2;//바라보는 방향 체크 -> 0은 없음
+    //        }//활
+    //        else if (Weapontype == 1)//근접 무기일 경우
+    //        {
+    //            Yeulerchange = -180;
+    //            Checkchange = -90;
+    //            Horposition = -0.15f;
+    //            Verposition = -0.1f;
+    //            eulercheck = 2;//2는 왼쪽 방향
+    //        }
+    //        else if(Weapontype == 2)
+    //        {
+    //            Yeulerchange = 0;
+    //            Checkchange = 0;
+    //            Horposition = -0.9f;
+    //            Verposition = 0;
+    //            eulercheck = 0;
+    //        }
+    //    }
+    //}
 
     private void countergage()//일반 공격할때 게이지
     {
@@ -414,7 +426,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.K))//근접무기일경우에 발동하는 코드
         {
             GameObject go = null;
-            if (Weapontype == 1)//근접일 경우
+            if (Weapontype == 1 && attackstandard == false)//근접일 경우
             {
                 attackstandard = true;
                 if (Hitgauge >= 1)
@@ -431,7 +443,7 @@ public class Player : MonoBehaviour
                     weaponcheck_2.Counterdamage(Weapontype, eulercheck);
                     return;
                 }
-                else if (Hitgauge != 0)
+                else if (Hitgauge != 0)//게이지를 다 못채운채로 공격 할 경우
                 {
                     attackstandard = true;
                     Hitgauge = 0;
@@ -597,55 +609,176 @@ public class Player : MonoBehaviour
     private void weaponattacktimer()//각각 무기마다 쿨타임을 부여
     {
         //공격을 할때 attackstandard를 true로 만든 다음 true가 될시 weaponcheck에 등록된 것에 따라 attacktimer에 부여 이후  attacktimer에서 바로 뺀다
-        if (attackstandard == true)
+        if (attackstandard == true)//무기공격키를 누르면 true가 됨
         {
-            Maxattacktimer = 0;
-            if (Weapontype == 0)
+            if (Weapontype == 0)//원거리 1스킬일 경우
             {
-                attacktimer = 0.3f;
-                if(Maxattacktimer <= 0)
+                if (timerattack == false)//들어올때 한번만 실행하도록 만듬
                 {
-                    Maxattacktimer = attacktimer;
+                    attacktimer = 0.15f;
+                    timerattack = true;
                 }
-                Maxattacktimer -= 1 * Time.deltaTime;
+                attacktimer -= Time.deltaTime;
+                if (attacktimer <= 0)//쿨타임이 다 돌면 실행
+                {
+                    timerattack = false;
+                    attackstandard = false;
+                }
             }
             else if(Weapontype == 1)
             {
-                attacktimer = 0.7f;
-                attacktimer -= 1 * Time.deltaTime;
+                if (timerattack == false && attacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
+                {
+                    attacktimer = 0.7f;
+                    timerattack = true;
+                }
+                attacktimer -= Time.deltaTime;
+                if (attacktimer <= 0)//쿨타임이 다 돌면 실행
+                {
+                    timerattack = false;
+                    attackstandard = false;
+                    Debug.Log("초기화");
+                }
             }
-            if(Maxattacktimer <= 0)
-            {
-                attackstandard = false;
-            }
-
-            Debug.Log(Maxattacktimer);
         }
 
         if(ctattackstandard == true)
         {
             if(Weapontype == 0)
             {
-                ctattacktimer = 1f;
-                CtMaxattacktimer = ctattacktimer;
-                CtMaxattacktimer -= 1 * Time.deltaTime;
+                if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
+                {
+                    ctattacktimer = 0.5f;
+                    cttimerattack = true;
+                }
+                ctattacktimer -= Time.deltaTime;
+                if (ctattacktimer <= 0)//쿨타임이 다 돌면 실행
+                {
+                    cttimerattack = false;
+                    ctattackstandard = false;
+                    Debug.Log("카운터 초기화");
+                }
             }
             else if(Weapontype == 1)
             {
-                ctattacktimer = 0.7f;
+                if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
+                {
+                    ctattacktimer = 10f;
+                    cttimerattack = true;
+                }
                 ctattacktimer -= Time.deltaTime;
+                if (ctattacktimer <= 0)//쿨타임이 다 돌면 실행
+                {
+                    cttimerattack = false;
+                    ctattackstandard = false;
+                    Debug.Log("카운터 초기화");
+                }
             }
             else if(Weapontype == 2)
             {
-                ctattacktimer = 1.2f;
+                if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
+                {
+                    ctattacktimer = 0.5f;
+                    cttimerattack = true;
+                }
                 ctattacktimer -= Time.deltaTime;
-            }
-
-            if(CtMaxattacktimer <= 0)
-            {
-                ctattackstandard = false;
+                if (ctattacktimer <= 0)//쿨타임이 다 돌면 실행
+                {
+                    cttimerattack = false;
+                    ctattackstandard = false;
+                    Debug.Log("카운터 초기화");
+                }
             }
         }
     }
+
+
+    //동생에 있는 움직일때마다 바뀌는 방향을 기준으로 공격방향을 설정
+    /// <summary>
+    /// 0 => 위쪽, 1=> 오른쪽, 2=> 아래쪽, 3=> 왼쪽
+    /// </summary>
+    private void turnway()
+    {
+        wayattack = GameManager.Instance.CheckBox.waycheck;
+        if(wayattack == 0)
+        {
+            if (Weapontype == 0)//활일 경우
+            {
+                Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
+                Checkchange = 0;//회전 값
+                Verposition = 0.5f;//위 아래 체크
+                Horposition = 0;//좌우 체크
+                eulercheck = 1;//바라보는 방향 체크 -> 0은 없음
+            }//활
+            else if (Weapontype == 2)
+            {
+                Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
+                Checkchange = 270;//회전 값
+                Verposition = 1f;//위 아래 체크
+                Horposition = 0;//좌우 체크
+                eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+            }
+        }
+        else if(wayattack == 1)//오른쪽
+        {
+            if (Weapontype == 0)
+            {
+                Yeulerchange = 0;
+                Checkchange = 270;
+                Horposition = 0.5f;
+                Verposition = 0;
+                eulercheck = 3;//바라보는 방향 체크 -> 0은 없음
+            }//활
+            else if (Weapontype == 2)
+            {
+                Yeulerchange = 0;
+                Checkchange = 0;
+                Horposition = 0.9f;
+                Verposition = 0;
+                eulercheck = 0;
+            }
+        }
+        else if(wayattack == 2)//아래쪽
+        {
+            if (Weapontype == 0)
+            {
+                Yeulerchange = 0;
+                Checkchange = 180;
+                Verposition = -0.5f;
+                Horposition = 0;
+                eulercheck = 4;//바라보는 방향 체크 -> 0은 없음
+            }//활
+            else if (Weapontype == 2)
+            {
+                Yeulerchange = 0;
+                Checkchange = 90;
+                Verposition = -1f;
+                Horposition = 0;
+                eulercheck = 0;
+            }
+        }
+        else if (wayattack == 3)//왼쪽
+        {
+            if (Weapontype == 0)
+            {
+                Yeulerchange = 0;
+                Checkchange = 90;
+                Horposition = -0.5f;
+                Verposition = 0;
+                eulercheck = 2;//바라보는 방향 체크 -> 0은 없음
+            }//활
+            else if (Weapontype == 2)
+            {
+                Yeulerchange = 0;
+                Checkchange = 0;
+                Horposition = -0.9f;
+                Verposition = 0;
+                eulercheck = 0;
+            }
+        }
+
+    }
+
+
 
 }

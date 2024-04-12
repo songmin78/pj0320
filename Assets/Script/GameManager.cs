@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private Weaponcheck weaponcheck;
     private HitboxMonster hitboxMonster;
     private Buttonmanager buttonmanager;
+    private CheckBox checkbox;
     public Player Player
     {
         get { return player; }
@@ -35,6 +36,13 @@ public class GameManager : MonoBehaviour
         set { buttonmanager = value; }
     }
 
+    public CheckBox CheckBox
+    {
+        get { return checkbox; }
+        set { checkbox = value; }
+    }
+
+
 
 
     private void Awake()
@@ -48,18 +56,4 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
 }
