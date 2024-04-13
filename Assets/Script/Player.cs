@@ -447,7 +447,7 @@ public class Player : MonoBehaviour
                 {
                     attackstandard = true;
                     Hitgauge = 0;
-                    go = Instantiate(sword);
+                    go = Instantiate(sword, trsHands);
                     go.transform.eulerAngles = new Vector3(0, Yeulerchange, Checkchange);
                     go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
                     Debug.Log("기본공격");
@@ -476,6 +476,7 @@ public class Player : MonoBehaviour
                 go = Instantiate(magic, trsHands);
                 go.transform.eulerAngles = new Vector3(0, 0, Checkchange);//방향에 맞춰 발사
                 go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기보다 앞에서 발사
+                //위 아래로 발사될때 안바뀜-> 
 
                 Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
                 weaponcheck.Attackdamage(Weapontype, eulercheck);

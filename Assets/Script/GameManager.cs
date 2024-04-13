@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     private HitboxMonster hitboxMonster;
     private Buttonmanager buttonmanager;
     private CheckBox checkbox;
+
+    [SerializeField] public GameObject objtest;
+    [SerializeField] public GameObject PlayerUI;
     public Player Player
     {
         get { return player; }

@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class FildUI : MonoBehaviour
 {
     [SerializeField] public bool passcheck = false;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         transform.GetChild(0).gameObject.SetActive(true);
@@ -50,6 +49,10 @@ public class FildUI : MonoBehaviour
         {
             DontDestroyOnLoad(GameManager.Instance.Player);
             DontDestroyOnLoad(Camera.main);
+            DontDestroyOnLoad(GameManager.Instance.Buttonmanager);
+            DontDestroyOnLoad(GameManager.Instance.objtest);
+            DontDestroyOnLoad(GameManager.Instance.PlayerUI);  
+
             SceneManager.LoadSceneAsync(3);
         }
     }
