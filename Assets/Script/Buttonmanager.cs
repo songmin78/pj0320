@@ -19,16 +19,20 @@ public class Buttonmanager : MonoBehaviour
 
     [SerializeField] public bool Cheatcheck;
 
+    private bool menucheck;//메뉴창이 올라올때 확인하는 코드
+
     private void Awake()
     {
         MenuButton.onClick.AddListener(() =>//메뉴를 눌렀을때 버튼
         {
             MenuScene.SetActive(true);//메뉴창을 띄운다
+            menucheck = true;
         });
 
         GameRePlay.onClick.AddListener(() =>//게임을 이어하기 버튼
         {
             MenuScene.SetActive(false);//메뉴창을 닫는다
+            menucheck = false;
         });
 
         LobbyButton.onClick.AddListener(() =>//게임을 종료냐고 물어보는 버튼
@@ -71,6 +75,18 @@ public class Buttonmanager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        onenInventory();
+    }
+
+    private void onenInventory()
+    {
+        if (menucheck == true)
+        {
+            Time.timeScale = 0f;//Time.timeScale -> 시간의 빠르기를 조절하는 코드
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 }
