@@ -14,7 +14,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] float eulercheck;//바라보고있는 방향
 
     [Header("무기 종류")]
-    [SerializeField] GameObject Typeweapon;
+    [SerializeField] public GameObject Typeweapon;
 
     [Header("무기관리")]
     [SerializeField] bool attackcheck = true;//공격 체크
@@ -24,6 +24,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] bool punch = false;//근접무기것을 확인
     [SerializeField] public bool magic = false;//마법인것을 확인
     [SerializeField] bool Ctmagic = false;//마법 카운터(일반공격과 다른 메커니즘으로 오류가 생겨서 따로 만즘)
+    [SerializeField] bool magicway = false;//마법을 돌리는 것을 체크
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -67,6 +68,7 @@ public class Weaponcheck : MonoBehaviour
         }
         else if(_weaponType == 2)//마법무기
         {
+            magicway = true;
             Debug.Log("마법");
         }
     }
@@ -142,13 +144,7 @@ public class Weaponcheck : MonoBehaviour
         }
         else if (punch == true)
         {
-            transform.eulerAngles = new Vector3(0, 0, Zrotation);
-            //Debug.Log(Zrotation);
 
-            if (Zrotation >= ZeulerAngles + 170)
-            {
-                Destroy(Typeweapon);
-            }
         }
         else if(magic == true)
         {
@@ -196,4 +192,12 @@ public class Weaponcheck : MonoBehaviour
             transform.eulerAngles += new Vector3(0, 0, -270 * Time.deltaTime * speed);
         }
     }
+
+    //private void magicwaychange()//마법무기 방향을 전환
+    //{
+    //    if(magicway == true)
+    //    {
+            
+    //    }
+    //}
 }

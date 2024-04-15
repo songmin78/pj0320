@@ -508,6 +508,18 @@ public class Player : MonoBehaviour
         //애니메이션을 반복하는 구간을 만들어야함 /끝
     }
 
+    private void magicchage()//마법공격할시 바뀌를 방향
+    {
+        if(magiccheck == true)
+        {
+            //만약에 magiccheck가 true일 경우 실시간으로 플레이어 방향을 체크 방향을 바꿀때 새롭게 공격->선딜레이가있는 마법공격이므로 안됨
+            turnway();
+            Destroy(GameManager.Instance.Weaponcheck.Typeweapon);
+
+        }
+    }
+
+
     private void counterHit()//근접 2스킬 시간 코드
     {
         if (Hitgauge == 1 && countertimercheck == true)
@@ -711,7 +723,7 @@ public class Player : MonoBehaviour
                 Horposition = 0;//좌우 체크
                 eulercheck = 1;//바라보는 방향 체크 -> 0은 없음
             }//활
-            else if (Weapontype == 2)
+            else if (Weapontype == 2)//마법일경우
             {
                 Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
                 Checkchange = 270;//회전 값
