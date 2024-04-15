@@ -24,8 +24,8 @@ public class Player : MonoBehaviour
     public float MaxHP;
     [SerializeField] float Checkchange = 0;//무기 회전 방향
     [SerializeField] float Yeulerchange = 0;//무기 방향을 조정하기 0 <-> -180
-    [SerializeField] private float Horposition = 0f;//무기 공격위치
-    [SerializeField] private float Verposition = 0f;//무기 공격위치
+    [SerializeField] public float Horposition = 0f;//무기 공격위치
+    [SerializeField] public float Verposition = 0f;//무기 공격위치
     public int eulercheck =0;
     [SerializeField] bool slowcheck = false;
     public bool Monsterattackcheck;//몬스터가 때렸는지 안때렸는지 확인
@@ -118,10 +118,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        turnway();//무기 공격 방향 체크
         move();//이동
         Anim();//이동애니메이션
         playerposition();//플레이어위치를 실시간으로 확인
-        turnway();//무기 공격 방향 체크
         WeaponChange();//무기 체인지
 
         bowattack();//원거리 공격
@@ -131,6 +131,7 @@ public class Player : MonoBehaviour
         counterHit();//근접2스킬
 
         magichit();//마법 공격
+        magicchage();//마법공격중 공격 방향 전환
 
         weaponattacktimer();//각 무기 쿨타임 관리
 
@@ -473,10 +474,13 @@ public class Player : MonoBehaviour
                 magiccheck = true;
 
 
-                go = Instantiate(magic, trsHands);
+                go = Instantiate(magic,trsHands);
                 go.transform.eulerAngles = new Vector3(0, 0, Checkchange);//방향에 맞춰 발사
                 go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기보다 앞에서 발사
                 //위 아래로 발사될때 안바뀜-> 
+
+                //Magicscript magicscript = go.GetComponent<Magicscript>();
+                //magicscript.magicattack();
 
                 Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
                 weaponcheck.Attackdamage(Weapontype, eulercheck);
@@ -513,9 +517,6 @@ public class Player : MonoBehaviour
         if(magiccheck == true)
         {
             //만약에 magiccheck가 true일 경우 실시간으로 플레이어 방향을 체크 방향을 바꿀때 새롭게 공격->선딜레이가있는 마법공격이므로 안됨
-            turnway();
-            Destroy(GameManager.Instance.Weaponcheck.Typeweapon);
-
         }
     }
 
@@ -713,7 +714,7 @@ public class Player : MonoBehaviour
     private void turnway()
     {
         wayattack = GameManager.Instance.CheckBox.waycheck;
-        if(wayattack == 0)
+        if(wayattack == 0)//위쪽
         {
             if (Weapontype == 0)//활일 경우
             {
@@ -723,14 +724,18 @@ public class Player : MonoBehaviour
                 Horposition = 0;//좌우 체크
                 eulercheck = 1;//바라보는 방향 체크 -> 0은 없음
             }//활
-            else if (Weapontype == 2)//마법일경우
+            else if(Weapontype == 1)
             {
-                Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
-                Checkchange = 270;//회전 값
-                Verposition = 1f;//위 아래 체크
-                Horposition = 0;//좌우 체크
-                eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+
             }
+            //else if (Weapontype == 2)//마법일경우
+            //{
+            //    Yeulerchange = 0;//반대 체크 반대로 돌릴거면 -180
+            //    Checkchange = 90;//회전 값
+            //    Verposition = 1f;//위 아래 체크
+            //    Horposition = 0;//좌우 체크
+            //    eulercheck = 0;//바라보는 방향 체크 -> 0은 없음
+            //}
         }
         else if(wayattack == 1)//오른쪽
         {
@@ -742,33 +747,33 @@ public class Player : MonoBehaviour
                 Verposition = 0;
                 eulercheck = 3;//바라보는 방향 체크 -> 0은 없음
             }//활
-            else if (Weapontype == 2)
-            {
-                Yeulerchange = 0;
-                Checkchange = 0;
-                Horposition = 0.9f;
-                Verposition = 0;
-                eulercheck = 0;
-            }
+            //else if (Weapontype == 2)
+            //{
+            //    Yeulerchange = 0;
+            //    Checkchange = 0;
+            //    Horposition = 0.9f;
+            //    Verposition = 0;
+            //    eulercheck = 0;
+            //}
         }
         else if(wayattack == 2)//아래쪽
         {
             if (Weapontype == 0)
             {
                 Yeulerchange = 0;
-                Checkchange = 180;
+                Checkchange = 90;
                 Verposition = -0.5f;
                 Horposition = 0;
                 eulercheck = 4;//바라보는 방향 체크 -> 0은 없음
             }//활
-            else if (Weapontype == 2)
-            {
-                Yeulerchange = 0;
-                Checkchange = 90;
-                Verposition = -1f;
-                Horposition = 0;
-                eulercheck = 0;
-            }
+            //else if (Weapontype == 2)
+            //{
+            //    Yeulerchange = 0;
+            //    Checkchange = 270;
+            //    Verposition = -1f;
+            //    Horposition = 0;
+            //    eulercheck = 0;
+            //}
         }
         else if (wayattack == 3)//왼쪽
         {
@@ -780,14 +785,14 @@ public class Player : MonoBehaviour
                 Verposition = 0;
                 eulercheck = 2;//바라보는 방향 체크 -> 0은 없음
             }//활
-            else if (Weapontype == 2)
-            {
-                Yeulerchange = 0;
-                Checkchange = 0;
-                Horposition = -0.9f;
-                Verposition = 0;
-                eulercheck = 0;
-            }
+            //else if (Weapontype == 2)
+            //{
+            //    Yeulerchange = 0;
+            //    Checkchange = 0;
+            //    Horposition = -0.9f;
+            //    Verposition = 0;
+            //    eulercheck = 0;
+            //}
         }
 
     }

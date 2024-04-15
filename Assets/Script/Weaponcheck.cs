@@ -25,6 +25,9 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] public bool magic = false;//마법인것을 확인
     [SerializeField] bool Ctmagic = false;//마법 카운터(일반공격과 다른 메커니즘으로 오류가 생겨서 따로 만즘)
     [SerializeField] bool magicway = false;//마법을 돌리는 것을 체크
+    float waymagic;
+    [SerializeField]bool sidecheck;
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -53,6 +56,8 @@ public class Weaponcheck : MonoBehaviour
     {
         shotarrow();
         weapondestory();
+        magicwaychange();
+
     }
 
     public void Attackdamage(int _weaponType,int _eulercheck)
@@ -118,7 +123,7 @@ public class Weaponcheck : MonoBehaviour
         ZeulerAngles = transform.rotation.z;
 
         new Vector3(Xposition, Yposition, Zposition);
-        new Vector3(0, 0, ZeulerAngles);
+        //new Vector3(0, 0, ZeulerAngles);
     }
 
     private void weapondestory()
@@ -193,11 +198,40 @@ public class Weaponcheck : MonoBehaviour
         }
     }
 
-    //private void magicwaychange()//마법무기 방향을 전환
-    //{
-    //    if(magicway == true)
-    //    {
-            
-    //    }
-    //}
+    private void magicwaychange()//마법무기 방향을 전환
+    {
+        if (magicway == true)
+        {
+            waymagic = GameManager.Instance.CheckBox.waycheck;//checkbox에 있는 바라보고있는 방향을 확인
+            Vector3 vec3 = GameManager.Instance.Player.transform.position;//현재 플레이어의 위치를 확인
+            Vector3 vec = GameManager.Instance.Player.transform.eulerAngles;
+            if(waymagic == 0)//위쪽을 바라보고있을때
+            {
+                vec = vec + new Vector3(0, 0, 90);
+                vec3 = vec3 + new Vector3(0, 1, 0);
+                //vec3 = vec3 + new Vector3(0, 0, 90);
+            }
+            else if(waymagic == 1)//오른쪽을 바라보고있을때
+            {
+                vec = vec + new Vector3(0, 0, 0);
+                vec3 = vec3 + new Vector3(0.9f, 0, 0);
+                //vec3 = vec3 + new Vector3(0, 0, 0);
+            }
+            else if(waymagic == 2)//아래쪽을 바라보고있을때
+            {
+                vec = vec + new Vector3(0, 0, 270); 
+                vec3 = vec3 + new Vector3(0, -1, 0);
+                //vec3 = vec3 + new Vector3(0, 0, 270);
+            }
+            else if(waymagic == 3)//왼쪽을 바라보고있을때
+            {
+                vec = vec + new Vector3(0, 0, 0);
+                vec3 = vec3 + new Vector3(-0.9f, 0, 0);
+                //vec3 =  vec3 +new Vector3(0, 0, 180);
+            }
+
+            transform.eulerAngles = vec;
+            transform.position = vec3;
+        }
+    }
 }

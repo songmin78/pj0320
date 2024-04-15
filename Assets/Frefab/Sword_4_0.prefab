@@ -112,6 +112,7 @@ MonoBehaviour:
   punch: 1
   magic: 0
   Ctmagic: 0
+  magicway: 0
 --- !u!61 &1791300019458332167
 BoxCollider2D:
   m_ObjectHideFlags: 0

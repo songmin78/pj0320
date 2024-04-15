@@ -722,7 +722,7 @@ MonoBehaviour:
   Weapontype: 0
   GameHP: 3
   magiccheck: 0
-  magicgage: 5
+  magicgage: 15
   Xplayer: 0
   Yplayer: 0
   trsHands: {fileID: 321588274}
@@ -6504,7 +6504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -38, y: -47}
+  m_AnchoredPosition: {x: -38, y: 0}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1458748250
