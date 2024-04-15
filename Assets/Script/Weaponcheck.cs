@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Weaponcheck : MonoBehaviour
@@ -26,7 +27,6 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] bool Ctmagic = false;//마법 카운터(일반공격과 다른 메커니즘으로 오류가 생겨서 따로 만즘)
     [SerializeField] bool magicway = false;//마법을 돌리는 것을 체크
     float waymagic;
-    [SerializeField]bool sidecheck;
     
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -207,8 +207,16 @@ public class Weaponcheck : MonoBehaviour
             Vector3 vec = GameManager.Instance.Player.transform.eulerAngles;
             if(waymagic == 0)//위쪽을 바라보고있을때
             {
-                vec = vec + new Vector3(0, 0, 90);
-                vec3 = vec3 + new Vector3(0, 1, 0);
+                if (GameManager.Instance.Player.transform.localScale == new Vector3(-1, 1, 1))
+                {
+                    vec = vec + new Vector3(0, 0, 270);
+                    vec3 = vec3 + new Vector3(0, 1, 0);
+                }
+                else
+                {
+                    vec = vec + new Vector3(0, 0, 90);
+                    vec3 = vec3 + new Vector3(0, 1, 0);
+                }
                 //vec3 = vec3 + new Vector3(0, 0, 90);
             }
             else if(waymagic == 1)//오른쪽을 바라보고있을때
@@ -219,8 +227,16 @@ public class Weaponcheck : MonoBehaviour
             }
             else if(waymagic == 2)//아래쪽을 바라보고있을때
             {
-                vec = vec + new Vector3(0, 0, 270); 
-                vec3 = vec3 + new Vector3(0, -1, 0);
+                if(GameManager.Instance.Player.transform.localScale == new Vector3(-1, 1, 1))
+                {
+                    vec = vec + new Vector3(0, 0, 90);
+                    vec3 = vec3 + new Vector3(0, -1, 0);
+                }
+                else
+                {
+                    vec = vec + new Vector3(0, 0, 270);
+                    vec3 = vec3 + new Vector3(0, -1, 0);
+                }
                 //vec3 = vec3 + new Vector3(0, 0, 270);
             }
             else if(waymagic == 3)//왼쪽을 바라보고있을때

@@ -761,7 +761,7 @@ public class Player : MonoBehaviour
             if (Weapontype == 0)
             {
                 Yeulerchange = 0;
-                Checkchange = 90;
+                Checkchange = 180;
                 Verposition = -0.5f;
                 Horposition = 0;
                 eulercheck = 4;//바라보는 방향 체크 -> 0은 없음
