@@ -22,6 +22,7 @@ public class MonsterMoving : MonoBehaviour
 
     [Header("몬스터 스팩")]
     [SerializeField] float speed = 5f;//몬스터이동속도
+    float Maxspeed;
 
     [Header(" 플레이어 위치")]
     [SerializeField] float xplayer;
@@ -29,6 +30,7 @@ public class MonsterMoving : MonoBehaviour
 
     private void Awake()
     {
+        Maxspeed = speed;
         animator = GetComponent<Animator>(); 
     }
 
@@ -52,6 +54,7 @@ public class MonsterMoving : MonoBehaviour
     {
         playerchase();
         Anim();
+        slowspeed();
     }
 
     private void playerchase()//플레이어를 쫓아가는 코드
@@ -98,7 +101,7 @@ public class MonsterMoving : MonoBehaviour
                 dir.y = diffPos.y > 0 ? 1 : -1; 
             }
 
-            transform.position += speed * Time.deltaTime * dir;
+            transform.position += Maxspeed * Time.deltaTime * dir;
 
             #region 이전코드
             //x,y좌표가 절대값으로 계산
@@ -149,5 +152,27 @@ public class MonsterMoving : MonoBehaviour
         //    transform.localScale = new Vector3(horizontals, 1, 1);
         //}
     }
+
+
+    private void slowspeed()
+    {
+        if(GameManager.Instance.HitboxMonster.magicchek == true)//몬스터가 마법공격에 닿을때
+        {
+            Maxspeed -= 1;//기본 이동속도를 줄인다
+            if(Maxspeed < speed - 1)
+            {
+                Maxspeed = speed - 1;
+            }
+        }
+        else
+        {
+            Maxspeed += 1;
+            if(Maxspeed > speed)
+            {
+                Maxspeed = speed;
+            }
+        }
+    }
+
 
 }

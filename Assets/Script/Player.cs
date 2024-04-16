@@ -7,6 +7,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour
 {
+    Collider2D collision;
 
     [Header("일반공격")]
     [SerializeField] GameObject arrow;
@@ -22,10 +23,10 @@ public class Player : MonoBehaviour
     [SerializeField] float horizontals;
     [SerializeField] float verticals;
     public float MaxHP;
-    [SerializeField] float Checkchange = 0;//무기 회전 방향
-    [SerializeField] float Yeulerchange = 0;//무기 방향을 조정하기 0 <-> -180
-    [SerializeField] public float Horposition = 0f;//무기 공격위치
-    [SerializeField] public float Verposition = 0f;//무기 공격위치
+    float Checkchange = 0;//무기 회전 방향
+    float Yeulerchange = 0;//무기 방향을 조정하기 0 <-> -180
+    public float Horposition = 0f;//무기 공격위치
+    public float Verposition = 0f;//무기 공격위치
     public int eulercheck =0;
     [SerializeField] bool slowcheck = false;
     public bool Monsterattackcheck;//몬스터가 때렸는지 안때렸는지 확인
@@ -92,7 +93,7 @@ public class Player : MonoBehaviour
     {
         HitboxMonster hitboxmonster = collision.gameObject.GetComponent<HitboxMonster>();
 
-        if (hitboxmonster)
+        if (hitboxmonster && GameManager.Instance.HitboxMonster.Oncheckdamage == true)
         {
             Monsterattackcheck = true;
         }
@@ -101,6 +102,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        collision = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
         MaxHP = GameHP;
         maxcountertimer = counterHittimer;//근접L지속시간
@@ -131,7 +133,6 @@ public class Player : MonoBehaviour
         counterHit();//근접2스킬
 
         magichit();//마법 공격
-        magicchage();//마법공격중 공격 방향 전환
 
         weaponattacktimer();//각 무기 쿨타임 관리
 
@@ -245,14 +246,14 @@ public class Player : MonoBehaviour
                 return;
                 //count = Instantiate(sword);
             }
-            else if (Weapontype == 2 && ctattackstandard == false)//마법공격일 경우
+            else if (Weapontype == 2 && ctattackstandard == false && magiccheck == false)//마법공격일 경우
             {
                 ctattackstandard = true;
                 count = Instantiate(ctMagic);//마법을 들여옴
                 count.transform.eulerAngles = new Vector3(0, 0, CtCheckchange);//방향에 맞춰 공격
                 count.transform.position = transform.position + new Vector3(CtHorposition, CtVerposition, 0);//자기보다 앞에서 발사
             }
-            if(ctattackstandard == true)
+            if(ctattackstandard == true || magiccheck == true)
             {
                 return;
             }
@@ -512,15 +513,6 @@ public class Player : MonoBehaviour
         //애니메이션을 반복하는 구간을 만들어야함 /끝
     }
 
-    private void magicchage()//마법공격할시 바뀌를 방향
-    {
-        if(magiccheck == true)
-        {
-            //만약에 magiccheck가 true일 경우 실시간으로 플레이어 방향을 체크 방향을 바꿀때 새롭게 공격->선딜레이가있는 마법공격이므로 안됨
-        }
-    }
-
-
     private void counterHit()//근접 2스킬 시간 코드
     {
         if (Hitgauge == 1 && countertimercheck == true)
@@ -585,7 +577,8 @@ public class Player : MonoBehaviour
 
     private void playerhpcheck()//몬스터가 플레이어를 공격할때 플레이어가 맞는 코드
     {
-        if(Monsterattackcheck == true)//플레이어에 몬스터가 접촉할때
+        
+        if (Monsterattackcheck == true)//플레이어에 몬스터가 접촉할때
         {
             if (GameManager.Instance.Buttonmanager.Cheatcheck == true)
             {

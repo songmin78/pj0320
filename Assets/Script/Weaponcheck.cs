@@ -18,7 +18,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] public GameObject Typeweapon;
 
     [Header("무기관리")]
-    [SerializeField] bool attackcheck = true;//공격 체크
+    [SerializeField] public bool attackcheck = true;//공격 체크
     [SerializeField] bool Counter = false;//카운터 여부
     [SerializeField] public float AttackdamageMax = 1f;//무기 데미지
     [SerializeField] bool arrow = false;//화살인것을 확인

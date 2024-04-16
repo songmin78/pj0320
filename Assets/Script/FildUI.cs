@@ -50,7 +50,6 @@ public class FildUI : MonoBehaviour
             DontDestroyOnLoad(GameManager.Instance.Player);
             DontDestroyOnLoad(Camera.main);
             DontDestroyOnLoad(GameManager.Instance.Buttonmanager);
-            DontDestroyOnLoad(GameManager.Instance.objtest);
             DontDestroyOnLoad(GameManager.Instance.PlayerUI);  
 
             SceneManager.LoadSceneAsync(3);

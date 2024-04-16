@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public static GameManager Instance2;
     
 
     private Player player;
@@ -13,7 +14,6 @@ public class GameManager : MonoBehaviour
     private Buttonmanager buttonmanager;
     private CheckBox checkbox;
 
-    [SerializeField] public GameObject objtest;
     [SerializeField] public GameObject PlayerUI;
     public Player Player
     {

@@ -18,6 +18,7 @@ public class Buttonmanager : MonoBehaviour
     [SerializeField] GameObject CheatcheckScene;//치트를 썼는지 안썼는지 보여주는 오브젝트
 
     [SerializeField] public bool Cheatcheck;
+    [SerializeField] public GameObject test;
 
     private bool menucheck;//메뉴창이 올라올때 확인하는 코드
 
