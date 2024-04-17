@@ -649,7 +649,7 @@ public class Player : MonoBehaviour
             {
                 if (timerattack == false && attacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {
-                    attacktimer = 0.7f;
+                    attacktimer = 0.3f;
                     timerattack = true;
                 }
                 attacktimer -= Time.deltaTime;
@@ -664,7 +664,7 @@ public class Player : MonoBehaviour
 
         if(ctattackstandard == true)
         {
-            if(Weapontype == 0)
+            if(Weapontype == 0)//활
             {
                 if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {
@@ -679,11 +679,11 @@ public class Player : MonoBehaviour
                     Debug.Log("카운터 초기화");
                 }
             }
-            else if(Weapontype == 1)
+            else if(Weapontype == 1)//검
             {
                 if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {
-                    ctattacktimer = 10f;
+                    ctattacktimer = 10f;//L스킬이후에 쿨타임
                     cttimerattack = true;
                 }
                 ctattacktimer -= Time.deltaTime;
@@ -694,7 +694,7 @@ public class Player : MonoBehaviour
                     Debug.Log("카운터 초기화");
                 }
             }
-            else if(Weapontype == 2)
+            else if(Weapontype == 2)//마법
             {
                 if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {

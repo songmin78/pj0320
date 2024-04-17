@@ -714,7 +714,7 @@ MonoBehaviour:
   Hitgauge: 0
   countergagecheck: 0
   countertimercheck: 0
-  counterHittimer: 3
+  counterHittimer: 5
   slowspeed: 3
   play: {fileID: 99215251}
   playerspeed: 5
@@ -6716,7 +6716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2580326223183242369, guid: ba307fb8c8437d544b468419da38d563, type: 3}
       propertyPath: MsGameHp
-      value: 5
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8486755308666440430, guid: ba307fb8c8437d544b468419da38d563, type: 3}
       propertyPath: m_RootOrder
@@ -6724,7 +6724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8486755308666440430, guid: ba307fb8c8437d544b468419da38d563, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.69
+      value: 7.85
       objectReference: {fileID: 0}
     - target: {fileID: 8486755308666440430, guid: ba307fb8c8437d544b468419da38d563, type: 3}
       propertyPath: m_LocalPosition.y

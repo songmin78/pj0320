@@ -15,6 +15,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] public float eulercheck;//바라보고있는 방향
     bool waytest;
     bool swardtest;
+    //public bool waycheckd = true;
 
     [Header("무기 종류")]
     [SerializeField] public GameObject Typeweapon;
@@ -300,6 +301,7 @@ public class Weaponcheck : MonoBehaviour
 
     public void destoryweapon()
     {
+        GameManager.Instance.HitboxMonster.waycheck = false;
         GameManager.Instance.Player.movecheck = false;
         Destroy(gameObject);
     }

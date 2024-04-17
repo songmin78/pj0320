@@ -15,6 +15,7 @@ public class HitboxMonster : MonoBehaviour
     public bool pushed;
     float pushway;
     float pushroad = 0.2f;
+    public bool waycheck;
 
     [Header("보스 몬스터 체크")]
     [SerializeField] bool Bosscheck;
@@ -144,16 +145,40 @@ public class HitboxMonster : MonoBehaviour
 
     private void pushmonster()
     {
-        Vector3 vec = transform.position;
+        Vector3 vec = parents.transform.position;
+        Vector3 vec3 = parents.transform.position;
         if (pushdamage == true && Bosscheck == false)
         {
             pushway = GameManager.Instance.Weaponcheck.eulercheck;
-            if (pushway == 1)
+            if (pushway == 1 && waycheck == false)//위쪽 날리기
             {
+                waycheck = true;
                 pushed = true;
-                vec.y += 100;
+                vec3.y += 1.3f;
+                parents.transform.position = vec3;
             }
-            transform.position += vec;//부모가 날라가는것이 아닌 동생아 날라감
+            else if(pushway == 2 && waycheck == false)//왼쪽으로 날리기
+            {
+                waycheck = true;
+                pushed = true;
+                vec3.x -= 1.3f;
+                parents.transform.position = vec3;
+            }
+            else if(pushway == 3 && waycheck == false)//오른쪽으로 날리기
+            {
+                waycheck = true;
+                pushed = true;
+                vec3.x += 1.3f;
+                parents.transform.position = vec3;
+            }
+            else if (pushway == 4 && waycheck == false)//아래로 날리기
+            {
+                waycheck = true;
+                pushed = true;
+                vec3.y -= 1.3f;
+                parents.transform.position = vec3;
+            }
+
         }
         
 
@@ -165,7 +190,7 @@ public class HitboxMonster : MonoBehaviour
         if(pushed == true)
         {
             pushroad -= Time.deltaTime;
-            if(pushroad <= 0)
+            if (pushroad <= 0)
             {
                 pushroad = 0.2f;
                 pushed = false;
