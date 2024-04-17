@@ -12,17 +12,19 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] float Yposition;//시작 y좌표
     [SerializeField] float Zposition;//시작 z좌표
     [SerializeField] float ZeulerAngles;//시작 rotation z 좌표
-    [SerializeField] float eulercheck;//바라보고있는 방향
+    [SerializeField] public float eulercheck;//바라보고있는 방향
+    bool waytest;
+    bool swardtest;
 
     [Header("무기 종류")]
     [SerializeField] public GameObject Typeweapon;
 
     [Header("무기관리")]
     [SerializeField] public bool attackcheck = true;//공격 체크
-    [SerializeField] bool Counter = false;//카운터 여부
+    [SerializeField] public bool Counter = false;//카운터 여부
     [SerializeField] public float AttackdamageMax = 1f;//무기 데미지
     [SerializeField] bool arrow = false;//화살인것을 확인
-    [SerializeField] bool punch = false;//근접무기것을 확인
+    [SerializeField] public bool punch = false;//근접무기것을 확인
     [SerializeField] public bool magic = false;//마법인것을 확인
     [SerializeField] bool Ctmagic = false;//마법 카운터(일반공격과 다른 메커니즘으로 오류가 생겨서 따로 만즘)
     [SerializeField] bool magicway = false;//마법을 돌리는 것을 체크
@@ -55,8 +57,12 @@ public class Weaponcheck : MonoBehaviour
     void Update()
     {
         shotarrow();
+        eulerchange();
+
         weapondestory();
         magicwaychange();
+
+        anim();
 
     }
 
@@ -106,7 +112,7 @@ public class Weaponcheck : MonoBehaviour
             //1.오브젝트가 생성하면 그 자리의 값을 저장 ->끝
             //2.rotation의 z값을 +180 혹은 -180 을 더한다
             //3.2번에서 더한 값을 Time.deltatime * punchtime 초로 회전을 실행 시킨다 
-            eulerchange();
+            //eulerchange();
         }
         else if(Ctmagic == true)
         {
@@ -147,10 +153,9 @@ public class Weaponcheck : MonoBehaviour
                 Destroy(Typeweapon);
             }
         }
-        else if (punch == true)
-        {
-
-        }
+        //else if (punch == true)
+        //{
+        //}
         else if(magic == true)
         {
             animator.SetBool("check", true);
@@ -180,21 +185,49 @@ public class Weaponcheck : MonoBehaviour
     /// </summary>
     private void eulerchange()//공격하는 방향에 맞춰 회전하는 코드//근접 무기에만 해당
     {
-        if(eulercheck == 1)
+        if(eulercheck == 1)//위
         {
-            transform.eulerAngles += new Vector3(0, 0, -90 * Time.deltaTime * speed);
+            if (Counter == true)
+            {
+                animator.SetBool("Axeup", waytest = true);
+            }
+            else
+            {
+                animator.SetBool("SwingUp", swardtest = true); 
+            }
         }
-        else if(eulercheck == 2)
+        else if(eulercheck == 2)//왼쪽
         {
-            transform.eulerAngles += new Vector3(0, 0, -180 * Time.deltaTime * speed);
+            if (Counter == true)
+            {
+                animator.SetBool("Axeleft", waytest = true);
+            }
+            else
+            {
+                animator.SetBool("SwingLeft", swardtest = true);
+            }
         }
-        else if(eulercheck == 3)
+        else if(eulercheck == 3)//오른쪽
         {
-            transform.eulerAngles += new Vector3(0, 0, -180 * Time.deltaTime * speed);
+            if (Counter == true)
+            {
+                animator.SetBool("Axeright", waytest = true);
+            }
+            else
+            {
+                animator.SetBool("SwingRight", swardtest = true);
+            }
         }
-        else if(eulercheck == 4)
+        else if(eulercheck == 4)//아래쪽
         {
-            transform.eulerAngles += new Vector3(0, 0, -270 * Time.deltaTime * speed);
+            if (Counter == true)
+            {
+                animator.SetBool("Axedown", waytest = true);
+            }
+            else
+            {
+                animator.SetBool("SwingDown", swardtest = true);
+            }
         }
     }
 
@@ -250,4 +283,31 @@ public class Weaponcheck : MonoBehaviour
             transform.position = vec3;
         }
     }
+
+    private void anim()
+    {
+        //animator.SetBool("Axeup", waytest = true);
+        //animator.SetBool("Axedown", waytest = true);
+        //animator.SetBool("Axeleft", waytest = true);
+        //animator.SetBool("Axeright", waytest = true);
+
+        //animator.SetBool("SwingUp", swardtest = true);
+        //animator.SetBool("SwingDown", swardtest = true);
+        //animator.SetBool("SwingLeft", swardtest = true);
+        //animator.SetBool("SwingRight", swardtest = true);
+
+    }
+
+    public void destoryweapon()
+    {
+        GameManager.Instance.Player.movecheck = false;
+        Destroy(gameObject);
+    }
+
+    //private void attackanim()
+    //{
+    //    if(waytest == true || swardtest == true)
+    //    { 
+    //    }
+    //}
 }

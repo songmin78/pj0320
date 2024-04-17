@@ -27,6 +27,7 @@ public class MonsterMoving : MonoBehaviour
     [Header(" 플레이어 위치")]
     [SerializeField] float xplayer;
     [SerializeField] float yplayer;
+    bool hitpush;
 
     private void Awake()
     {
@@ -55,6 +56,7 @@ public class MonsterMoving : MonoBehaviour
         playerchase();
         Anim();
         slowspeed();
+        puchcheck();
     }
 
     private void playerchase()//플레이어를 쫓아가는 코드
@@ -171,6 +173,18 @@ public class MonsterMoving : MonoBehaviour
             {
                 Maxspeed = speed;
             }
+        }
+    }
+
+    private void puchcheck()
+    {
+        if(GameManager.Instance.HitboxMonster.pushed == true)
+        {
+            Maxspeed = 0;
+        }
+        else if(GameManager.Instance.HitboxMonster.pushed == false)
+        {
+            Maxspeed = speed;
         }
     }
 

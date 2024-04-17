@@ -709,6 +709,7 @@ MonoBehaviour:
   ctattackstandard: 0
   attacktimer: 0
   ctattacktimer: 0
+  movecheck: 0
   arrowcheck: 0
   Hitgauge: 0
   countergagecheck: 0
@@ -6727,7 +6728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8486755308666440430, guid: ba307fb8c8437d544b468419da38d563, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.7
+      value: -6.86
       objectReference: {fileID: 0}
     - target: {fileID: 8486755308666440430, guid: ba307fb8c8437d544b468419da38d563, type: 3}
       propertyPath: m_LocalPosition.z

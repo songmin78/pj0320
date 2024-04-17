@@ -11,6 +11,13 @@ public class HitboxMonster : MonoBehaviour
     [SerializeField] public float attackdamage;//몬스터의 데미지
     [SerializeField] float MsGameHp = 1;//몬스터의 HP
     private float MsMaxHp;
+    [SerializeField] bool pushdamage;
+    public bool pushed;
+    float pushway;
+    float pushroad = 0.2f;
+
+    [Header("보스 몬스터 체크")]
+    [SerializeField] bool Bosscheck;
     
 
     [Header("공격 여부")]
@@ -35,6 +42,10 @@ public class HitboxMonster : MonoBehaviour
             {
                 magicchek = true;
             }
+            else if(GameManager.Instance.Weaponcheck.Counter == true && GameManager.Instance.Weaponcheck.punch == true)
+            {
+                pushdamage = true;
+            }
         }
 
         if(collision.gameObject.tag == "Player")
@@ -52,6 +63,10 @@ public class HitboxMonster : MonoBehaviour
         if(magicchek == true)
         {
             magicchek = false;
+        }
+        else if(pushdamage == true)
+        {
+            pushdamage = false;
         }
     }
 
@@ -74,6 +89,9 @@ public class HitboxMonster : MonoBehaviour
         Hitboxmaonster();
         destroymonster();
         destroymagic();
+
+        pushmonster();
+        Timer();
     }
 
     private void Hitboxmaonster()
@@ -124,5 +142,35 @@ public class HitboxMonster : MonoBehaviour
 
     }
 
+    private void pushmonster()
+    {
+        Vector3 vec = transform.position;
+        if (pushdamage == true && Bosscheck == false)
+        {
+            pushway = GameManager.Instance.Weaponcheck.eulercheck;
+            if (pushway == 1)
+            {
+                pushed = true;
+                vec.y += 100;
+            }
+            transform.position += vec;//부모가 날라가는것이 아닌 동생아 날라감
+        }
+        
+
+
+    }
+
+    private void Timer()
+    {
+        if(pushed == true)
+        {
+            pushroad -= Time.deltaTime;
+            if(pushroad <= 0)
+            {
+                pushroad = 0.2f;
+                pushed = false;
+            }
+        }
+    }
 
 }
