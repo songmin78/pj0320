@@ -19,29 +19,19 @@ public class FildUI : MonoBehaviour
         passcheck = false;
     }
 
-    void Start()
-    {
-        
-    }
-
 
     void Update()
     {
         nextStage();
-
-
-
-
-        test();
     }
 
     /// <summary>
     /// 테스트용 코드
     /// </summary>
-    private void test()
-    {
+    //private void test()
+    //{
         
-    }
+    //}
 
     private void nextStage()
     {

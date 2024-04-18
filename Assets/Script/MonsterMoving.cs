@@ -160,19 +160,22 @@ public class MonsterMoving : MonoBehaviour
     {
         if(GameManager.Instance.HitboxMonster.magicchek == true)//몬스터가 마법공격에 닿을때
         {
-            Maxspeed -= 1;//기본 이동속도를 줄인다
-            if(Maxspeed < speed - 1)
-            {
-                Maxspeed = speed - 1;
-            }
+            //Maxspeed -= 1;//기본 이동속도를 줄인다
+            //if(Maxspeed < speed - 1)
+            //{
+            //    Maxspeed = speed - 1;
+            //}
+            Maxspeed = 0;
         }
         else
         {
-            Maxspeed += 1;
-            if(Maxspeed > speed)
-            {
-                Maxspeed = speed;
-            }
+            //Maxspeed += 1;
+            //if(Maxspeed > speed)
+            //{
+            //    Maxspeed = speed;
+            //}
+
+            Maxspeed = speed;
         }
     }
 
