@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -36,12 +34,19 @@ public class Player : MonoBehaviour
     [SerializeField] public bool attackstandard;//공격을 할때 똑같은 무기가 안나오는걸 확해주는 것
     [SerializeField] bool ctattackstandard;//카운터무기 체크
     [SerializeField] float attacktimer;//무기 재 사용시간 설정
+    public float Maxattacktimer;
     [SerializeField] float ctattacktimer;//카운터무기 재 사용시간 설정
+    public float Maxctattacktimer;
     bool timerattack;
     bool cttimerattack;
     private float wayattack;//바라보고있는 방향 체크
     bool waytest;
     public bool movecheck;
+    [SerializeField] GameObject bowweaponbox;
+    [SerializeField] GameObject swordweaponbox;
+    [SerializeField] GameObject magicweaponbox;
+    [SerializeField] GameObject bowweapon;
+    [SerializeField] GameObject ctounterbow;
 
 
     [Header("카운터 기준")]
@@ -81,6 +86,17 @@ public class Player : MonoBehaviour
 
     [SerializeField] Transform trsHands;
 
+    [Header("플레리어UI")]
+    [SerializeField] Image bowui;
+    [SerializeField] Image bowui2;
+    [SerializeField] Image swordui;
+    [SerializeField] Image magicui;
+
+    [SerializeField] Image ctbowui;
+    [SerializeField] Image ctswordui;
+    [SerializeField] Image ctmagicui;
+
+
     //private void OnTriggerEnter2D(Collider2D collision)
     //{
     //    HitboxMonster hitboxmonster = collision.gameObject.GetComponent<HitboxMonster>();
@@ -95,7 +111,7 @@ public class Player : MonoBehaviour
     {
         HitboxMonster hitboxmonster = collision.gameObject.GetComponent<HitboxMonster>();
 
-        if (hitboxmonster && GameManager.Instance.HitboxMonster.Oncheckdamage == true)
+        if (hitboxmonster && GameManager.Instance.Monsterattack.Oncheckdamage == true)
         {
             Monsterattackcheck = true;
         }
@@ -238,10 +254,15 @@ public class Player : MonoBehaviour
             {
                 if (arrowcheck == false)
                 {
+                    bowweapon.SetActive(false);
+                    ctounterbow.SetActive(true);
+
                     arrowcheck = true;
                 }
                 else if(arrowcheck == true)
                 {
+                    bowweapon.SetActive(true);
+                    ctounterbow.SetActive(false);
                     arrowcheck = false;
                 }
                 return;
@@ -277,15 +298,21 @@ public class Player : MonoBehaviour
         {
             if(Weapontype == 0)//원거리 물리 무기 => 0
             {
+                bowweaponbox.SetActive(false);
+                swordweaponbox.SetActive(true);
                 Hitgauge = 0;
                 Weapontype = 1;
             }
             else if(Weapontype == 1)//근거리 무기 => 1
             {
+                swordweaponbox.SetActive(false);
+                magicweaponbox.SetActive(true);
                 Weapontype = 2;
             }
             else if(Weapontype == 2)//원거리 마법무기 => 2
             {
+                magicweaponbox.SetActive(false);
+                bowweaponbox.SetActive(true);
                 Weapontype = 0;
             }
             else
@@ -485,7 +512,15 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.K))//눌렀을때 마법공격을 계속함
             {
                 GameObject go = null;
-                magiccheck = true;
+                if(magicgage <= 1)
+                {
+                    return;
+                }
+                else
+                {
+                    magiccheck = true;
+                    magicgage -= 1;
+                }
 
 
                 go = Instantiate(magic,trsHands);
@@ -504,9 +539,10 @@ public class Player : MonoBehaviour
                 magiccheck = false;
             }
 
-            if (magiccheck == true)
+            if (magiccheck == true)//마법 공겨키를 누를때
             {
-                magicgage -= 1 * Time.deltaTime;
+                magicgage -= 1 * Time.deltaTime;//게이지를 초만큼 뺀다
+                magicui.fillAmount = magicgage / Maxmagicgage;
                 if (magicgage <= 0)
                 {
                     magiccheck = false;
@@ -515,6 +551,7 @@ public class Player : MonoBehaviour
             else if (magiccheck == false)
             {
                 magicgage += 1 * Time.deltaTime;
+                magicui.fillAmount = magicgage / Maxmagicgage;
                 if (magicgage >= Maxmagicgage)
                 {
                     magicgage = Maxmagicgage;
@@ -590,7 +627,6 @@ public class Player : MonoBehaviour
 
     private void playerhpcheck()//몬스터가 플레이어를 공격할때 플레이어가 맞는 코드
     {
-        
         if (Monsterattackcheck == true)//플레이어에 몬스터가 접촉할때
         {
             if (GameManager.Instance.Buttonmanager.Cheatcheck == true)
@@ -600,7 +636,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                Monsterdamage = GameManager.Instance.HitboxMonster.attackdamage;//몬스터 데미지를 받는다
+                Monsterdamage = GameManager.Instance.Monsterattack.attackdamage;//몬스터 데미지를 받는다
                 if (Maxinvincibilitytime == 1)
                 {
                     MaxHP -= Monsterdamage;
@@ -636,10 +672,12 @@ public class Player : MonoBehaviour
                 if (timerattack == false)//들어올때 한번만 실행하도록 만듬
                 {
                     attacktimer = 0.15f;
+                    Maxattacktimer = attacktimer;
                     timerattack = true;
                 }
-                attacktimer -= Time.deltaTime;
-                if (attacktimer <= 0)//쿨타임이 다 돌면 실행
+                Maxattacktimer -= Time.deltaTime;
+                bowui.fillAmount = attacktimer / Maxattacktimer;
+                if (Maxattacktimer <= 0)//쿨타임이 다 돌면 실행
                 {
                     timerattack = false;
                     attackstandard = false;
@@ -650,29 +688,33 @@ public class Player : MonoBehaviour
                 if (timerattack == false && attacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {
                     attacktimer = 0.3f;
+                    Maxattacktimer = attacktimer;
                     timerattack = true;
                 }
                 attacktimer -= Time.deltaTime;
+                swordui.fillAmount = attacktimer / Maxattacktimer;
                 if (attacktimer <= 0)//쿨타임이 다 돌면 실행
                 {
                     timerattack = false;
                     attackstandard = false;
                     Debug.Log("초기화");
                 }
-            }
+            }//근접
         }
 
-        if(ctattackstandard == true)
+        if(ctattackstandard == true)//카운터일 경우
         {
             if(Weapontype == 0)//활
             {
                 if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {
-                    ctattacktimer = 0.5f;
+                    attacktimer = 0.5f;
+                    Maxattacktimer = attacktimer;
                     cttimerattack = true;
                 }
-                ctattacktimer -= Time.deltaTime;
-                if (ctattacktimer <= 0)//쿨타임이 다 돌면 실행
+                attacktimer -= Time.deltaTime;
+                bowui2.fillAmount = attacktimer / Maxattacktimer;
+                if (attacktimer <= 0)//쿨타임이 다 돌면 실행
                 {
                     cttimerattack = false;
                     ctattackstandard = false;
@@ -684,9 +726,11 @@ public class Player : MonoBehaviour
                 if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {
                     ctattacktimer = 10f;//L스킬이후에 쿨타임
+                    Maxctattacktimer = ctattacktimer;
                     cttimerattack = true;
                 }
                 ctattacktimer -= Time.deltaTime;
+                ctswordui.fillAmount = ctattacktimer / Maxctattacktimer;
                 if (ctattacktimer <= 0)//쿨타임이 다 돌면 실행
                 {
                     cttimerattack = false;
@@ -699,9 +743,11 @@ public class Player : MonoBehaviour
                 if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {
                     ctattacktimer = 0.5f;
+                    Maxctattacktimer = ctattacktimer;
                     cttimerattack = true;
                 }
                 ctattacktimer -= Time.deltaTime;
+                ctmagicui.fillAmount = ctattacktimer / Maxctattacktimer; 
                 if (ctattacktimer <= 0)//쿨타임이 다 돌면 실행
                 {
                     cttimerattack = false;

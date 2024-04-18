@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private HitboxMonster hitboxMonster;
     private Buttonmanager buttonmanager;
     private CheckBox checkbox;
+    private Monsterattack monsterattack;
 
     [SerializeField] public GameObject PlayerUI;
     public Player Player
@@ -45,7 +46,11 @@ public class GameManager : MonoBehaviour
         set { checkbox = value; }
     }
 
-
+    public Monsterattack Monsterattack
+    {
+        get { return monsterattack; }
+        set { monsterattack = value; }
+    }
 
 
     private void Awake()

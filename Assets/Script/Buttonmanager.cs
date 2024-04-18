@@ -20,6 +20,21 @@ public class Buttonmanager : MonoBehaviour
     [SerializeField] public bool Cheatcheck;
     [SerializeField] public GameObject test;
 
+    [Header("팁 창")]
+    [SerializeField] Button nextbutton;
+    [SerializeField] Button returnbutton;
+    [SerializeField] Button exitbutton;
+
+    [SerializeField] GameObject tutorial;
+    [SerializeField] GameObject bow;
+    [SerializeField] GameObject sword;
+    [SerializeField] GameObject magic;
+    [SerializeField] GameObject reurnbuttons;
+
+    float passcheck = 0;
+    [SerializeField] bool tapon;
+    [SerializeField] GameObject aaa;
+
     private bool menucheck;//메뉴창이 올라올때 확인하는 코드
 
     private void Awake()
@@ -66,6 +81,45 @@ public class Buttonmanager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
             Application.Quit();//게임 종료
         });
+
+        nextbutton.onClick.AddListener(() =>
+        {
+            if (passcheck == 0)
+            {
+                passcheck = 1;
+                bow.SetActive(false);
+                sword.SetActive(true);
+                reurnbuttons.SetActive(true);
+            }
+            else if (passcheck == 1)
+            {
+                passcheck = 2;
+                sword.SetActive(false);
+                magic.SetActive(true);
+            }
+        });
+
+        returnbutton.onClick.AddListener(() =>
+        {
+            if (passcheck == 1)
+            {
+                passcheck = 0;
+                sword.SetActive(false);
+                bow.SetActive(true);
+                reurnbuttons.SetActive(false);
+            }
+            else if (passcheck == 2)
+            {
+                passcheck = 1;
+                magic.SetActive(false);
+                sword.SetActive(true);
+            }
+        });
+
+        exitbutton.onClick.AddListener(() =>
+        {
+            tutorial.SetActive(false);
+        });
     }
 
     void Start()
@@ -77,6 +131,8 @@ public class Buttonmanager : MonoBehaviour
     void Update()
     {
         onenInventory();
+
+        tutorialttons();
     }
 
     private void onenInventory()
@@ -88,6 +144,23 @@ public class Buttonmanager : MonoBehaviour
         else
         {
             Time.timeScale = 1;
+        }
+    }
+
+    private void tutorialttons()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            tapon = true;
+            //tutorial.SetActive(true);
+        }
+        if (tapon == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                menucheck = true;
+                tutorial.SetActive(true);
+            }
         }
     }
 }

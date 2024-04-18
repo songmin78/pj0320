@@ -8,7 +8,7 @@ public class HitboxMonster : MonoBehaviour
     [SerializeField]GameObject parents;
 
     [Header("몬스터 스펙")]
-    [SerializeField] public float attackdamage;//몬스터의 데미지
+    //[SerializeField] public float attackdamage;//몬스터의 데미지
     [SerializeField] float MsGameHp = 1;//몬스터의 HP
     private float MsMaxHp;
     [SerializeField] bool pushdamage;
@@ -19,11 +19,11 @@ public class HitboxMonster : MonoBehaviour
 
     [Header("보스 몬스터 체크")]
     [SerializeField] bool Bosscheck;
-    
+
 
     [Header("공격 여부")]
     bool beatendamage = false;
-    public bool Oncheckdamage = false;
+    //public bool Oncheckdamage = false;
     float weapondamage = 0;
 
     [Header("기타")]
@@ -49,14 +49,14 @@ public class HitboxMonster : MonoBehaviour
             }
         }
 
-        if(collision.gameObject.tag == "Player")
-        {
-            Oncheckdamage = true;
-        }
-        else
-        {
-            Oncheckdamage = false;
-        }
+        //if(collision.gameObject.tag == "Player")
+        //{
+        //    Oncheckdamage = true;
+        //}
+        //else
+        //{
+        //    Oncheckdamage = false;
+        //}
     }
 
     private void OnTriggerExit2D(Collider2D collision)

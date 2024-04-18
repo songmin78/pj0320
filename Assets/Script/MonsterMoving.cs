@@ -45,12 +45,6 @@ public class MonsterMoving : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        
-    }
-
-
     void Update()
     {
         playerchase();
@@ -181,11 +175,11 @@ public class MonsterMoving : MonoBehaviour
 
     private void puchcheck()
     {
-        if(GameManager.Instance.HitboxMonster.pushed == true)
+        if (GameManager.Instance.HitboxMonster.pushed == true)
         {
             Maxspeed = 0;
         }
-        else if(GameManager.Instance.HitboxMonster.pushed == false)
+        else if (GameManager.Instance.HitboxMonster.magicchek == false && GameManager.Instance.HitboxMonster.pushed == false)
         {
             Maxspeed = speed;
         }

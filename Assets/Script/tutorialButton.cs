@@ -7,13 +7,14 @@ public class tutorialButton : MonoBehaviour
 {
     [SerializeField] Button nextbutton;
     [SerializeField] Button returnbutton;
-
+    [SerializeField] Button exitbutton;
 
     [SerializeField] GameObject tutorial;
     [SerializeField] GameObject bow;
     [SerializeField] GameObject sword;
     [SerializeField] GameObject magic;
     [SerializeField] GameObject reurnbuttons;
+    
 
     float passcheck = 0;
     [SerializeField]bool tapon;
@@ -35,6 +36,11 @@ public class tutorialButton : MonoBehaviour
                 sword.SetActive(false);
                 magic.SetActive(true);
             }
+        });
+
+        exitbutton.onClick.AddListener(() =>
+        {
+            tutorial.SetActive(false);
         });
 
         returnbutton.onClick.AddListener(() =>
@@ -74,9 +80,9 @@ public class tutorialButton : MonoBehaviour
                 tutorial.SetActive(true);
             }
         }
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            tapon = false;
+            tutorial.SetActive(false);
         }
     }
 }
