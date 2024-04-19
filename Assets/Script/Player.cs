@@ -96,6 +96,8 @@ public class Player : MonoBehaviour
     [SerializeField] Image ctswordui;
     [SerializeField] Image ctmagicui;
 
+    [SerializeField] Image hitgage;
+
 
     //private void OnTriggerEnter2D(Collider2D collision)
     //{
