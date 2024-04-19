@@ -301,9 +301,9 @@ public class Weaponcheck : MonoBehaviour
 
     public void destoryweapon()
     {
-        GameManager.Instance.HitboxMonster.waycheck = false;
-        GameManager.Instance.Player.movecheck = false;
         Destroy(gameObject);
+        //GameManager.Instance.HitboxMonster.waycheck = false;
+        GameManager.Instance.Player.movecheck = false;
     }
 
     //private void attackanim()

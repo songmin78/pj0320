@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class Monsterattack : MonoBehaviour
 {
-    [SerializeField] public float attackdamage;//몬스터의 데미지
+    //오로지 몬스터가 플레이어를 공격 할때만 발동하는 코드
 
     [Header("공격 여부")]
-    bool beatendamage = false;
+    public float attackdamage;
     public bool Oncheckdamage = false;
-    float weapondamage = 0;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Weaponcheck weapon = collision.gameObject.GetComponent<Weaponcheck>();//무기 gameobject가 몬스터 collision에 닿을때 
-        Player player = collision.gameObject.GetComponent<Player>();
-
         if (collision.gameObject.tag == "Player")
         {
             Oncheckdamage = true;

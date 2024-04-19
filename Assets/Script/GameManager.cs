@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private Buttonmanager buttonmanager;
     private CheckBox checkbox;
     private Monsterattack monsterattack;
+    private MonsterMoving monstermoving;
 
     [SerializeField] public GameObject PlayerUI;
     public Player Player
@@ -52,6 +53,11 @@ public class GameManager : MonoBehaviour
         set { monsterattack = value; }
     }
 
+    public MonsterMoving MonsterMoving
+    {
+        get { return monstermoving; }
+        set { monstermoving = value; }
+    }
 
     private void Awake()
     {

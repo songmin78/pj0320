@@ -97,6 +97,16 @@ MonoBehaviour:
   waycheck: 0
   Bosscheck: 0
   magicchek: 0
+  ChaseX: 0
+  ChaseY: 0
+  posX: 0
+  posY: 0
+  diffPos: {x: 0, y: 0, z: 0}
+  horizontals: 0
+  verticals: 0
+  speed: 1
+  xplayer: 0
+  yplayer: 0
 --- !u!1 &2312694002271663552
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +121,7 @@ GameObject:
   - component: {fileID: 9123466482149575391}
   - component: {fileID: 258519545495597216}
   - component: {fileID: 594568276894411471}
+  - component: {fileID: 5813918318744467034}
   m_Layer: 9
   m_Name: Monster
   m_TagString: Untagged
@@ -221,16 +232,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChasePlayer: 0
-  ChaseX: 0
-  ChaseY: 0
-  posX: 0
-  posY: 0
-  diffPos: {x: 0, y: 0, z: 0}
-  horizontals: 0
-  verticals: 0
-  speed: 1
-  xplayer: 0
-  yplayer: 0
 --- !u!61 &258519545495597216
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -303,6 +304,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5813918318744467034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2312694002271663552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbcbdef93ddb99f4ea10b2a5e31e3f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChasePlayer: 0
 --- !u!1 &6331903786540594003
 GameObject:
   m_ObjectHideFlags: 0

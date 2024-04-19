@@ -47,11 +47,14 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject magicweaponbox;
     [SerializeField] GameObject bowweapon;
     [SerializeField] GameObject ctounterbow;
+    [SerializeField] GameObject gagecanvas;
+    [SerializeField] BoxCollider2D roadmap;
 
 
     [Header("카운터 기준")]
     [SerializeField] bool arrowcheck = false;
     [SerializeField] float Hitgauge = 0f;//근접 카운터 게이지 1이되면 카운터
+    float Maxhitgage;
     [SerializeField] private bool countergagecheck = false;//게이지가 올라가는지 안가는지 확인
     [SerializeField] bool countertimercheck = false;//근접 L스킬을 쓸때 무한 카운터 공격
     [SerializeField] float counterHittimer = 3;//근접 L스킬을 쓰는 지속시간
@@ -134,6 +137,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Weapontype = 0;
+        gagecanvas.SetActive(false);
 
         GameManager.Instance.Player = this;
 
@@ -302,6 +306,7 @@ public class Player : MonoBehaviour
             {
                 bowweaponbox.SetActive(false);
                 swordweaponbox.SetActive(true);
+                gagecanvas.SetActive(true);
                 Hitgauge = 0;
                 Weapontype = 1;
             }
@@ -309,6 +314,7 @@ public class Player : MonoBehaviour
             {
                 swordweaponbox.SetActive(false);
                 magicweaponbox.SetActive(true);
+                gagecanvas.SetActive(false);
                 Weapontype = 2;
             }
             else if(Weapontype == 2)//원거리 마법무기 => 2
@@ -451,6 +457,7 @@ public class Player : MonoBehaviour
             if (countergagecheck == true)
             {
                 Hitgauge += Time.deltaTime;
+                hitgage.fillAmount = Hitgauge;
                 if (Hitgauge >= 1)
                 {
                     Hitgauge = 1;
@@ -459,6 +466,7 @@ public class Player : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.K))
             {
                 countergagecheck = false;
+                hitgage.fillAmount = 0;
             }
         }
     }
@@ -880,8 +888,8 @@ public class Player : MonoBehaviour
     }
 
 
-    private void waychange()
+    private void maproad()
     {
-
+        //이전에 한 코딩 수업에서 필요한 부분 찾기 벽에 닿았을때 물리가 아닌 코드로만 막기
     }
 }
