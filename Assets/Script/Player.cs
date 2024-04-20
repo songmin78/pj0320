@@ -115,6 +115,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+
         HitboxMonster hitboxmonster = collision.gameObject.GetComponent<HitboxMonster>();
 
         if (hitboxmonster && GameManager.Instance.Monsterattack.Oncheckdamage == true)
