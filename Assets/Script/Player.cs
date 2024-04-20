@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     Collider2D collision;
-    Camera mainCam;
+    [SerializeField]Camera mainCam;
 
     [Header("일반공격")]
     [SerializeField] GameObject arrow;
@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        checkMoveposition();//카메라에 맞춰 플레이어가 못 나가게하는 코드
+        //checkMoveposition();//카메라에 맞춰 플레이어가 못 나가게하는 코드
         turnway();//무기 공격 방향 체크
         move();//이동
         playerposition();//플레이어위치를 실시간으로 확인
@@ -894,26 +894,34 @@ public class Player : MonoBehaviour
     private void checkMoveposition()
     {
         //이전에 한 코딩 수업에서 필요한 부분 찾기 벽에 닿았을때 물리가 아닌 코드로만 막기
+        #region
+        //Vector3 currentPlayerPos = mainCam.WorldToScreenPoint(transform.position);
 
-        Vector3 currentPlayerPos = mainCam.WorldToScreenPoint(transform.position);
+        //if(currentPlayerPos.x < 0.1f)
+        //{
+        //    currentPlayerPos.x = 0.1f;
+        //}
+        //else if(currentPlayerPos.x > 0.9f)
+        //{
+        //    currentPlayerPos.x = 0.9f;
+        //}
 
-        if(currentPlayerPos.x < 0.1f)
-        {
-            currentPlayerPos.x = 0.1f;
-        }
-        else if(currentPlayerPos.x > 0.9f)
-        {
-            currentPlayerPos.x = 0.9f;
-        }
+        //if(currentPlayerPos.y < 0.1f)
+        //{
+        //    currentPlayerPos.y = 0.1f;
+        //}
+        //else if(currentPlayerPos.y > 0.9f)
+        //{
+        //    currentPlayerPos.y = 0.9f;
+        //}
 
-        if(currentPlayerPos.y < 0.1f)
-        {
-            currentPlayerPos.y = 0.1f;
-        }
-        else if(currentPlayerPos.y > 0.9f)
-        {
-            currentPlayerPos.y = 0.9f;
-        }
+        //Vector3 fixedPlayerPos = mainCam.ViewportToWorldPoint(currentPlayerPos);
+        //transform.position = fixedPlayerPos;
+        #endregion
+        //슈팅 게임 응용
+
+        
+
     }
 
 
