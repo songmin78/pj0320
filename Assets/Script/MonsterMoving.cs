@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class MonsterMoving : MonoBehaviour
@@ -10,6 +11,7 @@ public class MonsterMoving : MonoBehaviour
 
     [Header("쫓아가기위한 정보")]
     [SerializeField] public bool ChasePlayer = false;
+    public float ttest;
     //[SerializeField] private bool ChaseX = false;
     //[SerializeField] private bool ChaseY = false;
     //[SerializeField] private float posX;//플레이어위치 + 몬스터위치 값.X
@@ -17,8 +19,8 @@ public class MonsterMoving : MonoBehaviour
 
     //[SerializeField] Vector3 diffPos;
 
-    //[SerializeField] float horizontals;
-    //[SerializeField] float verticals;
+    [SerializeField] int horizontals;
+    [SerializeField] int verticals;
 
     //[Header("몬스터 스팩")]
     //[SerializeField] float speed = 5f;//몬스터이동속도
@@ -29,11 +31,11 @@ public class MonsterMoving : MonoBehaviour
     //[SerializeField] float yplayer;
     //bool hitpush;
 
-    //private void Awake()
-    //{
-    //    Maxspeed = speed;
-    //    animator = GetComponent<Animator>(); 
-    //}
+    private void Awake()
+    {
+        //Maxspeed = speed;
+        animator = GetComponent<Animator>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -42,6 +44,8 @@ public class MonsterMoving : MonoBehaviour
         if(player)
         {
             ChasePlayer = true;
+            HitboxMonster hitboxmonster = transform.GetChild(0).GetComponent<HitboxMonster>();
+            hitboxmonster.playerchasecheck();
         }
     }
 
@@ -53,9 +57,10 @@ public class MonsterMoving : MonoBehaviour
     void Update()
     {
         //playerchase();
-        //Anim();
+        PlayAnim();
         //slowspeed();
         //puchcheck();
+        //test();
     }
 
     //private void playerchase()//플레이어를 쫓아가는 코드
@@ -143,17 +148,36 @@ public class MonsterMoving : MonoBehaviour
     //}
 
 
-    //private void Anim()//이동 애니메이션 코드
-    //{
-    //    //animator.SetFloat("Horizontal", (float)horizontals);
-    //    //animator.SetFloat("Vertical", (float)verticals);
+    public void Anim(int _horizontals, int _verticals)//이동 애니메이션 코드
+    {
+        horizontals = _horizontals;
+        verticals = _verticals;
+    }
 
-    //    //if (horizontals < 0)
-    //    //{
-    //    //    transform.localScale = new Vector3(horizontals, 1, 1);
-    //    //}
-    //}
-
+    public void PlayAnim()//이동 애니메이션 코드
+    {
+        #region 코드 안보이게 정리
+        //if (horizontals == 0 && verticals == 0)
+        //{
+        //    return;
+        //}
+        //if (horizontals == 0 && verticals == 0)
+        //{
+        //    animator.SetInteger("Horizontal", (int)horizontals);
+        //    animator.SetInteger("Vertical", (int)verticals);
+        //}
+        #endregion
+        if (horizontals < 0 )
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        animator.SetInteger("Horizontal", (int)horizontals);
+        animator.SetInteger("Vertical", (int)verticals);
+    }
 
     //private void slowspeed()
     //{
@@ -190,5 +214,11 @@ public class MonsterMoving : MonoBehaviour
     //    }
     //}
 
-
+    private void test()
+    {
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
 }

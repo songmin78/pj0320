@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HitboxMonster : MonoBehaviour
 {
-    [SerializeField]GameObject parents;
+    [SerializeField] GameObject parents;
 
     [Header("몬스터 스펙")]
     //[SerializeField] public float attackdamage;//몬스터의 데미지
@@ -30,13 +30,14 @@ public class HitboxMonster : MonoBehaviour
     [SerializeField] public bool magicchek = false;
     float retime = 0.5f;
     float Maxretime;
+    [SerializeField] bool ChaseHorizontal = false;
 
     [Header("몬스터 이동 스크립트 모음")]
 
     Animator animator;
 
     [Header("쫓아가기위한 정보")]
-    //[SerializeField] private bool ChasePlayer = false;
+    [SerializeField] private bool ChasePlayered = false;
     [SerializeField] private bool ChaseX = false;
     [SerializeField] private bool ChaseY = false;
     [SerializeField] private float posX;//플레이어위치 + 몬스터위치 값.X
@@ -44,8 +45,8 @@ public class HitboxMonster : MonoBehaviour
 
     [SerializeField] Vector3 diffPos;
 
-    [SerializeField] float horizontals;
-    [SerializeField] float verticals;
+    [SerializeField] public int horizontals;
+    [SerializeField] public int verticals;
 
     [Header("몬스터 스팩")]
     [SerializeField] float speed = 5f;//몬스터이동속도
@@ -119,9 +120,9 @@ public class HitboxMonster : MonoBehaviour
     {
         //몬스터 이동 스크립트
         playerchase();
-        Anim();
         slowspeed();
         puchcheck();
+        //Anim();
 
         //몬스터 히트 스크립트
         Hitboxmaonster();
@@ -216,11 +217,7 @@ public class HitboxMonster : MonoBehaviour
                 vec3.y -= 1.3f;
                 parents.transform.position = vec3;
             }
-
         }
-        
-
-
     }
 
     private void Timer()
@@ -242,10 +239,15 @@ public class HitboxMonster : MonoBehaviour
 
     //=======================================
 
-
-    private void playerchase()//플레이어를 쫓아가는 코드
+    public void playerchasecheck()
     {
-        if ( GameManager.Instance.MonsterMoving.ChasePlayer == true)
+        ChasePlayered = true;
+    }
+
+
+    public void playerchase()//플레이어를 쫓아가는 코드
+    {
+        if (ChasePlayered == true)
         {
             #region 메커니즘 설명
             //1.플레이어의 위치를 실시간으로 확인
@@ -266,7 +268,7 @@ public class HitboxMonster : MonoBehaviour
 
             diffPos = pos - transform.position;
 
-            bool ChaseHorizontal = false;
+            //bool ChaseHorizontal = false;
             // x,y좌표가 절대값으로 계산
             if (Mathf.Abs(posX) > 0.02)//x좌표가 더 클경우,Mathf.Abs() <-절대값으로 변환하는 코드
             {
@@ -282,13 +284,49 @@ public class HitboxMonster : MonoBehaviour
             Vector3 dir = Vector3.zero;
             if (ChaseHorizontal == true)//좌 우로
             {
-                dir.x = diffPos.x > 0 ? 1 : -1;
+                //dir.x = diffPos.x > 0 ? 1 : -1;
+                if (diffPos.x > 0)
+                {
+                    dir.x = 1;
+                    horizontals = 1;
+                    verticals = 0;
+                }
+                else
+                {
+                    dir.x = -1;
+                    horizontals = -1;
+                    verticals = 0;
+                }
+                #region 
+                //if(dir.x >  0)
+                //{
+                //    horizontals = 1;
+                //    verticals = 0;
+                //}
+                //else if(dir.x < 0)
+                //{
+                //    horizontals = -1f;
+                //    verticals = 0;
+                //}
+                #endregion
+
             }
-            else
+            else if(ChaseHorizontal == false)//x좌표가 세로로 될 경우
             {
                 dir.y = diffPos.y > 0 ? 1 : -1;
+                if (dir.y > 0)
+                {
+                    verticals = 1;
+                    horizontals = 0;
+                }
+                else if (dir.y < 0)
+                {
+                    verticals = -1;
+                    horizontals = 0;
+                }
             }
-
+            MonsterMoving monstermoving = parents.GetComponent<MonsterMoving>();//부모에있느 게임 오브젝트에있는 MonsterMoving을 가져온다
+            monstermoving.Anim(horizontals, verticals);
             parents.transform.position += Maxspeed * Time.deltaTime * dir;
 
             #region 이전코드
@@ -329,22 +367,23 @@ public class HitboxMonster : MonoBehaviour
         }
     }
 
+    #region
     private void Anim()//이동 애니메이션 코드
     {
-        //if(posX >= 0.01)
+        //if(horizontals == 0 && verticals == 0)
         //{
-
+        //    return;
         //}
-
-        //animator.SetFloat("Horizontal", (float)horizontals);
-        //animator.SetFloat("Vertical", (float)verticals);
-
+        //animator.SetFloat("Horizontal",(float)horizontals);
+        //animator.SetFloat("Vertical",(float) verticals);
+        
     }
+    #endregion
 
 
     private void slowspeed()
     {
-        if (magicchek == true)//몬스터가 마법공격에 닿을때
+        if (magicchek == true&& Bosscheck == false)//몬스터가 마법공격에 닿을때
         {
             #region 이전코드
             //Maxspeed -= 1;//기본 이동속도를 줄인다

@@ -66,7 +66,7 @@ public class FildUI : MonoBehaviour
             }
             else if(fildstage == true)
             {
-                //SceneManager.LoadSceneAsync(4);
+                SceneManager.LoadSceneAsync(4);
             }
         }
     }
