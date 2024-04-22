@@ -7619,7 +7619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &765628074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8221,7 +8221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &795162370
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11042,6 +11042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61f0938b0f99be94388ad0e84caf6bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
   arrow: {fileID: 6818603531882597622, guid: 8454951fbd8c0d046b469f6935d65740, type: 3}
   sword: {fileID: 8129100227542089888, guid: 55465896f8ba8454a9db6e6e32e7d943, type: 3}
   magic: {fileID: 8522138926694928871, guid: 099831c921ff04f40be263e17bb36237, type: 3}
