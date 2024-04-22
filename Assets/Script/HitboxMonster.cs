@@ -331,13 +331,14 @@ public class HitboxMonster : MonoBehaviour
 
     private void Anim()//이동 애니메이션 코드
     {
+        //if(posX >= 0.01)
+        //{
+
+        //}
+
         //animator.SetFloat("Horizontal", (float)horizontals);
         //animator.SetFloat("Vertical", (float)verticals);
 
-        //if (horizontals < 0)
-        //{
-        //    transform.localScale = new Vector3(horizontals, 1, 1);
-        //}
     }
 
 
