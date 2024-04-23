@@ -9834,6 +9834,7 @@ MonoBehaviour:
   tutorialstage: 0
   startstage: 1
   fildstage: 0
+  stagetype: 0
   passcheck: 0
   aaa: {fileID: 1629527191}
   gagecheck: {fileID: 32789897}

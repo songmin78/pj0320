@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7017918694362779816}
   - component: {fileID: 7121799513257196995}
   - component: {fileID: 8288203088488717483}
-  - component: {fileID: 5453022412621792314}
+  - component: {fileID: -5276324979819467938}
   m_Layer: 0
   m_Name: Bringer-of-Death-SpritSheet_0
   m_TagString: Untagged
@@ -142,7 +142,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.058143616, y: -2.6243916}
+  m_Offset: {x: -0.023279428, y: -0.14660501}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.7586625, y: 0.3482548}
@@ -153,9 +153,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15.260092, y: 8.837563}
+  m_Size: {x: 1.4284711, y: 1.886889}
   m_EdgeRadius: 0
---- !u!114 &5453022412621792314
+--- !u!114 &-5276324979819467938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,14 +164,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3930462686226823938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbcbdef93ddb99f4ea10b2a5e31e3f84, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a7dba8396dd14041b64e8a98b736b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChasePlayer: 0
-  ttest: 0
-  Bosscheck: 1
-  horizontals: 0
-  verticals: 0
 --- !u!1 &5297983490119464336
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2324161654570792007
 Transform:
   m_ObjectHideFlags: 0
@@ -281,7 +276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5748011361659361410
 Transform:
   m_ObjectHideFlags: 0
