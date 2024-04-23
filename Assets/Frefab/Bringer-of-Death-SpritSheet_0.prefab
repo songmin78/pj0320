@@ -168,6 +168,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChasePlayer: 0
+  ttest: 0
+  Bosscheck: 1
+  horizontals: 0
+  verticals: 0
 --- !u!1 &5297983490119464336
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +316,8 @@ MonoBehaviour:
   waycheck: 0
   Bosscheck: 1
   magicchek: 0
+  ChaseHorizontal: 0
+  ChasePlayered: 0
   ChaseX: 0
   ChaseY: 0
   posX: 0

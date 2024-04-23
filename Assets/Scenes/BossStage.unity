@@ -4917,7 +4917,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1664758083
 GameObject:
@@ -5676,11 +5676,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838701910}
   m_CullTransparentMesh: 1
---- !u!1 &1847840740 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3930462686226823938, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-  m_PrefabInstance: {fileID: 2004973429}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1881888735
 GameObject:
   m_ObjectHideFlags: 0
@@ -22038,75 +22033,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2004973429
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 809258982058949861, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3866622630621811859, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: parents
-      value: 
-      objectReference: {fileID: 1847840740}
-    - target: {fileID: 3866622630621811859, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: Bosscheck
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930462686226823938, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
-      propertyPath: m_Name
-      value: Bringer-of-Death-SpritSheet_0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dd3ea3e3e694d72458a48f393a4d1cbe, type: 3}
 --- !u!1 &2010746532
 GameObject:
   m_ObjectHideFlags: 0

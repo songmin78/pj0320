@@ -12,6 +12,7 @@ public class MonsterMoving : MonoBehaviour
     [Header("쫓아가기위한 정보")]
     [SerializeField] public bool ChasePlayer = false;
     public float ttest;
+    [SerializeField] bool Bosscheck;//보스인지 확인
     //[SerializeField] private bool ChaseX = false;
     //[SerializeField] private bool ChaseY = false;
     //[SerializeField] private float posX;//플레이어위치 + 몬스터위치 값.X
@@ -156,28 +157,32 @@ public class MonsterMoving : MonoBehaviour
 
     public void PlayAnim()//이동 애니메이션 코드
     {
-        #region 코드 안보이게 정리
-        //if (horizontals == 0 && verticals == 0)
-        //{
-        //    return;
-        //}
-        //if (horizontals == 0 && verticals == 0)
-        //{
-        //    animator.SetInteger("Horizontal", (int)horizontals);
-        //    animator.SetInteger("Vertical", (int)verticals);
-        //}
-        #endregion
-        if (horizontals < 0 )
+        if(Bosscheck == false)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            #region 코드 안보이게 정리
+            //if (horizontals == 0 && verticals == 0)
+            //{
+            //    return;
+            //}
+            //if (horizontals == 0 && verticals == 0)
+            //{
+            //    animator.SetInteger("Horizontal", (int)horizontals);
+            //    animator.SetInteger("Vertical", (int)verticals);
+            //}
+            #endregion
+            if (horizontals < 0 )
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            animator.SetInteger("Horizontal", (int)horizontals);
+            animator.SetInteger("Vertical", (int)verticals);
         }
-        else
-        {
-            transform.localScale = new Vector3(1, 1, 1);
+
         }
-        animator.SetInteger("Horizontal", (int)horizontals);
-        animator.SetInteger("Vertical", (int)verticals);
-    }
 
     //private void slowspeed()
     //{
