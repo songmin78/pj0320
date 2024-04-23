@@ -9,6 +9,7 @@ public class FildUI : MonoBehaviour
     [SerializeField] bool tutorialstage;
     [SerializeField] bool startstage;
     [SerializeField] bool fildstage;
+    [SerializeField] int stagetype;
     [Header("오즈덱트에 닿았는지 체크")]
     [SerializeField] public bool passcheck = false;
     [Header("스테이지 넘어갈때 챙길 오브잭트")]
@@ -59,15 +60,21 @@ public class FildUI : MonoBehaviour
             if(tutorialstage == true)
             {
                 SceneManager.LoadSceneAsync(2);
+                stagetype = 1;
             }
             else if(startstage == true)
             {
                 SceneManager.LoadSceneAsync(3);
+                stagetype = 2;
             }
             else if(fildstage == true)
             {
                 SceneManager.LoadSceneAsync(4);
+                stagetype = 3;
             }
+
+            Player player = GameManager.Instance.Player;
+            player.stage(stagetype);
         }
     }
 }

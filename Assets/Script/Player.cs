@@ -925,5 +925,20 @@ public class Player : MonoBehaviour
 
     }
 
+    public void stage(int _stagetype)
+    {
+        if(_stagetype == 1)//튜토리얼 > 시작 스테이지
+        {
+            transform.position = new Vector3(4, -10, 0);
+        }
+        else if(_stagetype == 2)//시작 스테이지 -> 스테이지 1
+        {
+            transform.position = new Vector3(1, -9, 0);
+        }
+        else if(_stagetype == 3)//스테이지1 -> 보스 스테이지
+        {
+            transform.position = new Vector3(0.12f, -21, 0);
+        }
+    }
 
 }
