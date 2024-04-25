@@ -493,7 +493,7 @@ public class Player : MonoBehaviour
                     go = Instantiate(ctSword, trsHands);//카운터 무기를 소환
                     go.transform.eulerAngles = new Vector3(0, Yeulerchange, Checkchange);//바라보고있는 방향으로 공격
                     go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);//자기위치보다 앞에서 소환
-                    Debug.Log("풀차징");
+                    //Debug.Log("풀차징");
                     Weaponcheck weaponcheck_2 = go.GetComponent<Weaponcheck>();
                     weaponcheck_2.Counterdamage(Weapontype, eulercheck);
                     return;
@@ -506,7 +506,7 @@ public class Player : MonoBehaviour
                     go = Instantiate(sword, trsHands);
                     go.transform.eulerAngles = new Vector3(0, Yeulerchange, Checkchange);
                     go.transform.position = transform.position + new Vector3(Horposition, Verposition, 0);
-                    Debug.Log("기본공격");
+                    //Debug.Log("기본공격");
 
                     Weaponcheck weaponcheck = go.GetComponent<Weaponcheck>();
                     weaponcheck.Attackdamage(Weapontype, eulercheck);
@@ -711,7 +711,7 @@ public class Player : MonoBehaviour
                 {
                     timerattack = false;
                     attackstandard = false;
-                    Debug.Log("초기화");
+                    //Debug.Log("초기화");
                 }
             }//근접
         }
@@ -732,7 +732,7 @@ public class Player : MonoBehaviour
                 {
                     cttimerattack = false;
                     ctattackstandard = false;
-                    Debug.Log("카운터 초기화");
+                    //Debug.Log("카운터 초기화");
                 }
             }
             else if(Weapontype == 1)//검
@@ -766,7 +766,7 @@ public class Player : MonoBehaviour
                 {
                     cttimerattack = false;
                     ctattackstandard = false;
-                    Debug.Log("카운터 초기화");
+                    //Debug.Log("카운터 초기화");
                 }
             }
         }

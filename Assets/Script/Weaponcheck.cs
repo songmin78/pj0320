@@ -71,17 +71,17 @@ public class Weaponcheck : MonoBehaviour
     {
         if(_weaponType == 0)//원거리 무기
         {
-            Debug.Log("원거리");
+            //Debug.Log("원거리");
         }
         else if(_weaponType == 1)//근접 무기
         {
             eulercheck = _eulercheck; 
-            Debug.Log(eulercheck);
+            //Debug.Log(eulercheck);
         }
         else if(_weaponType == 2)//마법무기
         {
             magicway = true;
-            Debug.Log("마법");
+            //Debug.Log("마법");
         }
     }
 
@@ -89,16 +89,16 @@ public class Weaponcheck : MonoBehaviour
     {
         if (_weaponType == 0)//원거리 무기
         {
-            Debug.Log("원거리 카운터");
+            //Debug.Log("원거리 카운터");
         }
         else if (_weaponType == 1)//근접 무기
         {
             eulercheck = _eulercheck;
-            Debug.Log("근거리 카운터");
+            //Debug.Log("근거리 카운터");
         }
         else if (_weaponType == 2)//마법무기
         {
-            Debug.Log("마법 카운터");
+            //Debug.Log("마법 카운터");
         }
     }
 

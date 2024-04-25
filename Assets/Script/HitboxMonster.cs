@@ -65,14 +65,23 @@ public class HitboxMonster : MonoBehaviour
         Weaponcheck weapon = collision.gameObject.GetComponent<Weaponcheck>();//무기 gameobject가 몬스터 collision에 닿을때 
         Player player = collision.gameObject.GetComponent<Player>();
 
-        if (weapon)
+        if (weapon)//null 상태에서는 적용이 안됨
         {
             beatendamage = true;
-            if(GameManager.Instance.Weaponcheck.magic == true)//만약에 마법에 닿았을경우
+            //if(GameManager.Instance.Weaponcheck.magic == true)//만약에 마법에 닿았을경우
+            //{
+            //    magicchek = true;
+            //}
+            //else if(GameManager.Instance.Weaponcheck.Counter == true && GameManager.Instance.Weaponcheck.punch == true)
+            //{
+            //    pushdamage = true;
+            //}
+
+            if(weapon.magic == true)
             {
                 magicchek = true;
             }
-            else if(GameManager.Instance.Weaponcheck.Counter == true && GameManager.Instance.Weaponcheck.punch == true)
+            else if(weapon.Counter == true && weapon.punch == true)
             {
                 pushdamage = true;
             }
@@ -125,7 +134,7 @@ public class HitboxMonster : MonoBehaviour
         //Anim();
 
         //몬스터 히트 스크립트
-        Hitboxmaonster();
+        Hitboxmonster();
         destroymonster();
         destroymagic();
 
@@ -134,7 +143,7 @@ public class HitboxMonster : MonoBehaviour
 
     }
 
-    private void Hitboxmaonster()
+    private void Hitboxmonster()
     {
         if(beatendamage == true && magicchek == false)
         {

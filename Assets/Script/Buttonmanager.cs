@@ -30,6 +30,7 @@ public class Buttonmanager : MonoBehaviour
     [SerializeField] GameObject sword;
     [SerializeField] GameObject magic;
     [SerializeField] GameObject reurnbuttons;
+    [SerializeField] GameObject bossstage;
 
     float passcheck = 0;
     [SerializeField] bool tapon;
@@ -86,7 +87,7 @@ public class Buttonmanager : MonoBehaviour
         {
             if (passcheck == 0)
             {
-                passcheck = 1;
+                passcheck = 1;//Ä® ¼³¸íÁý
                 bow.SetActive(false);
                 sword.SetActive(true);
                 reurnbuttons.SetActive(true);
@@ -97,6 +98,13 @@ public class Buttonmanager : MonoBehaviour
                 sword.SetActive(false);
                 magic.SetActive(true);
             }
+            else if (passcheck == 2)
+            {
+                passcheck = 3;
+                magic.SetActive(false);
+                bossstage.SetActive(true);
+            }
+
         });
 
         returnbutton.onClick.AddListener(() =>
@@ -113,6 +121,12 @@ public class Buttonmanager : MonoBehaviour
                 passcheck = 1;
                 magic.SetActive(false);
                 sword.SetActive(true);
+            }
+            else if(passcheck == 3)
+            {
+                passcheck = 2;
+                bossstage.SetActive(false);
+                magic.SetActive(true);
             }
         });
 
