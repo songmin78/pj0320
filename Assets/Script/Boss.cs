@@ -82,9 +82,10 @@ public class Boss : MonoBehaviour
     {
         if (attackwait == false && afterattackcheck == false)
         {
+            #region
             if (lastpatterncount == patterncount)//만약 1의 변수랑 2의 변수가 같을경우
             {
-                if(returnpattrn > 2)
+                if (returnpattrn > 2)
                 {
                     patterncount = 2;
                 }
@@ -92,20 +93,48 @@ public class Boss : MonoBehaviour
                 {
                     patterncount = Random.Range(0, 2);//2의 변수를 변화시킨다
                 }
-                Randomcheck();//다시 적용
+                //Randomcheck();//다시 적용
             }
-            else
+            else if (lastpatterncount != patterncount)
             {
                 lastpatterncount = patterncount;//다른 숫자일 경우 마지막숫자르  다시 변경함
-                if(lastpatterncount == 0 || lastpatterncount == 1)
+                if (lastpatterncount == 0 || lastpatterncount == 1)
                 {
                     returnpattrn += 1;
                 }
-                else if(lastpatterncount == 2)
+                else if (lastpatterncount == 2)
                 {
                     returnpattrn = 0;
                 }
             }
+            #endregion
+            #region 반복식 while문 아직 테스트단계
+            //while (lastpatterncount == patterncount)
+            //{
+            //    if(returnpattrn > 2)
+            //    {
+            //        patterncount = 2;
+            //    }
+            //    else
+            //    {
+            //        patterncount = Random.Range(0, 2);
+            //    }
+            //    if(lastpatterncount != patterncount)
+            //    {
+            //        lastpatterncount = patterncount;
+            //        //다른 숫자일 경우 마지막숫자르  다시 변경함
+            //        if (lastpatterncount == 0 || lastpatterncount == 1) 
+            //        {
+            //            returnpattrn += 1;
+            //        }
+            //        else if (lastpatterncount == 2)
+            //        {
+            //            returnpattrn = 0;
+            //        }
+            //        return;
+            //    }
+            //}
+            #endregion
         }
     }
 
@@ -163,7 +192,7 @@ public class Boss : MonoBehaviour
                     {
                         Maxafterattack = afterattack;
                         afterattackcheck = false;
-                        patterncount = Random.Range(0, 3);
+                        patterncount = Random.Range(0, 2);
                     }
                 }
 
@@ -219,7 +248,7 @@ public class Boss : MonoBehaviour
                         Maxafterattack = afterattack;
                         afterattackcheck = false;
                         transform.localScale = new Vector3(1, 1, 1);
-                        patterncount = Random.Range(0,3);
+                        patterncount = Random.Range(0,2);
                     }
                 }
             }//보스 패턴2 왼쪽에서 칼 공격
@@ -237,7 +266,7 @@ public class Boss : MonoBehaviour
                         Cosspattern3.SetActive(true);//공격루트 오브젝트를 보여준다
                         horizonalrush.fillAmount = rushtime / Maxrushtime;//왜각 공격루트
                         horizonalrush1.fillAmount = rushtime / Maxrushtime;//직접 공격할 공격루트
-                        if (rushtime >= 0.78f)//1이 된다면
+                        if (rushtime >= 0.79f)//1이 된다면
                         {
                             waittimer = true;//1번만 실행하는 코드를 True
                             rushtime = 0;//시간코드 초기화
@@ -252,7 +281,7 @@ public class Boss : MonoBehaviour
                             Cosspattern4.SetActive(true);//세로 공격 루트를 보여준다
                             verticalrush.fillAmount = rushtime / Maxrushtime;//왜각
                             verticalrush1.fillAmount = rushtime / Maxrushtime;//중앙
-                            if (rushtime >= 0.78f)//공격루트를 다 보여준다면
+                            if (rushtime >= 0.79f)//공격루트를 다 보여준다면
                             {
                                 rushattackcheck = true;
                                 Maxattacktimer = 1;//공격이 다끝나고 남은 대기시간으로 활용
@@ -340,6 +369,7 @@ public class Boss : MonoBehaviour
                     Maxafterattack -= Time.deltaTime;
                     if (Maxafterattack <= 0)
                     {
+                        rushtime = 0;
                         rushattackcheck = false;
                         rushwait = false;
                         rushrush = false;
