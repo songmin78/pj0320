@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Boss : MonoBehaviour
 {
+    Animator animator;
+
     [Header("보스 능력치")]
     [SerializeField] float bossHp;//보스 HP
     float MaxbossHP;
@@ -48,21 +50,23 @@ public class Boss : MonoBehaviour
     [SerializeField] Image verticalrush1;
     [Header("공격 여부")]
     bool beatendamage = false;
+    bool magicchek;//마법공격이 들어오는지 아닌지 확인
+    float retime = 0.5f;
+    float Maxretime;
     //public bool Oncheckdamage = false;
     float weapondamage = 0;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Weaponcheck weapon = collision.gameObject.GetComponent<Weaponcheck>();//무기 gameobject가 몬스터 collision에 닿을때 
-        #region 원거리형 무기들은 적용 안됨
-        Debug.Log(collision.name);
+        //Debug.Log(collision.name);
         Weaponcheck weapon = collision.gameObject.GetComponent<Weaponcheck>();
 
         if (weapon != null && counterwait == true && weapon.Counter == true)
         {
             counterfaint = true;
         }
-        #endregion
+        
 
         #region layer마스크 부분을 적음
         //layer는 int형으로 밖에  못 가져옴
@@ -86,12 +90,25 @@ public class Boss : MonoBehaviour
         if(weapon)
         {
             beatendamage = true;
+            if (weapon.magic == true)
+            {
+                magicchek = true;
+            }
         }
 
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (magicchek == true)
+        {
+            magicchek = false;
+        }
+    }
+
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         Maxattacktimer = attacktimer;
         MaxbossHP = bossHp;
         Maxwaittime = waittime;
@@ -111,11 +128,16 @@ public class Boss : MonoBehaviour
 
     void Update()
     {
+        //보스가 공격하는 부분
         Randomcheck();
         Bosspattern();
 
+        //보스 HP관리쪽
+        hpcommand();
+        destrymagic();
+        destroymonster();
 
-
+        //보스카운터 부분
         countertime();//좌우 공격이  카운터 될때 체크
         rushcounter();//3번 스킬이 카운터 될때 체크
         counterdamage();//카운터 기절 시간
@@ -468,13 +490,67 @@ public class Boss : MonoBehaviour
     }
 
     //보스 HP관리 코드 짜기
+    private void hpcommand()//일반적인 공격일 경우
+    {
+        if (beatendamage == true && magicchek == false)
+        {
+            weapondamage = GameManager.Instance.Weaponcheck.AttackdamageMax;
+            if (counterfaint == true)
+            {
+                MaxbossHP -= weapondamage * 3;
+            }
+            else
+            {
+                MaxbossHP -= weapondamage;
+            }
+            Debug.Log(MaxbossHP);
+        }
+
+    }
+
+    private void destrymagic()//마법 공격에 닿았을 경우
+    {
+        if(magicchek == true)
+        {
+            if (Maxretime <= 0)
+            {
+                Maxretime = retime;
+            }
+            while (Maxretime == retime)
+            {
+                weapondamage = GameManager.Instance.Weaponcheck.AttackdamageMax;
+                if(counterfaint == true)
+                {
+                    MaxbossHP -= weapondamage * 3;
+                }
+                else
+                {
+                    MaxbossHP -= weapondamage;
+                }
+                break;
+            }
+            Maxretime -= Time.deltaTime;
+        }
+        
+    }
+
+    private void destroymonster()//보스가 죽는 경우
+    {
+        if (MaxbossHP <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            beatendamage = false;
+        }
+    }
 
 
     private void counterdamage()//카운터 공격에 맞았을시
     {
         if(counterfaint == true && rushcountertimecheck == false)//카운터 공격에 맞을때
         {
-
             Maxcountertimer -= Time.deltaTime;
             if (Maxcountertimer <= 0)
             {
