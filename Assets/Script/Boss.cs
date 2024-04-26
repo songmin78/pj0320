@@ -60,6 +60,9 @@ public class Boss : MonoBehaviour
     float Maxretime;
     //public bool Oncheckdamage = false;
     float weapondamage = 0;
+    [Header("기타 처리")]
+    [SerializeField] float bossdathtimer;//보스가 죽기위한 시간
+    [SerializeField] GameObject clearobject;//보스를 잡으면 생기는 오브젝트
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -469,7 +472,7 @@ public class Boss : MonoBehaviour
                                         waittimer = false;
                                         counterwait = false;
                                         afterattackcheck = true;
-                                        transform.position = new Vector3(4.4f, -5, 0);
+                                        transform.position = new Vector3(4.4f, -5, 0);//중앙에 서있기
                                         //patterncount = Random.Range(0, 3);
                                     }
                                 }
@@ -546,7 +549,13 @@ public class Boss : MonoBehaviour
     {
         if (MaxbossHP <= 0)
         {
-            Destroy(gameObject);
+            transform.position = new Vector3(4.4f, -5, 0);
+            bossdathtimer -= Time.deltaTime;
+            if(bossdathtimer <= 0)
+            {
+                clearobject.SetActive(true);
+                Destroy(gameObject);
+            }
         }
         else
         {

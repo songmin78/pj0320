@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
     public int eulercheck =0;
     [SerializeField] bool slowcheck = false;
     public bool Monsterattackcheck;//몬스터가 때렸는지 안때렸는지 확인
+    bool Bossattackcheck;//보스몬스터가 공격했는지 확인하는 코드
     public float Monsterdamage;//몬스터가 플레이어를 공격할때 데미지
     public float invincibilitytime = 1;//몬스터한테 공격받고 생기는 무적시간
     private float Maxinvincibilitytime;
@@ -123,7 +124,10 @@ public class Player : MonoBehaviour
             Monsterattackcheck = true;
         }
 
-        
+        if(collision.gameObject.tag == "bossdamage")
+        {
+            Bossattackcheck = true;
+        }
     }
 
 
@@ -168,6 +172,7 @@ public class Player : MonoBehaviour
         weaponattacktimer();//각 무기 쿨타임 관리
 
         playerhpcheck();//플레이어 HP 관리
+        bossdamage();//보스전 HP관리
 
         Anim();//애니메이션 관리
     }
@@ -943,4 +948,41 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void bossdamage()//보스 공격 받을때 생기는 코드
+    {
+        if(Bossattackcheck == true)//보스 공격에 맞았을때
+        {
+            if (GameManager.Instance.Buttonmanager.Cheatcheck == true)
+            {
+                MaxHP -= 0;
+                Bossattackcheck = false;
+            }
+            else
+            {
+                //Monsterdamage = GameManager.Instance.Monsterattack.attackdamage;//몬스터 데미지를 받는다
+                Monsterdamage = 1;
+                if (Maxinvincibilitytime == 1)
+                {
+                    MaxHP -= Monsterdamage;
+                }
+
+                if (MaxHP <= 0)
+                {
+                    Destroy(play);
+                }
+                else if (MaxHP > 0)
+                {
+                    //만약 플레이어 HP가 남으면 1초간 무적
+
+                    Maxinvincibilitytime -= 1 * Time.deltaTime;
+
+                    if (Maxinvincibilitytime <= 0)
+                    {
+                        Maxinvincibilitytime = invincibilitytime;
+                        Bossattackcheck = false;
+                    }
+                }
+            }
+        }
+    }
 }
