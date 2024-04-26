@@ -43,7 +43,12 @@ public class Boss : MonoBehaviour
     [SerializeField]float countertimer = 5;//카운터공격에 맞았을때 생기는 무력화 시간
     float Maxcountertimer;
     bool rushcountertimecheck;//밀려날때 카운터기절 시간이 안 흐르게 설정
-    [Header("공격 부분")]
+    [Header("1,2스킬 공격 부분")]
+    [SerializeField] GameObject rightattack;
+    [SerializeField] GameObject leftattack;
+    float skillattack = 0.25f;//0.25초만큼 공격하도록 설정
+    bool skillcheck;//보스가 공격할때 true
+    [Header("3스킬 공격 부분")]
     [SerializeField] Image horizonalrush;
     [SerializeField] Image horizonalrush1;
     [SerializeField] Image verticalrush;
@@ -131,6 +136,7 @@ public class Boss : MonoBehaviour
         //보스가 공격하는 부분
         Randomcheck();
         Bosspattern();
+        boosattacktimer();
 
         //보스 HP관리쪽
         hpcommand();
@@ -242,13 +248,14 @@ public class Boss : MonoBehaviour
                             Maxattacktimer = 2;//공격 대기시간 설정
                             counterwait = false; //카운터공격 들어오는것을 방지
                             afterattackcheck = true;//공격후에  있는 대기 시간
+                            skillcheck = true;
                             //hitwaitcheck = true;
                             //patterncount = Random.Range(0, 3);//랜덤숫자 돌리기
                             pattern1.SetActive(false);//공격 범위를 삭제
                         }
                         else if (Maxattacktimer > 0)//0이 아닐때
                         {
-                            Maxattacktimer -= Time.deltaTime;//공격모션을 대기 초가 다 되면 공격
+                            Maxattacktimer -= Time.deltaTime;//공격모션을 대기 초가 다 되면 공격을 하기위한 초
                             #region
                             //if (counterfaint == true)//카운터 
                             //{
@@ -304,6 +311,7 @@ public class Boss : MonoBehaviour
                             Maxattacktimer = 2;//공격 대기시간 설정
                             counterwait = false; //카운터공격 들어오는것을 방지
                             afterattackcheck = true;//공격후에  있는 대기 시간
+                            skillcheck = true;
                             pattern2.SetActive(false);//공격 범위를 삭제
                         }
                         else if (Maxattacktimer > 0)//0이 아닐때
@@ -634,5 +642,38 @@ public class Boss : MonoBehaviour
        
     }
 
-
+    private void boosattacktimer()//보스가 1스킬 혹은 2스킬을 쓸때 생기는 오브젝트를 다룸
+    {
+        if(skillcheck == true)
+        {
+            if(patterncount == 0)//오른쪽 공격
+            {
+                if(skillattack <= 0)
+                {
+                    skillcheck = false;
+                    skillattack = 0.25f;
+                    rightattack.SetActive(false);
+                }
+                else
+                {
+                    rightattack.SetActive(true);
+                    skillattack -= Time.deltaTime;
+                }
+            }
+            else if(patterncount == 1)
+            {
+                if (skillattack <= 0)
+                {
+                    skillcheck = false;
+                    skillattack = 0.25f;
+                    leftattack.SetActive(false);
+                }
+                else
+                {
+                    leftattack.SetActive(true);
+                    skillattack -= Time.deltaTime;
+                }
+            }
+        }
+    }
 }
