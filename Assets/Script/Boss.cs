@@ -6,22 +6,24 @@ using UnityEngine.UI;
 public class Boss : MonoBehaviour
 {
     Animator animator;
-
+    [SerializeField] public bool bossstart;
+    [SerializeField]float bossstarttimer = 1.5f;
     [Header("보스 능력치")]
     [SerializeField] float bossHp;//보스 HP
+    [SerializeField] Image bossHpbar;
     float MaxbossHP;
 
     [SerializeField] GameObject pattern1;//공격패턴1
     [SerializeField] GameObject pattern2;//공격패턴2
     [SerializeField] GameObject Cosspattern3;//공격 패턴3-1
     [SerializeField] GameObject Cosspattern4;//공격 패턴3-2
-    [SerializeField]int patterncount;//랜덤한 패턴을 넣는다
-    [SerializeField]int lastpatterncount;//마지막 숫자를 넣어 동일한 숫자를 나오는거 방지함
-    [SerializeField]float returnpattrn;
-    [SerializeField]float Maxattacktimer;//공격 쿨타임
+    [SerializeField] int patterncount;//랜덤한 패턴을 넣는다
+    [SerializeField] int lastpatterncount;//마지막 숫자를 넣어 동일한 숫자를 나오는거 방지함
+    [SerializeField] float returnpattrn;
+    [SerializeField] float Maxattacktimer;//공격 쿨타임
     float attacktimer = 2;
     float waittime = 1f;//1초간 대기
-    [SerializeField]float Maxwaittime;//1초간 대기
+    [SerializeField] float Maxwaittime;//1초간 대기
     bool waittimer;// 1초간 대기
     bool attackwait;//공격하는중
     [SerializeField] float hitendwait = 4f;//공격한 후 대기 시간
@@ -34,13 +36,13 @@ public class Boss : MonoBehaviour
     bool rushwait;
     bool afterattackcheck;
     float afterattack = 2;//공격 이후에 대기타는 시간
-    [SerializeField]float Maxafterattack;
+    [SerializeField] float Maxafterattack;
     //[SerializeField, Range(0,1)]float randomtimer = 0.5f;//랜덤 숫자 돌릴때 대기 시간
     //[SerializeField]float Maxrandomtimer;
     [Header("카운터 부분")]
-    [SerializeField]bool counterwait = false;//공격대기상태 이때 카운터 공격을 맞으면 기절함
+    [SerializeField] bool counterwait = false;//공격대기상태 이때 카운터 공격을 맞으면 기절함
     bool counterfaint = false;//카운터 공격에 맞았을때 true로 변환
-    [SerializeField]float countertimer = 5;//카운터공격에 맞았을때 생기는 무력화 시간
+    [SerializeField] float countertimer = 5;//카운터공격에 맞았을때 생기는 무력화 시간
     float Maxcountertimer;
     bool rushcountertimecheck;//밀려날때 카운터기절 시간이 안 흐르게 설정
     [Header("1,2스킬 공격 부분")]
@@ -48,11 +50,14 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject leftattack;
     float skillattack = 0.25f;//0.25초만큼 공격하도록 설정
     bool skillcheck;//보스가 공격할때 true
-    [Header("3스킬 공격 부분")]
+    [Header("3스킬 공격루트 부분")]
     [SerializeField] Image horizonalrush;
     [SerializeField] Image horizonalrush1;
     [SerializeField] Image verticalrush;
     [SerializeField] Image verticalrush1;
+    [Header("공격 부분")]
+    [SerializeField] GameObject horizontalbox;
+    [SerializeField] GameObject verticalbox;
     [Header("공격 여부")]
     bool beatendamage = false;
     bool magicchek;//마법공격이 들어오는지 아닌지 확인
@@ -61,8 +66,14 @@ public class Boss : MonoBehaviour
     //public bool Oncheckdamage = false;
     float weapondamage = 0;
     [Header("기타 처리")]
-    [SerializeField] float bossdathtimer;//보스가 죽기위한 시간
+    float bossdathtimer = 2;//보스가 죽기위한 시간
+    bool deathanim;
     [SerializeField] GameObject clearobject;//보스를 잡으면 생기는 오브젝트
+    [Header("보스 애니메이션 부분")]
+    bool bossdeathanim;
+    bool bosssttackanim;
+    bool bossrushanim;
+    bool bosscounteranim;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -74,7 +85,7 @@ public class Boss : MonoBehaviour
         {
             counterfaint = true;
         }
-        
+
 
         #region layer마스크 부분을 적음
         //layer는 int형으로 밖에  못 가져옴
@@ -95,7 +106,7 @@ public class Boss : MonoBehaviour
         //}
         #endregion
 
-        if(weapon)
+        if (weapon)
         {
             beatendamage = true;
             if (weapon.magic == true)
@@ -128,6 +139,7 @@ public class Boss : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.Boss = this;
         pattern1.SetActive(false);
         pattern2.SetActive(false);
         Cosspattern3.SetActive(false);
@@ -136,20 +148,33 @@ public class Boss : MonoBehaviour
 
     void Update()
     {
-        //보스가 공격하는 부분
-        Randomcheck();
-        Bosspattern();
-        boosattacktimer();
+        if(bossstart == true)
+        {
+            bossstarttimer -= Time.deltaTime;
+            if(bossstarttimer <= 0)
+            {
+                bossstarttimer = 0;
+                //보스가 공격하는 부분
+                Randomcheck();
+                Bosspattern();
+                boosattacktimer();
 
-        //보스 HP관리쪽
-        hpcommand();
-        destrymagic();
-        destroymonster();
+                //보스 HP관리쪽
+                hpcommand();
+                //보스가 데미지 입는 부분
+                destrymagic();
+                destroymonster();
 
-        //보스카운터 부분
-        countertime();//좌우 공격이  카운터 될때 체크
-        rushcounter();//3번 스킬이 카운터 될때 체크
-        counterdamage();//카운터 기절 시간
+                //보스카운터 부분
+                countertime();//좌우 공격이  카운터 될때 체크
+                rushcounter();//3번 스킬이 카운터 될때 체크
+                counterdamage();//카운터 기절 시간
+
+                //애니메이션 부분
+                anim();
+            }
+            
+        }
     }
 
     private void Randomcheck()
@@ -171,7 +196,7 @@ public class Boss : MonoBehaviour
             }
             else if (lastpatterncount != patterncount)
             {
-                if(returnpattrn > 2)
+                if (returnpattrn > 2)
                 {
                     patterncount = 2;
                     lastpatterncount = patterncount;
@@ -223,7 +248,7 @@ public class Boss : MonoBehaviour
 
     private void Bosspattern()
     {
-        if(counterfaint == false)//카운터 공격에 안 맞았을때
+        if (counterfaint == false && deathanim == false)//카운터 공격에 안 맞았을때
         {
             if (patterncount == 0)//보스 패턴1
             {
@@ -231,6 +256,7 @@ public class Boss : MonoBehaviour
                 {
                     attackwait = true;//랜덤 숫자를 계속 넣는것을 방지
                     transform.position = new Vector3(10.5f, -5, 0);//공격을 할 자리(오른쪽 끝)
+                    bosssttackanim = true;//보스가 공격 대기 모션
                     if (waittimer == false)//대기시간이 1번만 돌아가도록 만듬
                     {
                         Maxwaittime -= Time.deltaTime;//도착하면 바로 공격이 아닌 1초 기다린다
@@ -245,6 +271,7 @@ public class Boss : MonoBehaviour
                         counterwait = true;//카운터을 당하기 위해서 true로 전환
                         if (Maxattacktimer <= 0)//공격 대기모션이 0보다 작을때 공격
                         {
+                            bosssttackanim = false;//공격하는 모션
                             attackwait = false;//랜덤숫자를 넣는코드
                             Maxwaittime = waittime;//대기시간 다시 설정
                             waittimer = false;//대기시간 다시 활성화
@@ -291,6 +318,7 @@ public class Boss : MonoBehaviour
             {
                 if (afterattackcheck == false)
                 {
+                    bosssttackanim = true;
                     attackwait = true;//랜덤 숫자를 계속 넣는것을 방지
                     transform.localScale = new Vector3(-1, 1, 1);//반대 방향으로 바꾼코드
                     transform.position = new Vector3(-1.5f, -5, 0);//공격을 할 자리(왼쪽 끝)
@@ -308,6 +336,7 @@ public class Boss : MonoBehaviour
                         counterwait = true;//공격 모션을  true
                         if (Maxattacktimer <= 0)//공격 대기모션이 0보다 작을때 공격
                         {
+                            bosssttackanim = false;
                             attackwait = false;//랜덤숫자를 넣는코드
                             Maxwaittime = waittime;//대기시간 다시 설정
                             waittimer = false;//대기시간 다시 활성화
@@ -343,13 +372,13 @@ public class Boss : MonoBehaviour
                         Maxafterattack = afterattack;
                         afterattackcheck = false;
                         transform.localScale = new Vector3(1, 1, 1);
-                        patterncount = Random.Range(0,2);
+                        patterncount = Random.Range(0, 2);
                     }
                 }
             }//보스 패턴2 왼쪽에서 칼 공격
             else if (patterncount == 2)//보스 패턴 3
             {
-                if(afterattackcheck == false)
+                if (afterattackcheck == false)
                 {
                     attackwait = true;
                     if (waittimer == false && rushattackcheck == false)
@@ -423,6 +452,8 @@ public class Boss : MonoBehaviour
                                     if (PosX == 4.22f)
                                     {
                                         transform.position = new Vector3(14, -5, 0);//원하는 위치에 등장
+                                        bossrushanim = true;
+                                        horizontalbox.SetActive(true);
                                     }
 
                                     transform.position = transform.position + new Vector3(-1, 0, 0) * Time.deltaTime * 30;
@@ -439,6 +470,7 @@ public class Boss : MonoBehaviour
                                     if (transform.position.x < -5)//x좌표가 -5가 될 경우 즉 필드를 벗어날때
                                     {
                                         rushwait = true;
+                                        horizontalbox.SetActive(false);
                                     }
                                 }
                                 else if (rushwait == true)//새로 공격 
@@ -447,6 +479,7 @@ public class Boss : MonoBehaviour
                                     if (PosY == -5)
                                     {
                                         transform.position = new Vector3(4.5f, 2.5f, 0);//원하는 위치 세로
+                                        verticalbox.SetActive(true);
                                     }
 
                                     transform.position = transform.position + new Vector3(0, -1, 0) * Time.deltaTime * 30;
@@ -467,6 +500,8 @@ public class Boss : MonoBehaviour
                                     #endregion
                                     if (transform.position.y < -13)
                                     {
+                                        verticalbox.SetActive(false);
+                                        bossrushanim = false;
                                         attackwait = false;
                                         Maxattacktimer = 2;
                                         waittimer = false;
@@ -514,15 +549,16 @@ public class Boss : MonoBehaviour
             {
                 MaxbossHP -= weapondamage;
             }
-            Debug.Log(MaxbossHP);
+            bossHpbar.fillAmount = MaxbossHP / bossHp;
+            //Debug.Log(MaxbossHP);
         }
 
     }
 
     private void destrymagic()//마법 공격에 닿았을 경우
     {
-        if(magicchek == true)
-        {
+        if (magicchek == true)
+         {
             if (Maxretime <= 0)
             {
                 Maxretime = retime;
@@ -530,7 +566,7 @@ public class Boss : MonoBehaviour
             while (Maxretime == retime)
             {
                 weapondamage = GameManager.Instance.Weaponcheck.AttackdamageMax;
-                if(counterfaint == true)
+                if (counterfaint == true)
                 {
                     MaxbossHP -= weapondamage * 3;
                 }
@@ -538,21 +574,27 @@ public class Boss : MonoBehaviour
                 {
                     MaxbossHP -= weapondamage;
                 }
+                Debug.Log(MaxbossHP);
                 break;
             }
+            bossHpbar.fillAmount = MaxbossHP / bossHp;
             Maxretime -= Time.deltaTime;
         }
-        
+
     }
 
     private void destroymonster()//보스가 죽는 경우
     {
         if (MaxbossHP <= 0)
         {
+            bossdeathanim = true;
+            deathanim = true;
             transform.position = new Vector3(4.4f, -5, 0);
             bossdathtimer -= Time.deltaTime;
-            if(bossdathtimer <= 0)
+            if (bossdathtimer <= 0)
             {
+                bosscounteranim = false;
+                deathanim = false;
                 clearobject.SetActive(true);
                 Destroy(gameObject);
             }
@@ -566,16 +608,17 @@ public class Boss : MonoBehaviour
 
     private void counterdamage()//카운터 공격에 맞았을시
     {
-        if(counterfaint == true && rushcountertimecheck == false)//카운터 공격에 맞을때
+        if (counterfaint == true && rushcountertimecheck == false)//카운터 공격에 맞을때
         {
-            Maxcountertimer -= Time.deltaTime;
+            Maxcountertimer -= Time.deltaTime;//카운터 시절시간이 다 될 경우
             if (Maxcountertimer <= 0)
             {
+                bosscounteranim = false;
                 counterfaint = false;
                 attackwait = false;
                 rushwait = false;
                 Maxcountertimer = countertimer;
-                if(patterncount == 1)//왼쪽에서 공격하는 코드
+                if (patterncount == 1)//왼쪽에서 공격하는 코드
                 {
                     transform.localScale = new Vector3(1, 1, 1);
                 }
@@ -587,8 +630,10 @@ public class Boss : MonoBehaviour
 
     private void rushcounter()//스킬 3번에서 카운터를 맞았을 경우
     {
-        if(patterncount == 2 && counterfaint == true)
+        if (patterncount == 2 && counterfaint == true)
         {
+            bosscounteranim = true;
+            bossrushanim = false;
             rushcountertimecheck = true;
             //카운터 될때 다시 초기화 시키는 부분
             //attackwait = false;
@@ -602,6 +647,7 @@ public class Boss : MonoBehaviour
             //=================================
             if (rushwait == false)//가로 공격 일때
             {
+                horizontalbox.SetActive(false);
                 transform.position = transform.position + new Vector3(1, 0, 0) * Time.deltaTime * 40;
                 if (transform.position.x >= 10.5)
                 {
@@ -610,10 +656,11 @@ public class Boss : MonoBehaviour
                     return;
                 }
             }
-            else if(rushwait == true)//세로 공격일때
+            else if (rushwait == true)//세로 공격일때
             {
+                verticalbox.SetActive(false);
                 transform.position = transform.position + new Vector3(0, +1, 0) * Time.deltaTime * 30;
-                if(transform.position.y >= 0.2f)
+                if (transform.position.y >= 0.2f)
                 {
                     transform.position = new Vector3(4.5f, 0.2f, 0);
                     rushcountertimecheck = false;
@@ -626,10 +673,11 @@ public class Boss : MonoBehaviour
 
     private void countertime()
     {
-        if(counterfaint == true)
+        if (counterfaint == true)
         {
             if (patterncount == 0)//패턴이 0번 이면서 카운터가 활성화 되었을때
             {
+                bosscounteranim = true;
                 //카운터 될시 초기화 시키는 부분
                 //attackwait = false;//랜덤숫자를 넣는코드 -> 카운터 끝나고 실행
                 Maxwaittime = waittime;//대기시간 다시 설정
@@ -641,6 +689,7 @@ public class Boss : MonoBehaviour
             }
             else if (patterncount == 1)
             {
+                bosscounteranim = true;
                 Maxwaittime = waittime;//대기시간 다시 설정
                 waittimer = false;//대기시간 다시 활성화
                 counterwait = false;
@@ -648,16 +697,16 @@ public class Boss : MonoBehaviour
                 pattern2.SetActive(false);
             }
         }
-       
+
     }
 
     private void boosattacktimer()//보스가 1스킬 혹은 2스킬을 쓸때 생기는 오브젝트를 다룸
     {
-        if(skillcheck == true)
+        if (skillcheck == true)
         {
-            if(patterncount == 0)//오른쪽 공격
+            if (patterncount == 0)//오른쪽 공격
             {
-                if(skillattack <= 0)
+                if (skillattack <= 0)
                 {
                     skillcheck = false;
                     skillattack = 0.25f;
@@ -669,7 +718,7 @@ public class Boss : MonoBehaviour
                     skillattack -= Time.deltaTime;
                 }
             }
-            else if(patterncount == 1)
+            else if (patterncount == 1)
             {
                 if (skillattack <= 0)
                 {
@@ -684,5 +733,19 @@ public class Boss : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    private void anim()
+    {
+        animator.SetBool("Bossdeath", bossdeathanim);
+        animator.SetBool("swordattack", bosssttackanim);
+        animator.SetBool("rushattack", bossrushanim);
+        animator.SetBool("counter", bosscounteranim);
+    }
+
+    public void attackwaiting()//공격 모션대기
+    {
+        bosssttackanim = false;
     }
 }

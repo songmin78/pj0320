@@ -15,15 +15,8 @@ public class trap : MonoBehaviour
         {
             trapp.SetActive(false);
             fildtrap.SetActive(true);
+            GameManager.Instance.Boss.bossstart = true;
         }
     }
 
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-        
-    }
 }
