@@ -63,6 +63,10 @@ public class test : MonoBehaviour
         curBound.SetMinMax(new Vector3(minX, minY), new Vector3(maX, maY));//바운즈를 계산한 값으로 수정
     }
 
+    private void test2()//몬스터가 소환되는 테스트
+    {
 
+        
+    }
 
 }
