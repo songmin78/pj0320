@@ -37,7 +37,7 @@ public class Buttonmanager : MonoBehaviour
     [SerializeField] GameObject aaa;
 
     [Header("보스전")]
-    [SerializeField] Button gameexit;//게임을 끝내는 버튼
+    //[SerializeField] Button gameexit;//게임을 끝내는 버튼
 
     private bool menucheck;//메뉴창이 올라올때 확인하는 코드
 
@@ -138,12 +138,12 @@ public class Buttonmanager : MonoBehaviour
             tutorial.SetActive(false);
         });
 
-        gameexit.onClick.AddListener(() =>
-        {
-            SceneManager.LoadSceneAsync(0);//Scene(0) 즉 로비화면으로 이동
-            UnityEditor.EditorApplication.isPlaying = false;
-            Application.Quit();//게임 종료
-        });
+        //gameexit.onClick.AddListener(() =>
+        //{
+        //    SceneManager.LoadSceneAsync(0);//Scene(0) 즉 로비화면으로 이동
+        //    UnityEditor.EditorApplication.isPlaying = false;
+        //    Application.Quit();//게임 종료
+        //});
     }
 
     void Start()
