@@ -134,6 +134,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        rigid2D = GetComponent<Rigidbody2D>();
         mainCam = GetComponent<Camera>();
         collision = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
