@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject gagecanvas;
     [SerializeField] BoxCollider2D roadmap;
 
+    Rigidbody2D rigid2D;
 
     [Header("카운터 기준")]
     [SerializeField] bool arrowcheck = false;
@@ -985,4 +986,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+
+    
 }

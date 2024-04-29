@@ -37,7 +37,9 @@ public class HitboxMonster : MonoBehaviour
     Animator animator;
 
     [Header("쫓아가기위한 정보")]
-    [SerializeField] private bool ChasePlayered = false;
+    [SerializeField] bool fildmonster;//필드에 있는 몬스터는 자동으로 못 쫓아가게 만든 코드
+    [SerializeField] public bool ChasePlayered = false;
+    [SerializeField] public bool autoChasePlayered = false;
     [SerializeField] private bool ChaseX = false;
     [SerializeField] private bool ChaseY = false;
     [SerializeField] private float posX;//플레이어위치 + 몬스터위치 값.X
@@ -131,6 +133,7 @@ public class HitboxMonster : MonoBehaviour
         playerchase();
         slowspeed();
         puchcheck();
+        spawnmonstercheck();
         //Anim();
 
         //몬스터 히트 스크립트
@@ -253,10 +256,18 @@ public class HitboxMonster : MonoBehaviour
         ChasePlayered = true;
     }
 
+    private void spawnmonstercheck()
+    {
+        if (GameManager.Instance.HitboxMonster == true && fildmonster == false)
+        {
+            autoChasePlayered = true;
+        }
+    }
+
 
     public void playerchase()//플레이어를 쫓아가는 코드
     {
-        if (ChasePlayered == true)
+        if (ChasePlayered == true || autoChasePlayered)
         {
             #region 메커니즘 설명
             //1.플레이어의 위치를 실시간으로 확인

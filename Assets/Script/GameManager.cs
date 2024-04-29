@@ -17,7 +17,15 @@ public class GameManager : MonoBehaviour
     private MonsterMoving monstermoving;
     private Boss boss;
 
-    [SerializeField] public GameObject PlayerUI;
+    //bool spawncheck;
+    [SerializeField]int spawnnumber;
+    float spawncount = 1f;
+    [SerializeField]float Maxspawncount;
+    bool spawmonster;
+    bool hitmonstercheck;
+
+    [SerializeField]  public GameObject PlayerUI;
+    [SerializeField] int trapnumber;
     [Header("소환될 몬스터")]
     [SerializeField] public GameObject monster;
     public Player Player
@@ -78,25 +86,115 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Maxspawncount = spawncount;
     }
 
     private void Update()
     {
-
+        //MonsterTimer();
+        //spawnnumbercheck();
+        //recallfirstmonster();
     }
 
-
-    public void recallfirstmonster()
+    public void traprecall(int _trapnumber)
     {
-        
-        for(int number = 0; number <= 5; number++)
+        if(_trapnumber == 1)
         {
-            Vector3 spawnPos = new Vector3(33.5f, -22.5f, 0);
-            GameObject obj = Instantiate(monster, spawnPos, Quaternion.identity);
-            if(number == 5)
-            {
-                
-            }
+            //spawmonster = true;
+            recallfirstmonster();
+        }
+        else if(_trapnumber == 2)
+        {
+            //spawmonster = true;
+            recallsecoundmonster();
         }
     }
+
+
+    public void recallfirstmonster()//첫번째 트랩일 경우
+    {
+
+        #region
+        //for (int number = 0; number <= 5; number++)
+        //{
+        //    spawncheck = true;
+        //    hitmonstercheck = true;
+        //    if (Maxspawncount != spawncount)
+        //    {
+        //        return;
+        //    }
+        //    Vector3 spawnPos = new Vector3(33.5f, -22.5f, 0);
+        //    Instantiate(monster, spawnPos, Quaternion.identity);
+        //    MonsterTimer();
+
+        //    //recallmonster recallmonster = GetComponent<recallmonster>();
+        //    //recallmonster.Onofftrapswich();
+        //}
+        ////if (spawnnumber >= 5)
+        ////{
+        ////    spawnnumber = 0;
+        ////    traprecall(0);
+        ////}
+
+        ////recallmonster recallmonster = GetComponent<recallmonster>();
+        ////recallmonster.Onofftrapswich();
+        #endregion
+
+        //spawncheck = true;
+        //if (Maxspawncount != spawncount)
+        //{
+        //    return;
+        //}
+
+        hitmonstercheck = true;
+        Vector3 spawnPos = new Vector3(33.5f, -22.5f, 0);
+        Instantiate(monster, spawnPos, Quaternion.identity);
+        //MonsterTimer();
+        //recallmonster recallmonster = obj.GetComponent<recallmonster>();
+        //recallmonster.Onofftrapswich(spawnnumber);
+
+
+    }
+
+    public void recallsecoundmonster()//두번째 트랩일 경우
+    {
+        #region
+        //for (int number = 0; number <= 5; number++)
+        //{
+        //    Vector3 spawnPos = new Vector3(49, -4.5f, 0);
+        //    Instantiate(monster, spawnPos, Quaternion.identity);
+        //}
+        //recallmonster recallmonster = GetComponent<recallmonster>();
+        //recallmonster.Onofftrapswich(spawnnumber);
+        #endregion
+
+        hitmonstercheck = true;
+        Vector3 spawnPos = new Vector3(49, -4.5f, 0);
+        Instantiate(monster, spawnPos, Quaternion.identity);
+    }
+
+    //public void MonsterTimer()
+    //{
+    //    if(spawncheck == true)
+    //    {
+    //        Maxspawncount -= Time.deltaTime;
+    //        if (Maxspawncount <= 0)
+    //        {
+    //            Maxspawncount = spawncount;
+    //            spawnnumber += 1;
+    //            //spawncheck = false;
+    //        }
+    //    }
+        
+    //}
+
+    //private void spawnnumbercheck()
+    //{
+    //    if (spawnnumber >= 5)
+    //    {
+    //        spawmonster = false;
+    //    }
+    //}
+
 }

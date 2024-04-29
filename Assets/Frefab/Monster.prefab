@@ -91,14 +91,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parents: {fileID: 2312694002271663552}
-  MsGameHp: 1
+  MsGameHp: 5
   pushdamage: 0
   pushed: 0
   waycheck: 0
   Bosscheck: 0
   magicchek: 0
   ChaseHorizontal: 0
+  fildmonster: 0
   ChasePlayered: 0
+  autoChasePlayered: 0
   ChaseX: 0
   ChaseY: 0
   posX: 0
@@ -106,7 +108,7 @@ MonoBehaviour:
   diffPos: {x: 0, y: 0, z: 0}
   horizontals: 0
   verticals: 0
-  speed: 1
+  speed: 1.5
   xplayer: 0
   yplayer: 0
 --- !u!1 &2312694002271663552
@@ -234,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChasePlayer: 0
   ttest: 0
+  Bosscheck: 0
   horizontals: 0
   verticals: 0
 --- !u!61 &258519545495597216
@@ -279,7 +282,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 3.5}
+  m_Size: {x: 4.5, y: 4.5}
   m_EdgeRadius: 0
 --- !u!50 &594568276894411471
 Rigidbody2D:
