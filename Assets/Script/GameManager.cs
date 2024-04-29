@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     private Boss boss;
 
     [SerializeField] public GameObject PlayerUI;
+    [Header("소환될 몬스터")]
+    [SerializeField] public GameObject monster;
     public Player Player
     {
         get { return player; }
@@ -75,6 +77,21 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        
+    }
+
+
+    public void recallfirstmonster()
+    {
+        for(int number = 0; number <= 5; number++)
+        {
+            Vector3 spawnPos = new Vector3(33.5f, -22.5f, 0);
+            GameObject obj = Instantiate(monster, spawnPos, Quaternion.identity);
         }
     }
 }

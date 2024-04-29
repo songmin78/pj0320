@@ -32,8 +32,8 @@ public class recallmonster : MonoBehaviour
     {
         if(firsttrap == true && onrecalltrap == true)//첫번째트랩에 닿을 경우
         {
-
-            Vector3 inpos = new Vector3(33.5f, -22.5f, 0);//적이 생성될 위치
+            GameManager gamemanager = GetComponent<GameManager>();
+            gamemanager.recallfirstmonster();
         }
     }
 }
