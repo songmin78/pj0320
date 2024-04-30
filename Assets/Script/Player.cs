@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject ctounterbow;
     [SerializeField] GameObject gagecanvas;
     [SerializeField] BoxCollider2D roadmap;
+    public bool destroyplayer;//플레이어가 죽을 경우
 
     Rigidbody2D rigid2D;
 
@@ -648,7 +649,7 @@ public class Player : MonoBehaviour
         Yplayer = transform.position.y;
     }//플레이어좌표를 확인하는 코드(몬스터가 추적할때 쓰임)
 
-    private void playerhpcheck()//몬스터가 플레이어를 공격할때 플레이어가 맞는 코드
+    public void playerhpcheck()//몬스터가 플레이어를 공격할때 플레이어가 맞는 코드
     {
         if (Monsterattackcheck == true)//플레이어에 몬스터가 접촉할때
         {
@@ -667,6 +668,7 @@ public class Player : MonoBehaviour
 
                 if (MaxHP <= 0)
                 {
+                    destroyplayer = true;
                     Destroy(play);
                 }
                 else if (MaxHP > 0)

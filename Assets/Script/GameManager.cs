@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public static GameManager Instance2;
-    
+
+    [SerializeField] GameObject contralPlayer;
 
     private Player player;
     private Weaponcheck weaponcheck;
@@ -28,6 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] int trapnumber;
     [Header("소환될 몬스터")]
     [SerializeField] public GameObject monster;
+
+    [Header("죽었을때 창 띄우기")]
+    [SerializeField] GameObject dietab;
     public Player Player
     {
         get { return player; }
@@ -92,6 +97,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        destroyplayer();
         //MonsterTimer();
         //spawnnumbercheck();
         //recallfirstmonster();
@@ -197,4 +203,11 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
+    private void destroyplayer()//플레이어가 죽었을 경우
+    {
+        if(Instance.Player.destroyplayer == true)
+        {
+            dietab.SetActive(true);
+        }
+    }
 }

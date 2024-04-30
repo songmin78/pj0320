@@ -39,6 +39,10 @@ public class Buttonmanager : MonoBehaviour
     [Header("보스전")]
     //[SerializeField] Button gameexit;//게임을 끝내는 버튼
 
+    [Header("게임 종료창")]
+    //[SerializeField] GameObject endtab;
+    [SerializeField] Button endbutton;
+
     private bool menucheck;//메뉴창이 올라올때 확인하는 코드
 
     private void Awake()
@@ -144,6 +148,14 @@ public class Buttonmanager : MonoBehaviour
         //    UnityEditor.EditorApplication.isPlaying = false;
         //    Application.Quit();//게임 종료
         //});
+
+        endbutton.onClick.AddListener(() =>//게임 종료 버튼
+        {
+            SceneManager.LoadSceneAsync(0);//Scene(0) 즉 로비화면으로 이동
+            UnityEditor.EditorApplication.isPlaying = false;
+            Application.Quit();//게임 종료
+        });
+
     }
 
     void Start()
