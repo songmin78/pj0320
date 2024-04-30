@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject contralPlayer;
 
+    [SerializeField] Transform layerEnemy;
+
     private Player player;
     private Weaponcheck weaponcheck;
     private HitboxMonster hitboxMonster;
@@ -155,7 +157,7 @@ public class GameManager : MonoBehaviour
 
         hitmonstercheck = true;
         Vector3 spawnPos = new Vector3(33.5f, -22.5f, 0);
-        Instantiate(monster, spawnPos, Quaternion.identity);
+        Instantiate(monster, spawnPos, Quaternion.identity, layerEnemy);
         //MonsterTimer();
         //recallmonster recallmonster = obj.GetComponent<recallmonster>();
         //recallmonster.Onofftrapswich(spawnnumber);
@@ -177,7 +179,7 @@ public class GameManager : MonoBehaviour
 
         hitmonstercheck = true;
         Vector3 spawnPos = new Vector3(49, -4.5f, 0);
-        Instantiate(monster, spawnPos, Quaternion.identity);
+        Instantiate(monster, spawnPos, Quaternion.identity, layerEnemy);
     }
 
     //public void MonsterTimer()
@@ -207,6 +209,7 @@ public class GameManager : MonoBehaviour
     {
         if(Instance.Player.destroyplayer == true)
         {
+            //Destroy(monster);
             dietab.SetActive(true);
         }
     }

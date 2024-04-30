@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject arrow;
     [SerializeField] GameObject sword;
     [SerializeField] GameObject magic;
+    float changeweapontimer = 1;
+    [SerializeField]float Maxchangeweapontimer;
+    bool changeweaponcheck;
 
     [Header("카운터 공격")]
     [SerializeField] GameObject ctArrow;
@@ -144,6 +147,7 @@ public class Player : MonoBehaviour
         Maxslowspeed = slowspeed;//자기 슬로우 지속시간
         Maxmagicgage = magicgage;//마법 게이지 최대 지속 시간
         Maxinvincibilitytime = invincibilitytime;//무적 지속 시간
+        Maxchangeweapontimer = changeweapontimer;
     }
 
     void Start()
@@ -163,6 +167,7 @@ public class Player : MonoBehaviour
         move();//이동
         playerposition();//플레이어위치를 실시간으로 확인
         WeaponChange();//무기 체인지
+        changeweapontime();//무기 체인지이후 쿨 관리
 
         bowattack();//원거리 공격
 
@@ -314,6 +319,11 @@ public class Player : MonoBehaviour
 
     private void WeaponChange()
     {
+        if (Maxchangeweapontimer != changeweapontimer)
+        {
+            return;
+        }
+
         if (Input.GetKeyUp(KeyCode.E))
         {
             if(Weapontype == 0)//원거리 물리 무기 => 0
@@ -323,6 +333,8 @@ public class Player : MonoBehaviour
                 gagecanvas.SetActive(true);
                 Hitgauge = 0;
                 Weapontype = 1;
+                changeweaponcheck = true;
+                changeweapontime();
             }
             else if(Weapontype == 1)//근거리 무기 => 1
             {
@@ -330,12 +342,14 @@ public class Player : MonoBehaviour
                 magicweaponbox.SetActive(true);
                 gagecanvas.SetActive(false);
                 Weapontype = 2;
+                changeweapontime();
             }
             else if(Weapontype == 2)//원거리 마법무기 => 2
             {
                 magicweaponbox.SetActive(false);
                 bowweaponbox.SetActive(true);
                 Weapontype = 0;
+                changeweapontime();
             }
             else
             {
@@ -733,7 +747,7 @@ public class Player : MonoBehaviour
             {
                 if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
                 {
-                    attacktimer = 0.5f;
+                    attacktimer = 1.6f;
                     Maxattacktimer = attacktimer;
                     cttimerattack = true;
                 }
@@ -972,6 +986,7 @@ public class Player : MonoBehaviour
 
                 if (MaxHP <= 0)
                 {
+                    destroyplayer = true;
                     Destroy(play);
                 }
                 else if (MaxHP > 0)
@@ -990,6 +1005,19 @@ public class Player : MonoBehaviour
         }
     }
 
-
+    private void changeweapontime()
+    {
+        if(changeweaponcheck == false)
+        {
+            return;
+        }
+        Maxchangeweapontimer -= Time.deltaTime;
+        if(Maxchangeweapontimer <= 0)
+        {
+            changeweaponcheck = false;
+            Maxchangeweapontimer = changeweapontimer;
+        }
+        
+    }
     
 }

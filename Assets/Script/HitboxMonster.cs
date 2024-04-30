@@ -269,6 +269,10 @@ public class HitboxMonster : MonoBehaviour
     {
         if (ChasePlayered == true || autoChasePlayered)
         {
+            if (GameManager.Instance.Player.destroyplayer == true)
+            {
+                return;
+            }
             #region 메커니즘 설명
             //1.플레이어의 위치를 실시간으로 확인
             //2.플레이의 위치 - 자신의 위치를 하여 이동

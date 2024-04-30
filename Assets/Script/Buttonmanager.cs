@@ -90,7 +90,7 @@ public class Buttonmanager : MonoBehaviour
             Application.Quit();//게임 종료
         });
 
-        nextbutton.onClick.AddListener(() =>
+        nextbutton.onClick.AddListener(() =>//설명집에서 다음으로 넘어 갈때
         {
             if (passcheck == 0)
             {
@@ -114,7 +114,7 @@ public class Buttonmanager : MonoBehaviour
 
         });
 
-        returnbutton.onClick.AddListener(() =>
+        returnbutton.onClick.AddListener(() =>//설명집에서 이전으로 돌아갈때
         {
             if (passcheck == 1)
             {
@@ -139,6 +139,7 @@ public class Buttonmanager : MonoBehaviour
 
         exitbutton.onClick.AddListener(() =>
         {
+            menucheck = false;
             tutorial.SetActive(false);
         });
 
