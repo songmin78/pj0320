@@ -157,6 +157,8 @@ public class Player : MonoBehaviour
 
         GameManager.Instance.Player = this;
 
+        
+
         movecheck = false;
     }
 
@@ -923,20 +925,20 @@ public class Player : MonoBehaviour
         #region
         //Vector3 currentPlayerPos = mainCam.WorldToScreenPoint(transform.position);
 
-        //if(currentPlayerPos.x < 0.1f)
+        //if (currentPlayerPos.x < 0.1f)
         //{
         //    currentPlayerPos.x = 0.1f;
         //}
-        //else if(currentPlayerPos.x > 0.9f)
+        //else if (currentPlayerPos.x > 0.9f)
         //{
         //    currentPlayerPos.x = 0.9f;
         //}
 
-        //if(currentPlayerPos.y < 0.1f)
+        //if (currentPlayerPos.y < 0.1f)
         //{
         //    currentPlayerPos.y = 0.1f;
         //}
-        //else if(currentPlayerPos.y > 0.9f)
+        //else if (currentPlayerPos.y > 0.9f)
         //{
         //    currentPlayerPos.y = 0.9f;
         //}
@@ -944,9 +946,9 @@ public class Player : MonoBehaviour
         //Vector3 fixedPlayerPos = mainCam.ViewportToWorldPoint(currentPlayerPos);
         //transform.position = fixedPlayerPos;
         #endregion
-        //슈팅 게임 응용
+        //슈팅 게임 응용 -> 카메라가 플레이어를 안 따라감
 
-        
+
 
     }
 
