@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 417653610205921625}
   - component: {fileID: 5216735051014529318}
   - component: {fileID: 7786446400542968209}
-  - component: {fileID: 5469680637344062930}
+  - component: {fileID: 874669935367714158}
   m_Layer: 8
   m_Name: arrowcount
   m_TagString: Untagged
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f390a4adbf406f94f92fa1d772f06c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 13
   Xposition: 0
   Yposition: 0
   Zposition: 0
@@ -107,14 +107,15 @@ MonoBehaviour:
   Typeweapon: {fileID: 7853881323785279450}
   attackcheck: 1
   Counter: 1
-  AttackdamageMax: 10
+  AttackdamageMax: 7
   arrow: 1
   punch: 0
   magic: 0
   Ctmagic: 0
+  Ctarrow: 0
   magicway: 0
---- !u!58 &5469680637344062930
-CircleCollider2D:
+--- !u!61 &874669935367714158
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,5 +147,15 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.05, y: 0.07}
+    newSize: {x: 0.05, y: 0.07}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.035
+  m_Size: {x: 0.05, y: 0.07}
+  m_EdgeRadius: 0

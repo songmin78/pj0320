@@ -28,6 +28,7 @@ public class Weaponcheck : MonoBehaviour
     [SerializeField] public bool punch = false;//근접무기것을 확인
     [SerializeField] public bool magic = false;//마법인것을 확인
     [SerializeField] bool Ctmagic = false;//마법 카운터(일반공격과 다른 메커니즘으로 오류가 생겨서 따로 만즘)
+    [SerializeField] bool Ctarrow = false;//활 카운터
     [SerializeField] bool magicway = false;//마법을 돌리는 것을 체크
     float waymagic;
     
@@ -170,11 +171,11 @@ public class Weaponcheck : MonoBehaviour
         {
             transform.position = new Vector3(Xchange, Ychange, 0);
 
-            if (Xchange >= Xposition + 5 || Xchange <= Xposition - 5)
+            if (Xchange >= Xposition + 3 || Xchange <= Xposition - 3)
             {
                 Destroy(Typeweapon);
             }
-            else if (Ychange >= Yposition + 5 || Ychange <= Yposition - 5)
+            else if (Ychange >= Yposition + 3 || Ychange <= Yposition - 3)
             {
                 Destroy(Typeweapon);
             }

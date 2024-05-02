@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HitboxMonster : MonoBehaviour
 {
     [SerializeField] GameObject parents;
+    [SerializeField] Image monsterHpbar;
 
     [Header("몬스터 스펙")]
     //[SerializeField] public float attackdamage;//몬스터의 데미지
@@ -146,13 +148,14 @@ public class HitboxMonster : MonoBehaviour
 
     }
 
-    private void Hitboxmonster()
+    private void Hitboxmonster()//일반적인 공격일 경우
     {
         if(beatendamage == true && magicchek == false)
         {
             weapondamage = GameManager.Instance.Weaponcheck.AttackdamageMax;
             MsMaxHp -= weapondamage;
         }
+        monsterHpbar.fillAmount = MsMaxHp / MsGameHp;
     }
 
     private void destroymonster()
@@ -188,6 +191,7 @@ public class HitboxMonster : MonoBehaviour
                 MsMaxHp -= weapondamage;
                 break;
             }
+            monsterHpbar.fillAmount = MsMaxHp / MsGameHp;
             Maxretime -= Time.deltaTime;
             
         }

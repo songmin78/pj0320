@@ -129,7 +129,7 @@ MonoBehaviour:
   Typeweapon: {fileID: 6977805359816515017}
   attackcheck: 1
   Counter: 1
-  AttackdamageMax: 10
+  AttackdamageMax: 5
   arrow: 0
   punch: 0
   magic: 0

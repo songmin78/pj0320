@@ -380,6 +380,7 @@ public class Boss : MonoBehaviour
             {
                 if (afterattackcheck == false)
                 {
+                    bosssttackanim = false;
                     attackwait = true;
                     if (waittimer == false && rushattackcheck == false)
                     {

@@ -108,11 +108,12 @@ MonoBehaviour:
   Typeweapon: {fileID: 1668749040600282093}
   attackcheck: 1
   Counter: 1
-  AttackdamageMax: 20
+  AttackdamageMax: 12
   arrow: 0
   punch: 1
   magic: 0
   Ctmagic: 0
+  Ctarrow: 0
   magicway: 0
 --- !u!61 &5710513186061528893
 BoxCollider2D:
@@ -143,7 +144,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.2979213}

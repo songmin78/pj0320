@@ -55,6 +55,9 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject gagecanvas;
     [SerializeField] BoxCollider2D roadmap;
     public bool destroyplayer;//플레이어가 죽을 경우
+    float sword2timer;//근접 2스킬 쿨타임을 따로 적용
+    float Maxsword2timer;
+    bool sword2;
 
     Rigidbody2D rigid2D;
 
@@ -121,12 +124,16 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-
         HitboxMonster hitboxmonster = collision.gameObject.GetComponent<HitboxMonster>();
 
-        if (hitboxmonster && GameManager.Instance.Monsterattack.Oncheckdamage == true)
+        //if (hitboxmonster && GameManager.Instance.Monsterattack.Oncheckdamage == true)
+        //{
+        //    Monsterattackcheck = true;
+        //}
+        if (collision.CompareTag("Monster") && Bossattackcheck == false)
         {
             Monsterattackcheck = true;
+            //Debug.Log("닿았다");
         }
 
         if(collision.gameObject.tag == "bossdamage")
@@ -164,12 +171,15 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        transform.rotation = Quaternion.identity;
         //checkMoveposition();//카메라에 맞춰 플레이어가 못 나가게하는 코드
+
         turnway();//무기 공격 방향 체크
         move();//이동
         playerposition();//플레이어위치를 실시간으로 확인
         WeaponChange();//무기 체인지
         changeweapontime();//무기 체인지이후 쿨 관리
+        sword2timerd();//무기2스킬만 따로 쿨 관리
 
         bowattack();//원거리 공격
 
@@ -203,7 +213,9 @@ public class Player : MonoBehaviour
             {
                 horizontals = 0;
             }
-            transform.position += new Vector3(horizontals * playerspeed, verticals * playerspeed, 0) * Time.deltaTime;
+            rigid2D.velocity = Vector3.zero;
+            transform.position += new Vector3(horizontals * playerspeed , verticals * playerspeed, 0) * Time.deltaTime;
+            //transform.rotation = Quaternion.identity;
             //Changecheck();
             magiccounter();//마법 카운터 코드
         }
@@ -667,7 +679,7 @@ public class Player : MonoBehaviour
 
     public void playerhpcheck()//몬스터가 플레이어를 공격할때 플레이어가 맞는 코드
     {
-        if (Monsterattackcheck == true)//플레이어에 몬스터가 접촉할때
+        if (Monsterattackcheck == true && Bossattackcheck == false)//플레이어에 몬스터가 접촉할때
         {
             if (GameManager.Instance.Buttonmanager.Cheatcheck == true)
             {
@@ -764,20 +776,21 @@ public class Player : MonoBehaviour
             }
             else if(Weapontype == 1)//검
             {
-                if (cttimerattack == false && ctattacktimer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
-                {
-                    ctattacktimer = 10f;//L스킬이후에 쿨타임
-                    Maxctattacktimer = ctattacktimer;
-                    cttimerattack = true;
-                }
-                ctattacktimer -= Time.deltaTime;
-                ctswordui.fillAmount = ctattacktimer / Maxctattacktimer;
-                if (ctattacktimer <= 0)//쿨타임이 다 돌면 실행
-                {
-                    cttimerattack = false;
-                    ctattackstandard = false;
-                    Debug.Log("카운터 초기화");
-                }
+                sword2 = true;
+                //if (cttimerattack == false && sword2timer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
+                //{
+                //    sword2timer = 10f;//L스킬이후에 쿨타임
+                //    Maxsword2timer = sword2timer;
+                //    cttimerattack = true;
+                //}
+                //sword2timer -= Time.deltaTime;
+                //ctswordui.fillAmount = sword2timer / Maxsword2timer;
+                //if (sword2timer <= 0)//쿨타임이 다 돌면 실행
+                //{
+                //    cttimerattack = false;
+                //    ctattackstandard = false;
+                //    Debug.Log("카운터 초기화");
+                //}
             }
             else if(Weapontype == 2)//마법
             {
@@ -1022,4 +1035,35 @@ public class Player : MonoBehaviour
         
     }
     
+
+
+    private void sword2timerd()
+    {
+        if(sword2 == false)
+        {
+            return;
+        }
+
+        if (cttimerattack == false && sword2timer <= 0)//무기를 체인지 할때 바로 공격 못하도록 만듬
+        {
+            sword2timer = 10f;//L스킬이후에 쿨타임
+            Maxsword2timer = sword2timer;
+            cttimerattack = true;
+        }
+        sword2timer -= Time.deltaTime;
+        ctswordui.fillAmount = sword2timer / Maxsword2timer;
+        if (sword2timer <= 0)//쿨타임이 다 돌면 실행
+        {
+            sword2 = false;
+            cttimerattack = false;
+            ctattackstandard = false;
+            Debug.Log("카운터 초기화");
+        }
+    }
+
+
+    private void movetest()//벽과 충돌할때 덜덜덜덜 떠는 현상 방지 테스트 코드
+    {
+
+    }
 }

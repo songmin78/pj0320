@@ -8,24 +8,24 @@ public class Monsterattack : MonoBehaviour
 
     [Header("공격 여부")]
     public float attackdamage;
-    public bool Oncheckdamage = false;
+    //public bool Oncheckdamage = false;
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            Oncheckdamage = true;
-        }
-        else
-        {
-            Oncheckdamage = false;
-        }
-    }
-
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        Oncheckdamage = true;
+    //    }
+    //    else
+    //    {
+    //        Oncheckdamage = false;
+    //    }
+    //}
 
     void Start()
     {
         GameManager.Instance.Monsterattack = this;
     }
+
+
 }
