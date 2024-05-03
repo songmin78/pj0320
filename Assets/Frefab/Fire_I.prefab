@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7429202032942150435}
   m_Layer: 8
   m_Name: Fire_I
-  m_TagString: Untagged
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   punch: 0
   magic: 0
   Ctmagic: 1
+  Ctarrow: 0
   magicway: 0
 --- !u!61 &7429202032942150435
 BoxCollider2D:

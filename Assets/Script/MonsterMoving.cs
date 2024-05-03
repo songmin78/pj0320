@@ -39,7 +39,14 @@ public class MonsterMoving : MonoBehaviour
     {
         Player player = collision.gameObject.GetComponent<Player>();
 
-        if(player)
+        //if(player)
+        //{
+        //    ChasePlayer = true;
+        //    HitboxMonster hitboxmonster = transform.GetChild(0).GetComponent<HitboxMonster>();
+        //    hitboxmonster.playerchasecheck();
+        //}
+
+        if (collision.gameObject.tag == "Player")
         {
             ChasePlayer = true;
             HitboxMonster hitboxmonster = transform.GetChild(0).GetComponent<HitboxMonster>();

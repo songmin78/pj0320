@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8336642148090687605}
   m_Layer: 8
   m_Name: Sword_4_0
-  m_TagString: Untagged
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,6 +113,7 @@ MonoBehaviour:
   punch: 1
   magic: 0
   Ctmagic: 0
+  Ctarrow: 0
   magicway: 0
 --- !u!61 &1791300019458332167
 BoxCollider2D:

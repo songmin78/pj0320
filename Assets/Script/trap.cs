@@ -11,7 +11,7 @@ public class trap : MonoBehaviour
     {
         Player player = collision.gameObject.GetComponent<Player>();
 
-        if(player)
+        if(collision.gameObject.tag == "Player")
         {
             trapp.SetActive(false);
             fildtrap.SetActive(true);

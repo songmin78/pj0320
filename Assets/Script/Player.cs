@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     Collider2D collision;
-    [SerializeField]Camera mainCam;
+    Camera mainCam;
 
     [Header("일반공격")]
     [SerializeField] GameObject arrow;
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject bowweapon;
     [SerializeField] GameObject ctounterbow;
     [SerializeField] GameObject gagecanvas;
-    [SerializeField] BoxCollider2D roadmap;
+    //[SerializeField] BoxCollider2D roadmap;
     public bool destroyplayer;//플레이어가 죽을 경우
     float sword2timer;//근접 2스킬 쿨타임을 따로 적용
     float Maxsword2timer;
@@ -130,16 +130,17 @@ public class Player : MonoBehaviour
         //{
         //    Monsterattackcheck = true;
         //}
-        if (collision.CompareTag("Monster") && Bossattackcheck == false)
-        {
-            Monsterattackcheck = true;
-            //Debug.Log("닿았다");
-        }
+        //if (collision.CompareTag("Monster") && Bossattackcheck == false)
+        //{
+        //    Monsterattackcheck = true;
+        //    //Debug.Log("닿았다");
+        //}
 
         if(collision.gameObject.tag == "bossdamage")
         {
             Bossattackcheck = true;
         }
+
     }
 
 
