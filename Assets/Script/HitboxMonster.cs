@@ -594,5 +594,10 @@ public class HitboxMonster : MonoBehaviour
         
     }
 
+    public void walltest()
+    {
+
+    }
+
 
 }
