@@ -36,10 +36,10 @@ public class touchwall : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void Update()
     {
-        
+        horizontalwall();
+        vericalwall();
     }
 
     private void horizontalwall()
@@ -47,12 +47,16 @@ public class touchwall : MonoBehaviour
         if(horizontalcheck == true)
         {
             HitboxMonster hitboxmonster = GetComponent<HitboxMonster>();
-            //hitboxmonster.walltest
+            hitboxmonster.walltest();
         }
     }
 
     private void vericalwall()
     {
-
+        if(verticalcheck == true)
+        {
+            HitboxMonster hitboxmonster = GetComponent<HitboxMonster>();
+            hitboxmonster.walltest2();
+        }
     }
 }

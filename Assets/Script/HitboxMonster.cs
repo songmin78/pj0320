@@ -156,8 +156,8 @@ public class HitboxMonster : MonoBehaviour
         puchcheck();
         spawnmonstercheck();
 
-        movetest();
-        wallroad();
+        //movetest();
+        //wallroad();
         //Anim();
 
         //몬스터 히트 스크립트
@@ -599,5 +599,8 @@ public class HitboxMonster : MonoBehaviour
 
     }
 
+    public void walltest2()
+    {
 
+    }
 }
