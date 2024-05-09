@@ -213,4 +213,5 @@ public class GameManager : MonoBehaviour
             dietab.SetActive(true);
         }
     }
+
 }

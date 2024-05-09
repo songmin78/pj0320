@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
     [SerializeField,Range(1,3)] int GameHP;//게임내 플레이어 체력
 
     [Header("무기 공격 관련 정보(마법)")]
-    [SerializeField] bool magiccheck = false;//마법게이지가 닳는위한 확인
+    [SerializeField] public bool magiccheck = false;//마법게이지가 닳는위한 확인
     public bool MagicCheck => magiccheck;
 
     [SerializeField] float magicgage = 5f;//공격 게이지 0이되면 사용 불가

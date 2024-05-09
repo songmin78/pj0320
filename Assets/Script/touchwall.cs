@@ -13,13 +13,18 @@ public class touchwall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        GameObject find1 = GameObject.Find("Hitbox");
         if ( horizontalcheck == true && collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
+            HitboxMonster hitboxmonster = find1.GetComponent<HitboxMonster>();
             horizontalwallcheck = true;
+            hitboxmonster.walltest(horizontalwallcheck);
         }
         else if(verticalcheck == true && collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
+            HitboxMonster hitboxmonster = find1.GetComponent<HitboxMonster>();
             verticalwallcheck = true;
+            hitboxmonster.walltest2(verticalwallcheck);
         }
     }
 
@@ -27,36 +32,42 @@ public class touchwall : MonoBehaviour
     {
         if (horizontalcheck == true && collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
+            GameObject find1 = GameObject.Find("Hitbox");
+            HitboxMonster hitboxmonster = find1.GetComponent<HitboxMonster>();
             horizontalwallcheck = false;
+            hitboxmonster.walltest(horizontalwallcheck);
         }
         else if (verticalcheck == true && collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
+            GameObject find1 = GameObject.Find("Hitbox");
+            HitboxMonster hitboxmonster = find1.GetComponent<HitboxMonster>();
             verticalwallcheck = false;
+            hitboxmonster.walltest2(verticalwallcheck);
         }
     }
 
 
     void Update()
     {
-        horizontalwall();
-        vericalwall();
+        //horizontalwall();
+        //vericalwall();
     }
 
-    private void horizontalwall()
-    {
-        if(horizontalcheck == true)
-        {
-            HitboxMonster hitboxmonster = GetComponent<HitboxMonster>();
-            hitboxmonster.walltest();
-        }
-    }
+    //private void horizontalwall()
+    //{
 
-    private void vericalwall()
-    {
-        if(verticalcheck == true)
-        {
-            HitboxMonster hitboxmonster = GetComponent<HitboxMonster>();
-            hitboxmonster.walltest2();
-        }
-    }
+    //    if(horizontalwallcheck == true)
+    //    {
+    //        HitboxMonster hitboxmonster = transform.GetComponent<HitboxMonster>();
+    //        hitboxmonster.walltest();
+    //    }
+    //}
+
+    //private void vericalwall()
+    //{
+    //    if(verticalwallcheck == true)
+    //    {
+    //        Debug.Log("ªÛ«œ");
+    //    }
+    //}
 }

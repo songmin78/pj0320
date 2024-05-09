@@ -398,6 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18dc0356a9444564a9863f17723cd2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monster: {fileID: 2312694002271663552}
   horizontalcheck: 0
   verticalcheck: 1
 --- !u!1 &2312694002271663552
@@ -769,6 +770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18dc0356a9444564a9863f17723cd2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monster: {fileID: 2312694002271663552}
   horizontalcheck: 1
   verticalcheck: 0
 --- !u!1 &4925110242896021458

@@ -20,6 +20,8 @@ public class MonsterMoving : MonoBehaviour
     [SerializeField] int horizontals;
     [SerializeField] int verticals;
 
+    [SerializeField] bool debug = false;
+
     //[Header("몬스터 스팩")]
     //[SerializeField] float speed = 5f;//몬스터이동속도
     //float Maxspeed;

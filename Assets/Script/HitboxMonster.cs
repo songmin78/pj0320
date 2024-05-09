@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
 
 public class HitboxMonster : MonoBehaviour
 {
@@ -30,7 +28,8 @@ public class HitboxMonster : MonoBehaviour
     float weapondamage = 0;
 
     [Header("기타")]
-    [SerializeField] public bool magicchek = false;
+    [SerializeField] public bool hitmagicchek = false;
+    [SerializeField] bool stopnmagiccheck = false;
     float retime = 0.5f;
     float Maxretime;
     [SerializeField] bool ChaseHorizontal = false;
@@ -48,6 +47,7 @@ public class HitboxMonster : MonoBehaviour
     [SerializeField] private float posX;//플레이어위치 + 몬스터위치 값.X
     [SerializeField] private float posY;//플레이어위치 + 몬스터위치 값.Y
     [SerializeField]bool wallcheck;//벽에 닿았는지 안 닿았는지 확인하는 코드
+    [SerializeField] bool debug = false;
     bool wallhorizontal;
     bool wallcheck1;
     bool wallcheck2;
@@ -68,13 +68,20 @@ public class HitboxMonster : MonoBehaviour
     [SerializeField] float yplayer;
     bool hitpush;
 
+    //벽 충돌 관련 모음
+    bool horizontalwall;
+    bool verticalwall;
+    bool onetouchpos;//한번만 위치 확인
+    float updowncheck;//위 아래체크
+    float rightleftcheck;//좌우체크
+    
     //여기까지
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Weaponcheck weapon = collision.gameObject.GetComponent<Weaponcheck>();//무기 gameobject가 몬스터 collision에 닿을때 
-        Player player = collision.gameObject.GetComponent<Player>();
+        //Player player = collision.gameObject.GetComponent<Player>();
 
         if (collision.CompareTag("weapon"))//null 상태에서는 적용이 안됨
         {
@@ -90,7 +97,8 @@ public class HitboxMonster : MonoBehaviour
 
             if(weapon.magic == true)
             {
-                magicchek = true;
+                hitmagicchek = true;
+                stopnmagiccheck = true;
             }
             else if(weapon.Counter == true && weapon.punch == true)
             {
@@ -109,17 +117,26 @@ public class HitboxMonster : MonoBehaviour
         //}
         #endregion
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
+            if (debug == true)
+            {
+            }
+
             wallcheck = true;
         }
     }
 
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(magicchek == true)
+        if(hitmagicchek == true)//현재 한마리를 죽이면 모든 몬스터한테 꺼지는 현상이 있음
         {
-            magicchek = false;
+            if(stopnmagiccheck == true)
+            {
+                return;
+            }
+            hitmagicchek = false;
         }
         else if(pushdamage == true)
         {
@@ -156,6 +173,9 @@ public class HitboxMonster : MonoBehaviour
         puchcheck();
         spawnmonstercheck();
 
+        updownChaseWallplayer();
+        rightleftChaseWallplayer();
+        exitwall();
         //movetest();
         //wallroad();
         //Anim();
@@ -172,7 +192,7 @@ public class HitboxMonster : MonoBehaviour
 
     private void Hitboxmonster()//일반적인 공격일 경우
     {
-        if(beatendamage == true && magicchek == false)
+        if(beatendamage == true && hitmagicchek == false)
         {
             weapondamage = GameManager.Instance.Weaponcheck.AttackdamageMax;
             MsMaxHp -= weapondamage;
@@ -184,6 +204,7 @@ public class HitboxMonster : MonoBehaviour
     {
         if(MsMaxHp <= 0)
         {
+            stopnmagiccheck = false;
             Destroy(parents);
         }
         else
@@ -201,7 +222,7 @@ public class HitboxMonster : MonoBehaviour
         //    //retime -= Time.deltaTime;
         //}
 
-        if(magicchek == true)
+        if(hitmagicchek == true)
         {
             if(Maxretime <= 0)
             {
@@ -215,7 +236,7 @@ public class HitboxMonster : MonoBehaviour
             }
             monsterHpbar.fillAmount = MsMaxHp / MsGameHp;
             Maxretime -= Time.deltaTime;
-            
+
         }
 
     }
@@ -293,7 +314,7 @@ public class HitboxMonster : MonoBehaviour
 
     public void playerchase()//플레이어를 쫓아가는 코드
     {
-        if (ChasePlayered == true || autoChasePlayered)
+        if (ChasePlayered == true || autoChasePlayered == true)
         {
             if (GameManager.Instance.Player.destroyplayer == true || wallcheck == true)
             {
@@ -447,7 +468,7 @@ public class HitboxMonster : MonoBehaviour
 
     private void slowspeed()
     {
-        if (magicchek == true&& Bosscheck == false)//몬스터가 마법공격에 닿을때
+        if (hitmagicchek == true&& Bosscheck == false)//몬스터가 마법공격에 닿을때
         {
             #region 이전코드
             //Maxspeed -= 1;//기본 이동속도를 줄인다
@@ -479,7 +500,7 @@ public class HitboxMonster : MonoBehaviour
         {
             Maxspeed = 0;
         }
-        else if (magicchek == false && pushed == false)
+        else if (hitmagicchek == false && pushed == false)
         {
             Maxspeed = speed;
         }
@@ -525,82 +546,187 @@ public class HitboxMonster : MonoBehaviour
             wallcheck2 = false;
             return;
         }
-        Vector3 pos = GameManager.Instance.Player.transform.position;
-        Vector3 dir = Vector3.zero;
-        if (wallhorizontal == true && wallcheck1 == false && wallcheck2 == false)//위 또는 아래로 이동
-        {
-            if (pos.y < transform.position.y)//플레이어 y좌표가 몬스터 보다 낮다면
-            {
-                dir.y = -1;
-                verticals = -1;
-                horizontals = 0;
-                wallcheck1 = true;
-                wallcheck2 = false;
-            }
-            else if(pos.y > transform.position.y)//플레이어 y좌표가 몬스터 보다 높다면
-            {
-                dir.y = 1;
-                verticals = 1;
-                horizontals = 0;
-                wallcheck2 = true;
-                wallcheck1 = false;
-            }
-        }
-        else if(wallvertical == true && wallcheck1 == false && wallcheck2 == false)
-        {
-            if(pos.x < transform.position.x)
-            {
-                dir.x = -1;
-                horizontals = -1;
-                verticals = 0;
-                wallcheck1 = true;
-                wallcheck2 = false;
-            }
-            else if(pos.x > transform.position.x)
-            {
-                dir.x = 1;
-                horizontals = 1;
-                verticals = 0;
-                wallcheck2 = true;
-                wallcheck1 = false;
-            }
-        }
-        if(wallcheck1 == true)
-        {
-            if(wallhorizontal == true)
-            {
-                dir.y = -1;
-            }
-            else if(wallvertical == true)
-            {
-                dir.y = 1;//
-            }
-        }
-        else if(wallcheck2 == true)
-        {
-            if (wallhorizontal == true)
-            {
-                dir.x = -1;
-            }
-            else if (wallvertical == true)
-            {
-                dir.x = 1;//
-            }
-        }
+        #region
+        //Vector3 pos = GameManager.Instance.Player.transform.position;
+        //Vector3 dir = Vector3.zero;
+        //if (wallhorizontal == true && wallcheck1 == false && wallcheck2 == false)//위 또는 아래로 이동
+        //{
+        //    if (pos.y < transform.position.y)//플레이어 y좌표가 몬스터 보다 낮다면
+        //    {
+        //        dir.y = -1;
+        //        verticals = -1;
+        //        horizontals = 0;
+        //        wallcheck1 = true;
+        //        wallcheck2 = false;
+        //    }
+        //    else if(pos.y > transform.position.y)//플레이어 y좌표가 몬스터 보다 높다면
+        //    {
+        //        dir.y = 1;
+        //        verticals = 1;
+        //        horizontals = 0;
+        //        wallcheck2 = true;
+        //        wallcheck1 = false;
+        //    }
+        //}
+        //else if(wallvertical == true && wallcheck1 == false && wallcheck2 == false)
+        //{
+        //    if(pos.x < transform.position.x)
+        //    {
+        //        dir.x = -1;
+        //        horizontals = -1;
+        //        verticals = 0;
+        //        wallcheck1 = true;
+        //        wallcheck2 = false;
+        //    }
+        //    else if(pos.x > transform.position.x)
+        //    {
+        //        dir.x = 1;
+        //        horizontals = 1;
+        //        verticals = 0;
+        //        wallcheck2 = true;
+        //        wallcheck1 = false;
+        //    }
+        //}
+        //if(wallcheck1 == true)
+        //{
+        //    if(wallhorizontal == true)
+        //    {
+        //        dir.y = -1;
+        //    }
+        //    else if(wallvertical == true)
+        //    {
+        //        dir.y = 1;//
+        //    }
+        //}
+        //else if(wallcheck2 == true)
+        //{
+        //    if (wallhorizontal == true)
+        //    {
+        //        dir.x = -1;
+        //    }
+        //    else if (wallvertical == true)
+        //    {
+        //        dir.x = 1;//
+        //    }
+        //}
+#endregion
 
-        MonsterMoving monstermoving = parents.GetComponent<MonsterMoving>();//부모에있느 게임 오브젝트에있는 MonsterMoving을 가져온다
-        monstermoving.Anim(horizontals, verticals);
-        parents.transform.position += Maxspeed * Time.deltaTime * dir;
+        //MonsterMoving monstermoving = parents.GetComponent<MonsterMoving>();//부모에있느 게임 오브젝트에있는 MonsterMoving을 가져온다
+        //monstermoving.Anim(horizontals, verticals);
+        //parents.transform.position += Maxspeed * Time.deltaTime * dir;
         
     }
 
-    public void walltest()
+    public void walltest(bool _horizontalwallcheck)
     {
-
+        horizontalwall = _horizontalwallcheck;//좌우 부분이 닿았을때 즉 쫓아가기 위해서 위 아래로 이동
+        onetouchpos = true;
+        //wallcheck = true;
     }
 
-    public void walltest2()
+    public void walltest2(bool _verticalwallcheck)
     {
+        verticalwall = _verticalwallcheck;//상하 부분이 닿았을때 즉 좌우로 쫓아 가기위해 제작
+    }
 
+    private void updownChaseWallplayer()//벽에 따라 플레이어를 이동 시키는 부분
+    {
+        //if(horizontalwall == false) { return; }
+        if(horizontalwall == true && verticalwall == false && wallcheck == true)
+        {
+            Vector3 dir = Vector3.zero;
+            if (onetouchpos == true)
+            {
+                Vector3 pos = GameManager.Instance.Player.transform.position;
+                //Vector3 dir = Vector3.zero;
+                if (pos.y < transform.position.y)//플레이어 y좌표가 몬스터 보다 낮다면
+                {
+                    updowncheck = 1;//아래로 향할때
+                    dir.y = -1;
+                    verticals = -1;
+                    horizontals = 0;
+                }
+                else if (pos.y > transform.position.y)//플레이어 y좌표가 몬스터 보다 높다면
+                {
+                    updowncheck = 2;//위로 향할때
+                    dir.y = 1;
+                    verticals = 1;
+                    horizontals = 0;
+                }
+                onetouchpos = false;
+            }
+            if(updowncheck == 1)//아래로 추적하는 경우
+            {
+                //Vector3 dir = Vector3.zero;
+                dir.y = -1;
+                verticals = -1;
+                horizontals = 0;
+            }
+            else if(updowncheck == 2)//위로 추적하는 경우
+            {
+                //Vector3 dir = Vector3.zero;
+                dir.y = 1;
+                verticals = 1;
+                horizontals = 0;
+            }
+            MonsterMoving monstermoving = parents.GetComponent<MonsterMoving>();//부모에있느 게임 오브젝트에있는 MonsterMoving을 가져온다
+            monstermoving.Anim(horizontals, verticals);
+            parents.transform.position += Maxspeed * Time.deltaTime * dir;
+        }
+    }
+
+    private void rightleftChaseWallplayer()//벽에 따라 플레이어를 이동 시키는 부분
+    {
+        //if(horizontalwall == false) { return; }
+        if (horizontalwall == false && verticalwall == true && wallcheck == true)
+        {
+            Vector3 dir = Vector3.zero;
+            if (onetouchpos == true)
+            {
+                Vector3 pos = GameManager.Instance.Player.transform.position;
+                //Vector3 dir = Vector3.zero;
+                if (pos.x < transform.position.x)
+                {
+                    rightleftcheck = 1;//왼쪽으로 갈 경우
+                    dir.x = -1;
+                    horizontals = -1;
+                    verticals = 0;
+                }
+                else if (pos.x > transform.position.x)
+                {
+                    rightleftcheck = 2;//오른쪽으로 갈 경우
+                    dir.x = 1;
+                    horizontals = 1;
+                    verticals = 0;
+                }
+                onetouchpos = false;
+            }
+            if (rightleftcheck == 1)//아래로 추적하는 경우
+            {
+                //Vector3 dir = Vector3.zero;
+                dir.x = -1;
+                horizontals = -1;
+                verticals = 0;
+            }
+            else if (rightleftcheck == 2)//위로 추적하는 경우
+            {
+                //Vector3 dir = Vector3.zero;
+                dir.x = 1;
+                horizontals = 1;
+                verticals = 0;
+            }
+            MonsterMoving monstermoving = parents.GetComponent<MonsterMoving>();//부모에있느 게임 오브젝트에있는 MonsterMoving을 가져온다
+            monstermoving.Anim(horizontals, verticals);
+            parents.transform.position += Maxspeed * Time.deltaTime * dir;
+        }
+    }
+
+
+    private void exitwall()
+    {
+        if(horizontalwall == false && verticalwall == false)
+        {
+            wallcheck = false;
+        }
     }
 }

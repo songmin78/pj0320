@@ -20,15 +20,21 @@ public class FildUI : MonoBehaviour
     [SerializeField] GameObject menutest;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        transform.GetChild(0).gameObject.SetActive(true);
-        passcheck = true;
+        if(collision.CompareTag("Player"))
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+            passcheck = true;
+        }
 
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        transform.GetChild(0).gameObject.SetActive(false);
-        passcheck = false;
+        if (collision.CompareTag("Player"))
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            passcheck = false;
+        }
     }
 
 
