@@ -44,19 +44,23 @@ public class Buttonmanager : MonoBehaviour
     [SerializeField] Button endbutton;
 
     private bool menucheck;//메뉴창이 올라올때 확인하는 코드
+    bool menuui;
 
     private void Awake()
     {
         MenuButton.onClick.AddListener(() =>//메뉴를 눌렀을때 버튼
         {
             MenuScene.SetActive(true);//메뉴창을 띄운다
+            tutorial.SetActive(false);
             menucheck = true;
+            menuui = true;
         });
 
         GameRePlay.onClick.AddListener(() =>//게임을 이어하기 버튼
         {
             MenuScene.SetActive(false);//메뉴창을 닫는다
             menucheck = false;
+            menuui = false;
         });
 
         LobbyButton.onClick.AddListener(() =>//게임을 종료냐고 물어보는 버튼
@@ -195,8 +199,14 @@ public class Buttonmanager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
+                if(menuui == true)
+                {
+                    MenuScene.SetActive(false);
+                }
                 menucheck = true;
                 tutorial.SetActive(true);
+                Cheatcheck = false;//치트확인을 끈다
+                CheatcheckScene.SetActive(false);//치트확인 화면을 없앤다
             }
         }
     }

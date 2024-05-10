@@ -69,11 +69,11 @@ public class HitboxMonster : MonoBehaviour
     bool hitpush;
 
     //벽 충돌 관련 모음
-    bool horizontalwall;
-    bool verticalwall;
+    [SerializeField]bool horizontalwall;
+    [SerializeField]bool verticalwall;
     bool onetouchpos;//한번만 위치 확인
-    float updowncheck;//위 아래체크
-    float rightleftcheck;//좌우체크
+    [SerializeField]float updowncheck;//위 아래체크
+    [SerializeField]float rightleftcheck;//좌우체크
     
     //여기까지
 
@@ -117,14 +117,14 @@ public class HitboxMonster : MonoBehaviour
         //}
         #endregion
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            if (debug == true)
-            {
-            }
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        //{
+        //    if (debug == true)
+        //    {
+        //    }
 
-            wallcheck = true;
-        }
+        //    wallcheck = true;
+        //}
     }
 
 
@@ -143,10 +143,10 @@ public class HitboxMonster : MonoBehaviour
             pushdamage = false;
         }
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            wallcheck = false;
-        }
+        //if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        //{
+        //    wallcheck = false;
+        //}
     }
 
 
@@ -621,12 +621,19 @@ public class HitboxMonster : MonoBehaviour
     {
         horizontalwall = _horizontalwallcheck;//좌우 부분이 닿았을때 즉 쫓아가기 위해서 위 아래로 이동
         onetouchpos = true;
-        //wallcheck = true;
+        Debug.Log("1");
     }
 
     public void walltest2(bool _verticalwallcheck)
     {
         verticalwall = _verticalwallcheck;//상하 부분이 닿았을때 즉 좌우로 쫓아 가기위해 제작
+        onetouchpos = true;
+        Debug.Log("2");
+    }
+
+    public void wallcheckfind(bool _wallcheckfind)
+    {
+        wallcheck = _wallcheckfind;
     }
 
     private void updownChaseWallplayer()//벽에 따라 플레이어를 이동 시키는 부분
@@ -669,6 +676,8 @@ public class HitboxMonster : MonoBehaviour
                 verticals = 1;
                 horizontals = 0;
             }
+
+
             MonsterMoving monstermoving = parents.GetComponent<MonsterMoving>();//부모에있느 게임 오브젝트에있는 MonsterMoving을 가져온다
             monstermoving.Anim(horizontals, verticals);
             parents.transform.position += Maxspeed * Time.deltaTime * dir;
@@ -724,9 +733,47 @@ public class HitboxMonster : MonoBehaviour
 
     private void exitwall()
     {
-        if(horizontalwall == false && verticalwall == false)
+        if (horizontalwall == false && verticalwall == false && wallcheck == true)
         {
-            wallcheck = false;
+            
+            Vector3 dir = Vector3.zero;
+
+            if (rightleftcheck == 1)//아래로 추적하는 경우
+            {
+                //Vector3 dir = Vector3.zero;
+                dir.x = -1;
+                horizontals = -1;
+                verticals = 0;
+                updowncheck = 0;
+            }
+            else if (rightleftcheck == 2)//위로 추적하는 경우
+            {
+                //Vector3 dir = Vector3.zero;
+                dir.x = 1;
+                horizontals = 1;
+                verticals = 0;
+                updowncheck = 0;
+            }
+            if (updowncheck == 1)//아래로 추적하는 경우
+            {
+                //Vector3 dir = Vector3.zero;
+                dir.y = -1;
+                verticals = -1;
+                horizontals = 0;
+                rightleftcheck = 0;
+            }
+            else if (updowncheck == 2)//위로 추적하는 경우
+            {
+                //Vector3 dir = Vector3.zero;
+                dir.y = 1;
+                verticals = 1;
+                horizontals = 0;
+                rightleftcheck = 0;
+            }
+
+            MonsterMoving monstermoving = parents.GetComponent<MonsterMoving>();//부모에있느 게임 오브젝트에있는 MonsterMoving을 가져온다
+            monstermoving.Anim(horizontals, verticals);
+            parents.transform.position += Maxspeed * Time.deltaTime * dir;
         }
     }
 }

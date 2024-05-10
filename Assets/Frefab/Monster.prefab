@@ -188,7 +188,8 @@ MonoBehaviour:
   pushed: 0
   waycheck: 0
   Bosscheck: 0
-  magicchek: 0
+  hitmagicchek: 0
+  stopnmagiccheck: 0
   ChaseHorizontal: 0
   fildmonster: 0
   ChasePlayered: 0
@@ -198,12 +199,15 @@ MonoBehaviour:
   posX: 0
   posY: 0
   wallcheck: 0
+  debug: 0
   diffPos: {x: 0, y: 0, z: 0}
   horizontals: 0
   verticals: 0
   speed: 1.5
   xplayer: 0
   yplayer: 0
+  horizontalwall: 0
+  verticalwall: 0
 --- !u!1 &354270015194502596
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,7 +377,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012325764, y: -0.012326241}
+  m_Offset: {x: -0.012325764, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -384,7 +388,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.32204723, y: 1.0616322}
+  m_Size: {x: 0.32204723, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &996407199862065351
 MonoBehaviour:
@@ -398,9 +402,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18dc0356a9444564a9863f17723cd2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 2312694002271663552}
+  checkboxtool: 0
   horizontalcheck: 0
   verticalcheck: 1
+  horizontalwallcheck: 0
+  verticalwallcheck: 0
 --- !u!1 &2312694002271663552
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +445,7 @@ Transform:
   - {fileID: 4559165094792306397}
   - {fileID: 5913221298476601001}
   - {fileID: 2180010489578131248}
+  - {fileID: 962825136165794757}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -532,6 +539,7 @@ MonoBehaviour:
   Bosscheck: 0
   horizontals: 0
   verticals: 0
+  debug: 0
 --- !u!61 &258519545495597216
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -745,7 +753,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.015407324, y: -0.0030815601}
+  m_Offset: {x: -0.015407324, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -756,7 +764,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.68567705, y: 0.3282094}
+  m_Size: {x: 0.6627226, y: 0.3282094}
   m_EdgeRadius: 0
 --- !u!114 &6335147484322011856
 MonoBehaviour:
@@ -770,9 +778,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18dc0356a9444564a9863f17723cd2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 2312694002271663552}
+  checkboxtool: 0
   horizontalcheck: 1
   verticalcheck: 0
+  horizontalwallcheck: 0
+  verticalwallcheck: 0
 --- !u!1 &4925110242896021458
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,6 +859,101 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5822761731372430011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 962825136165794757}
+  - component: {fileID: 2600611613946402807}
+  - component: {fileID: 4150169295171100437}
+  m_Layer: 0
+  m_Name: wallcheckbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &962825136165794757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5822761731372430011}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8486755308666440430}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2600611613946402807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5822761731372430011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18dc0356a9444564a9863f17723cd2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkboxtool: 1
+  horizontalcheck: 0
+  verticalcheck: 0
+  horizontalwallcheck: 0
+  verticalwallcheck: 0
+--- !u!61 &4150169295171100437
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5822761731372430011}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.012378695, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.6627226, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &6331903786540594003
 GameObject:
   m_ObjectHideFlags: 0
