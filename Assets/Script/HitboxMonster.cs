@@ -29,7 +29,7 @@ public class HitboxMonster : MonoBehaviour
 
     [Header("기타")]
     [SerializeField] public bool hitmagicchek = false;
-    [SerializeField] bool stopnmagiccheck = false;
+    //[SerializeField] bool stopnmagiccheck = false;
     float retime = 0.5f;
     float Maxretime;
     [SerializeField] bool ChaseHorizontal = false;
@@ -98,7 +98,7 @@ public class HitboxMonster : MonoBehaviour
             if(weapon.magic == true)
             {
                 hitmagicchek = true;
-                stopnmagiccheck = true;
+                //stopnmagiccheck = true;
             }
             else if(weapon.Counter == true && weapon.punch == true)
             {
@@ -130,15 +130,29 @@ public class HitboxMonster : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(hitmagicchek == true)//현재 한마리를 죽이면 모든 몬스터한테 꺼지는 현상이 있음
+        //if(hitmagicchek == true)//현재 한마리를 죽이면 모든 몬스터한테 꺼지는 현상이 있음
+        //{
+        //    //if(stopnmagiccheck == true && hitmagicchek == false)
+        //    //{
+        //    //    return;
+        //    //}
+        //    //else
+        //    //{
+        //    //    hitmagicchek = false;
+        //    //    stopnmagiccheck = false;
+        //    //}
+        //    hitmagicchek = false;
+        //}
+        //else if(pushdamage == true)
+        //{
+        //    pushdamage = false;
+        //}
+
+        if(collision.CompareTag("weapon"))
         {
-            if(stopnmagiccheck == true)
-            {
-                return;
-            }
             hitmagicchek = false;
         }
-        else if(pushdamage == true)
+        else if (pushdamage == true)
         {
             pushdamage = false;
         }
@@ -204,7 +218,7 @@ public class HitboxMonster : MonoBehaviour
     {
         if(MsMaxHp <= 0)
         {
-            stopnmagiccheck = false;
+            //stopnmagiccheck = false;
             Destroy(parents);
         }
         else
