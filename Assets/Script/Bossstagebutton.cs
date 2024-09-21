@@ -15,7 +15,7 @@ public class Bossstagebutton : MonoBehaviour
         gameexit.onClick.AddListener(() =>
         {
             SceneManager.LoadSceneAsync(0);//Scene(0) 즉 로비화면으로 이동
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
             Application.Quit();//게임 종료
         });
     }

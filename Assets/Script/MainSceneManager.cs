@@ -49,7 +49,7 @@ public class MainSc : MonoBehaviour
             //에디터에서 사용시에는 에디터를 stop으로 변경
             //전처리
 
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
 
             Application.Quit();//어플을 종료
         });
