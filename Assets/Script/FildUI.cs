@@ -63,7 +63,7 @@ public class FildUI : MonoBehaviour
             DontDestroyOnLoad(GameManager.Instance.PlayerUI);
             DontDestroyOnLoad(menutest);
 
-            if(tutorialstage == true)
+            if (tutorialstage == true)
             {
                 SceneManager.LoadSceneAsync(2);
                 stagetype = 1;

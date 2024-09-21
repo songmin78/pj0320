@@ -7373,11 +7373,11 @@ MonoBehaviour:
   fildstage: 0
   stagetype: 0
   passcheck: 0
-  aaa: {fileID: 0}
-  gagecheck: {fileID: 0}
-  gamemanager: {fileID: 0}
-  playerui: {fileID: 0}
-  menutest: {fileID: 0}
+  aaa: {fileID: 550582838}
+  gagecheck: {fileID: 187761181}
+  gamemanager: {fileID: 329060937}
+  playerui: {fileID: 1742289411}
+  menutest: {fileID: 2109303454}
 --- !u!61 &593807457
 BoxCollider2D:
   m_ObjectHideFlags: 0
