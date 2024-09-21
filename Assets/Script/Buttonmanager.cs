@@ -91,7 +91,7 @@ public class Buttonmanager : MonoBehaviour
         {
             SceneManager.LoadSceneAsync(0);//Scene(0) 즉 로비화면으로 이동
             //UnityEditor.EditorApplication.isPlaying = false;
-            Application.Quit();//게임 종료
+            //Application.Quit();//게임 종료
         });
 
         nextbutton.onClick.AddListener(() =>//설명집에서 다음으로 넘어 갈때
