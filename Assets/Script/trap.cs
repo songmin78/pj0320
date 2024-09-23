@@ -6,6 +6,7 @@ public class trap : MonoBehaviour
 {
     [SerializeField] GameObject trapp;
     [SerializeField] GameObject fildtrap;
+    [SerializeField] Canvas BossHP;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,6 +17,7 @@ public class trap : MonoBehaviour
             trapp.SetActive(false);
             fildtrap.SetActive(true);
             GameManager.Instance.Boss.bossstart = true;
+            BossHP.gameObject.SetActive(true);
         }
     }
 
