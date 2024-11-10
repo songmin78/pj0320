@@ -42,8 +42,8 @@ public class HitboxMonster : MonoBehaviour
     [SerializeField] bool fildmonster;//필드에 있는 몬스터는 자동으로 못 쫓아가게 만든 코드
     [SerializeField] public bool ChasePlayered = false;
     [SerializeField] public bool autoChasePlayered = false;
-    [SerializeField] private bool ChaseX = false;
-    [SerializeField] private bool ChaseY = false;
+    //[SerializeField] private bool ChaseX = false;
+    //[SerializeField] private bool ChaseY = false;
     [SerializeField] private float posX;//플레이어위치 + 몬스터위치 값.X
     [SerializeField] private float posY;//플레이어위치 + 몬스터위치 값.Y
     [SerializeField]bool wallcheck;//벽에 닿았는지 안 닿았는지 확인하는 코드
@@ -218,6 +218,10 @@ public class HitboxMonster : MonoBehaviour
     {
         if(MsMaxHp <= 0)
         {
+            if(Random.Range(0,3) > 1)//몬스터가 사망했을때 일정확률로 아이템 떨어트리기
+            {
+
+            }
             //stopnmagiccheck = false;
             Destroy(parents);
         }

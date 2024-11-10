@@ -189,13 +189,10 @@ MonoBehaviour:
   waycheck: 0
   Bosscheck: 0
   hitmagicchek: 0
-  stopnmagiccheck: 0
   ChaseHorizontal: 0
   fildmonster: 0
   ChasePlayered: 0
   autoChasePlayered: 0
-  ChaseX: 0
-  ChaseY: 0
   posX: 0
   posY: 0
   wallcheck: 0
@@ -208,6 +205,8 @@ MonoBehaviour:
   yplayer: 0
   horizontalwall: 0
   verticalwall: 0
+  updowncheck: 0
+  rightleftcheck: 0
 --- !u!1 &354270015194502596
 GameObject:
   m_ObjectHideFlags: 0
