@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parents: {fileID: 2312694002271663552}
   monsterHpbar: {fileID: 1334858239189544174}
+  Item: {fileID: 6677187970191635412, guid: e2ba7ba4f7505fd479d87dfe5b9feaa1, type: 3}
   MsGameHp: 20
   pushdamage: 0
   pushed: 0

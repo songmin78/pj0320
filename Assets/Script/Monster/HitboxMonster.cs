@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class HitboxMonster : MonoBehaviour
 {
     [SerializeField] GameObject parents;
     [SerializeField] Image monsterHpbar;
+    [SerializeField] GameObject Item;
 
     [Header("몬스터 스펙")]
     //[SerializeField] public float attackdamage;//몬스터의 데미지
@@ -218,17 +220,18 @@ public class HitboxMonster : MonoBehaviour
     {
         if(MsMaxHp <= 0)
         {
-            if(Random.Range(0,3) > 1)//몬스터가 사망했을때 일정확률로 아이템 떨어트리기
-            {
-
-            }
-            //stopnmagiccheck = false;
+            CreateItem();
             Destroy(parents);
         }
         else
         {
             beatendamage = false;
         }
+    }
+
+    public void CreateItem()
+    {
+        Instantiate(Item);
     }
 
     private void destroymagic()//마법 공격이 닿았을 경우
