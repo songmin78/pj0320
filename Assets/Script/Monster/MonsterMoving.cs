@@ -70,6 +70,7 @@ public class MonsterMoving : MonoBehaviour
         //test();
     }
 
+    #region
     //private void playerchase()//플레이어를 쫓아가는 코드
     //{
     //    if(ChasePlayer == true)
@@ -153,7 +154,7 @@ public class MonsterMoving : MonoBehaviour
     //        #endregion
     //    }
     //}
-
+    #endregion //플레이어를 쫓아가는 코드(구)
 
     public void Anim(int _horizontals, int _verticals)//이동 애니메이션 코드
     {

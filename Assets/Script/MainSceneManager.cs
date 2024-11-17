@@ -17,6 +17,9 @@ public class MainSc : MonoBehaviour
     [SerializeField] GameObject nexitScene;//종료창을 띄여주는 용도
     [SerializeField] GameObject tutorialScene;//튜토리얼을 갈지 한번더 확인할 창
 
+    //[SerializeField] Button settingbutton;//설정 들어가는 버튼
+    //[SerializeField] Button settingExit;//설정에서 나가는 버튼
+
 
     private void Awake()
     {

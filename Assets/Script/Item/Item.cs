@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    float Maxtime = 5f;
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if(collision.gameObject.tag == "Player")
+        {
+            hpcontroll();
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void hpcontroll()
     {
-        
+        GameManager.Instance.Player.HpUp();
+    }
+
+    private void Update()
+    {
+        Maxtime -= Time.deltaTime;
+        if(Maxtime < 0)//5초가 지난 다음 삭제를 한다
+        {
+            Destroy(gameObject);
+        }
     }
 }

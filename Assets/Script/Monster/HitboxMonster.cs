@@ -231,7 +231,13 @@ public class HitboxMonster : MonoBehaviour
 
     public void CreateItem()
     {
-        Instantiate(Item);
+        int Itemspawn = Random.Range(0, 3);
+        if(Itemspawn == 0)//0,1,2중 0이 뜰경우에만 아이템 생성
+        {
+            Vector3 pos = transform.position;
+            Quaternion rot = Quaternion.identity;
+            Instantiate(Item, pos, rot);
+        }
     }
 
     private void destroymagic()//마법 공격이 닿았을 경우

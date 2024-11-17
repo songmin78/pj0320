@@ -644,6 +644,8 @@ MonoBehaviour:
   LobbyScene2: {fileID: 753068270}
   nexitScene: {fileID: 1751610020}
   tutorialScene: {fileID: 1206667011}
+  settingbutton: {fileID: 0}
+  settingExit: {fileID: 0}
 --- !u!4 &559703039
 Transform:
   m_ObjectHideFlags: 0

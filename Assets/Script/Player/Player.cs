@@ -61,15 +61,15 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rigid2D;
 
-    [Header("카운터 기준")]
-    [SerializeField] bool arrowcheck = false;
-    [SerializeField] float Hitgauge = 0f;//근접 카운터 게이지 1이되면 카운터
+    //[Header("카운터 기준")]
+    bool arrowcheck = false;
+    float Hitgauge = 0f;//근접 카운터 게이지 1이되면 카운터
     float Maxhitgage;
-    [SerializeField] private bool countergagecheck = false;//게이지가 올라가는지 안가는지 확인
-    [SerializeField] bool countertimercheck = false;//근접 L스킬을 쓸때 무한 카운터 공격
-    [SerializeField] float counterHittimer = 3;//근접 L스킬을 쓰는 지속시간
+    private bool countergagecheck = false;//게이지가 올라가는지 안가는지 확인
+    bool countertimercheck = false;//근접 L스킬을 쓸때 무한 카운터 공격
+    float counterHittimer = 3;//근접 L스킬을 쓰는 지속시간
     private float maxcountertimer;
-    [SerializeField] float slowspeed = 3;//근접L스킬이 끝나고 생기는 슬로우 지속 시간
+    float slowspeed = 3;//근접L스킬이 끝나고 생기는 슬로우 지속 시간
     private float Maxslowspeed;
 
 
@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
     [SerializeField] public int Weapontype;//무기 리스트
 
     [Header("플레이어의 능력치 설정")]
-    [SerializeField,Range(1,3)] int GameHP;//게임내 플레이어 체력
+    [SerializeField,Range(1,3)] public int GameHP;//게임내 플레이어 체력
 
     [Header("무기 공격 관련 정보(마법)")]
     [SerializeField] public bool magiccheck = false;//마법게이지가 닳는위한 확인
@@ -682,7 +682,7 @@ public class Player : MonoBehaviour
     {
         if (Monsterattackcheck == true && Bossattackcheck == false)//플레이어에 몬스터가 접촉할때
         {
-            if (GameManager.Instance.Buttonmanager.Cheatcheck == true)
+            if (GameManager.Instance.Buttonmanager.Cheatcheck == true)//무적 버튼을 킬 경우
             {
                 MaxHP -= 0;
                 Monsterattackcheck = false;
@@ -703,7 +703,7 @@ public class Player : MonoBehaviour
                 else if (MaxHP > 0)
                 {
                     //만약 플레이어 HP가 남으면 1초간 무적
-
+                    GameManager.Instance.ChageHP.DiechangeHp();
                     Maxinvincibilitytime -= 1 * Time.deltaTime;
 
                     if (Maxinvincibilitytime <= 0)
@@ -713,6 +713,15 @@ public class Player : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void HpUp()
+    {
+        if(MaxHP < GameHP)//만약에 풀피가 아니라면
+        {
+            MaxHP += 1;
+            GameManager.Instance.ChageHP.LiveChangeHp();
         }
     }
 

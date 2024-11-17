@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private Monsterattack monsterattack;
     private MonsterMoving monstermoving;
     private Boss boss;
+    private ChageHP chagehp;
 
     //bool spawncheck;
     [SerializeField]int spawnnumber;
@@ -81,6 +82,12 @@ public class GameManager : MonoBehaviour
     {
         get { return boss; }
         set { boss = value; }
+    }
+
+    public ChageHP ChageHP
+    {
+        get { return chagehp; }
+        set { chagehp = value; }
     }
 
     private void Awake()
